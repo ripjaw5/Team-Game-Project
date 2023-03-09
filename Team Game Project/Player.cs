@@ -8,20 +8,16 @@ namespace Team_Game_Project
 {
     internal class Player: Entity
     {
-        private int _hp;
         public static List<Skill> _skillList;
         private int _level;
         private int _xp;
-        private int _str;
-        private int _def;
+        private int _currHP;
 
-        public Player()
+        public Player(string name): base(50, 5, 5, 5, 5, 5, name)
         {
-            _hp = 50;
             _level = 1;
             _xp = 0;
-            _str = 5;
-            _def = 5;
+            _currHP = 50;
         }
         public void addXP(int add)
         {
