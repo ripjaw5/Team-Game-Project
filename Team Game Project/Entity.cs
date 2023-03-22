@@ -14,6 +14,7 @@ namespace Team_Game_Project
         protected int _res;
         protected int _spd;
         protected int _mag;
+        protected int _currHP;
         protected string _name;
         public Entity(int hp, int str, int def, int mag, int res, int spd, string name)
         {
@@ -24,6 +25,7 @@ namespace Team_Game_Project
             _res = res;
             _spd = spd;
             _name = name;
+            _currHP = _hp;
         }
 
         public void attack(Entity e)

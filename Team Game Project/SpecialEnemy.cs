@@ -11,6 +11,7 @@ namespace Team_Game_Project
         public static List<Skill> SkillList = new List<Skill>();
         public SpecialEnemy(int hp, int str, int def, int mag, int res, int spd, string name): base(hp, str, def, mag, res, spd, name)
         {
+
         }
     }
 }
