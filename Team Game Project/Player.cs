@@ -18,7 +18,6 @@ namespace Team_Game_Project
             _xp = 0;
             _levelThreshold = 100;
         }
-        //test
         public void addXP(int add)
         {
             _xp += add;
