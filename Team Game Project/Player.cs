@@ -8,6 +8,7 @@ namespace Team_Game_Project
 {
     internal class Player: Entity
     {
+        //dtrdtrctycvhy
         public static List<Skill> _skillList;
         private int _level;
         private int _xp;
