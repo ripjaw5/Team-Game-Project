@@ -22,6 +22,19 @@ namespace Team_Game_Project
         //private Rectangle[,] _map;
         private Rectangle _pos;
         private bool _sprint;
+
+        //Screen Dimentions Code
+        private int _screenWidth;
+        private int _screenHeight;
+        private int _screenWidthPortion;
+        private int _screenHeightPortion;
+
+        //Overworld Test Code
+        private Rectangle[,] _testOverworldTiles = new Rectangle[10, 6];
+        private Texture2D[,] _testOverworldTileTextures = new Texture2D[10, 6];
+        private string[,] _testOverworldTileProperties = new string[10, 6];
+        private Texture2D _blankTexture;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -53,6 +66,7 @@ namespace Team_Game_Project
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _player = Content.Load<Texture2D>("spr_Player");
             _bat = Content.Load<Texture2D>("spr_Bat");
+            _blankTexture = Content.Load<Texture2D>("White Square");
             _pos = new Rectangle(400, 200, 48, 48);
             _playerSrc[0] = new Rectangle(0, 0, 64, 128);
             _playerSrc[1] = new Rectangle(0, 129, 48, 48);
@@ -61,6 +75,50 @@ namespace Team_Game_Project
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
             }
+
+            //LoadingScreenDimentionInts
+            _screenWidth = GraphicsDevice.Viewport.Width;
+            _screenHeight = GraphicsDevice.Viewport.Height;
+
+            _screenWidthPortion = _screenWidth / 10;
+            _screenHeightPortion = _screenHeight / 6;
+
+            //Loading Overworld 2D Arrays
+            for (int i = 0; i < 10; i++)
+            {
+                int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                for (int j = 0; j < 6; j++)
+                {
+                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                    //Field
+                    //Swap I and J in code to switch collumns + rows
+                    if (i <= 3)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle (_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Grass";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                    }
+                    //Water
+                    if (i > 3 && i < 6)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Water";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                    }
+                    //Sand
+                    if (i >= 6)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Sand";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                    }
+                }
+            }
+
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -148,6 +206,8 @@ namespace Team_Game_Project
 
         protected override void Draw(GameTime gameTime)
         {
+            
+
             if (_activeMap == 0)
                 GraphicsDevice.Clear(Color.White);
             else if (_activeMap == 1)
@@ -155,9 +215,20 @@ namespace Team_Game_Project
             else
                 GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            //Drawing Overworld
+            
+
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            //_spriteBatch.Draw(_player, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 5, SpriteEffects.None, 0);
+            for (int i = 0; i < 10; i++)
+            {
+                int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                for (int j = 0; j < 6; j++)
+                {
+                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                    _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
+                }
+            }
             if (!_sprint)
                 _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
             else if (_isLeft)
