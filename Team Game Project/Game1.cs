@@ -109,7 +109,6 @@ namespace Team_Game_Project
             {
                 if (kb.IsKeyDown(Keys.Up) && _pos.Y > 0)
                 {
-                    _activeBat += .25;
                     _pos.Y -= 8;
                 }
                 else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0 && _activeMap == 0)
@@ -119,7 +118,6 @@ namespace Team_Game_Project
                 }
                 if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                 {
-                    _activeBat += .25;
                     _pos.Y += 8;
                 }
                 else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48 && _activeMap == 1)
@@ -129,16 +127,16 @@ namespace Team_Game_Project
                 }
                 if (kb.IsKeyDown(Keys.Left) && _pos.X >= 0)
                 {
-                    _activeBat += .25;
                     _isLeft = true;
                     _pos.X -= 8;
                 }
                 if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                 {
                     _isLeft = false;
-                    _activeBat += .25;
                     _pos.X += 8;
                 }
+
+                _activeBat += .25;
                 if (_activeBat >= 6)
                 {
                     _activeBat = 0;
