@@ -13,15 +13,12 @@ namespace Team_Game_Project
         private Rectangle _screen;
         private Texture2D _player;
         private Texture2D _goblin;
-
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
         }
 
@@ -37,7 +34,6 @@ namespace Team_Game_Project
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _thief = Content.Load<Texture2D>("Thief_ReferencePalette");
             _icons = Content.Load<Texture2D>("free_icons1");
             _screen = new Rectangle(0, 0, 1920, 1080);
             _player = Content.Load<Texture2D>("Necromancer_creativekind-Sheet"); 
