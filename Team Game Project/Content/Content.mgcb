@@ -121,3 +121,10 @@
 /processorParam:TextureFormat=Color
 /build:White Square.png
 
+#begin Text.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Text.spritefont
+

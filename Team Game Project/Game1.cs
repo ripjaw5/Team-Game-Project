@@ -9,6 +9,7 @@ namespace Team_Game_Project
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont _text;
         private Texture2D _icons;
         private Rectangle _screen;
         private Texture2D _player;
@@ -35,6 +36,10 @@ namespace Team_Game_Project
         private string[,] _testOverworldTileProperties = new string[10, 6];
         private Texture2D _blankTexture;
 
+        private Player dude;
+        private int _hp;
+        private string _health;
+        private Vector2 _textPos;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -48,12 +53,16 @@ namespace Team_Game_Project
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
+            dude = new Player("name");
+            
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _textPos = new Vector2(2,2);
+            _hp = dude.getCurrHP();
+            _health = "HP: " + _hp.ToString();
             base.Initialize();
         }
 
@@ -71,6 +80,7 @@ namespace Team_Game_Project
             _playerSrc[0] = new Rectangle(0, 0, 64, 128);
             _playerSrc[1] = new Rectangle(0, 129, 48, 48);
             _playerSrc[2] = new Rectangle(0, 256, 48, 48);
+            _text = Content.Load<SpriteFont>("Text");
             for (int i = 0; i < 6; i++)
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
@@ -235,6 +245,7 @@ namespace Team_Game_Project
                 _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
             else
                 _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White);
+            _spriteBatch.DrawString(_text, _health, _textPos, Color.DarkRed);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
