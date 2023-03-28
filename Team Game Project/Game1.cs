@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 
 namespace Team_Game_Project
@@ -27,10 +29,13 @@ namespace Team_Game_Project
         private int _activePlayer;
         private bool _isLeft;
         private Texture2D _bat;
-        //private Rectangle[,] _map;
+        private bool _selector;
         private Rectangle _pos;
         private bool _sprint;
-
+        private KeyboardState _oldKB;
+        private List<Entity> _enemies;
+        private Entity _activeEnemy;
+        private Random _rng;
         //Screen Dimentions Code
         private int _screenWidth;
         private int _screenHeight;
@@ -73,16 +78,17 @@ namespace Team_Game_Project
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
-            dude = new Player("name");
             
+            _oldKB = Keyboard.GetState();
+            _enemies = new List<Entity>();
+            _rng = new Random();
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
-            _hp = dude.getCurrHP();
-            _health = "HP: " + _hp.ToString();
+            
             base.Initialize();
         }
 
@@ -203,7 +209,11 @@ namespace Team_Game_Project
                     }
                 }
             }
-
+            dude = new Player("name", _player);
+            _hp = dude.getCurrHP();
+            _health = "HP: " + _hp.ToString();
+            //Temporary Enemy for demo battle, axe this
+            _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
 
         }
 
@@ -311,8 +321,23 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
-
+                if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
+                {
+                    _selector = !_selector;
+                }
+                if (kb.IsKeyDown(Keys.Z))
+                {
+                    if (_selector)
+                    {
+                        dude.attack(_activeEnemy);
+                    }
+                    else
+                    {
+                        //open skill list
+                    }
+                }
             }
+            _oldKB = kb;
 
             //Transition UPDATING
             if (_upTransition == true && _currentScreenValue2 != -1)
@@ -414,10 +439,6 @@ namespace Team_Game_Project
                     }
                 }
             }
-
-
-
-
             base.Update(gameTime);
         }
 
@@ -465,7 +486,6 @@ namespace Team_Game_Project
             
 
             // TODO: Add your drawing code here
-            
             for (int i = 0; i < 10; i++)
             {
                 int _updateTileDimensionsHeight = i * _screenHeightPortion;
@@ -475,12 +495,26 @@ namespace Team_Game_Project
                     _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
                 }
             }
-            if (!_sprint)
-                _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
-            else if (_isLeft)
-                _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
-            else
-                _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White);
+                if (!_sprint)
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
+                else if (_isLeft)
+                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+                else
+                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White);
+            }
+            else if (_state == GameState.battle)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
+                _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
+                if (_selector)
+                    _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                else
+                    _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+
+            }
+            //Drawing Overworld
             _spriteBatch.DrawString(_text, _health, _textPos, Color.DarkRed);
             _spriteBatch.End();
             base.Draw(gameTime);
