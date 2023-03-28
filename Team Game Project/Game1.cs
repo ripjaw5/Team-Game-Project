@@ -280,7 +280,6 @@ namespace Team_Game_Project
             
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
             for (int i = 0; i < 10; i++)
             {
                 int _updateTileDimensionsHeight = i * _screenHeightPortion;
