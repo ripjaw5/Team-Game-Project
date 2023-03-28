@@ -262,6 +262,8 @@ namespace Team_Game_Project
                 else
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
                 for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int _updateTileDimensionsHeight = i * _screenHeightPortion;
                 for (int j = 0; j < 6; j++)
