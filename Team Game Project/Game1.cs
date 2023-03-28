@@ -84,6 +84,9 @@ namespace Team_Game_Project
             _screenHeightPortion = _screenHeight / 6;
 
             //Loading Overworld 2D Arrays
+
+            //Screen Origin
+            //RESUME
             for (int i = 0; i < 10; i++)
             {
                 int _updateTileDimensionsHeight = i * _screenHeightPortion;
@@ -94,7 +97,7 @@ namespace Team_Game_Project
                     //Swap I and J in code to switch collumns + rows
                     if (i <= 3)
                     {
-                        _testOverworldTiles[i, j] = new Rectangle (_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
                         _testOverworldTileProperties[i, j] = "Grass";
                         _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
@@ -117,6 +120,8 @@ namespace Team_Game_Project
                     }
                 }
             }
+            //Screen Up 1
+
 
 
         }
