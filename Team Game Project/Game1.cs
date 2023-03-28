@@ -15,6 +15,7 @@ namespace Team_Game_Project
         }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont _text;
         private Texture2D _icons;
         private GameState _state;
         private Rectangle _screen;
@@ -29,6 +30,23 @@ namespace Team_Game_Project
         //private Rectangle[,] _map;
         private Rectangle _pos;
         private bool _sprint;
+
+        //Screen Dimentions Code
+        private int _screenWidth;
+        private int _screenHeight;
+        private int _screenWidthPortion;
+        private int _screenHeightPortion;
+
+        //Overworld Test Code
+        private Rectangle[,] _testOverworldTiles = new Rectangle[10, 6];
+        private Texture2D[,] _testOverworldTileTextures = new Texture2D[10, 6];
+        private string[,] _testOverworldTileProperties = new string[10, 6];
+        private Texture2D _blankTexture;
+
+        private Player dude;
+        private int _hp;
+        private string _health;
+        private Vector2 _textPos;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -43,12 +61,16 @@ namespace Team_Game_Project
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
+            dude = new Player("name");
+            
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _textPos = new Vector2(2,2);
+            _hp = dude.getCurrHP();
+            _health = "HP: " + _hp.ToString();
             base.Initialize();
         }
 
@@ -61,14 +83,60 @@ namespace Team_Game_Project
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _player = Content.Load<Texture2D>("spr_Player");
             _bat = Content.Load<Texture2D>("spr_Bat");
+            _blankTexture = Content.Load<Texture2D>("White Square");
             _pos = new Rectangle(400, 200, 48, 48);
             _playerSrc[0] = new Rectangle(0, 0, 64, 128);
             _playerSrc[1] = new Rectangle(0, 129, 48, 48);
             _playerSrc[2] = new Rectangle(0, 256, 48, 48);
+            _text = Content.Load<SpriteFont>("Text");
             for (int i = 0; i < 6; i++)
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
             }
+
+            //LoadingScreenDimentionInts
+            _screenWidth = GraphicsDevice.Viewport.Width;
+            _screenHeight = GraphicsDevice.Viewport.Height;
+
+            _screenWidthPortion = _screenWidth / 10;
+            _screenHeightPortion = _screenHeight / 6;
+
+            //Loading Overworld 2D Arrays
+            for (int i = 0; i < 10; i++)
+            {
+                int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                for (int j = 0; j < 6; j++)
+                {
+                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                    //Field
+                    //Swap I and J in code to switch collumns + rows
+                    if (i <= 3)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle (_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Grass";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                    }
+                    //Water
+                    if (i > 3 && i < 6)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Water";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                    }
+                    //Sand
+                    if (i >= 6)
+                    {
+                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                        _testOverworldTileProperties[i, j] = "Sand";
+                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                    }
+                }
+            }
+
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -199,6 +267,36 @@ namespace Team_Game_Project
                 _spriteBatch.Draw(_player, new Vector2(100, 200), _playerSrc[0], Color.White);
                 _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
             }
+            
+
+            if (_activeMap == 0)
+                GraphicsDevice.Clear(Color.White);
+            else if (_activeMap == 1)
+                GraphicsDevice.Clear(Color.Black);
+            else
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //Drawing Overworld
+            
+
+            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            for (int i = 0; i < 10; i++)
+            {
+                int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                for (int j = 0; j < 6; j++)
+                {
+                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                    _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
+                }
+            }
+            if (!_sprint)
+                _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
+            else if (_isLeft)
+                _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+            else
+                _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White);
+            _spriteBatch.DrawString(_text, _health, _textPos, Color.DarkRed);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

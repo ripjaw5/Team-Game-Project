@@ -38,5 +38,9 @@ namespace Team_Game_Project
         {
             
         }
+        public int getCurrHP()
+        {
+            return _currHP;
+        }
     }
 }
