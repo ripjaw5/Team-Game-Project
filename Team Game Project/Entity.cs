@@ -16,6 +16,7 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
+        protected int[] _modifiers;
         public Entity(int hp, int str, int def, int mag, int res, int spd, string name)
         {
             _hp = hp;
@@ -26,6 +27,7 @@ namespace Team_Game_Project
             _spd = spd;
             _name = name;
             _currHP = _hp;
+            //_modifiers = new int[5];
         }
 
         public void attack(Entity e)
@@ -35,6 +37,10 @@ namespace Team_Game_Project
         public void hurt(int dmg)
         {
             
+        }
+        public int getCurrHP()
+        {
+            return _currHP;
         }
     }
 }
