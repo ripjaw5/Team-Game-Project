@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +17,8 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
-        protected int[] _modifiers;
-        public Entity(int hp, int str, int def, int mag, int res, string name)
+        protected Texture2D _texture;
+        public Entity(int hp, int str, int def, int mag, int res, string name, Texture2D texture)
         {
             _hp = hp;
             _str = str;
@@ -25,6 +27,7 @@ namespace Team_Game_Project
             _res = res;
             _name = name;
             _currHP = _hp;
+            _texture = texture;
         }
 
         public void attack(Entity e)
@@ -44,6 +47,13 @@ namespace Team_Game_Project
         public int getCurrHP()
         {
             return _currHP;
+        }
+        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Rectangle? src)
+        {
+            if (src != null)
+                spriteBatch.Draw(_texture, pos, src, Color.White);
+            else
+                spriteBatch.Draw(_texture, pos, Color.White);
         }
     }
 }
