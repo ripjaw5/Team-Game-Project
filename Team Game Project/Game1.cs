@@ -675,59 +675,29 @@ namespace Team_Game_Project
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
             }
-            //else
-            //{
-            //    if (_activeMap == 0)
-            //        GraphicsDevice.Clear(Color.White);
-            //    else if (_activeMap == 1)
-            //        GraphicsDevice.Clear(Color.Black);
-            //    else
-            //        GraphicsDevice.Clear(Color.CornflowerBlue);
-            //}
+            else
+            {
+                GraphicsDevice.Clear(Color.White);
+            }
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             if (_state == GameState.overworld)
             {
+                for (int i = 0; i < 10; i++)
+                {
+                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                    for (int j = 0; j < 6; j++)
+                    {
+                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                        _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
+                    }
+                }
                 if (!_sprint)
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
                 else if (_isLeft)
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 else
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
-            }
-            else if (_state == GameState.battle)
-            {
-                _spriteBatch.Draw(_player, new Vector2(100, 200), _playerSrc[0], Color.White);
-                _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
-            }
-            
-
-            //if (_activeMap == 0)
-            //    GraphicsDevice.Clear(Color.White);
-            //else if (_activeMap == 1)
-            //    GraphicsDevice.Clear(Color.Black);
-            //else
-            //    GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //Drawing Overworld
-            
-
-            // TODO: Add your drawing code here
-            for (int i = 0; i < 10; i++)
-            {
-                int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                for (int j = 0; j < 6; j++)
-                {
-                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                    _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
-                }
-            }
-                if (!_sprint)
-                    _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
-                else if (_isLeft)
-                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
-                else
-                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int) _activeBat], Color.White);
             }
             else if (_state == GameState.battle)
             {
@@ -741,6 +711,21 @@ namespace Team_Game_Project
                     _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
 
             }
+
+
+            //if (_activeMap == 0)
+            //    GraphicsDevice.Clear(Color.White);
+            //else if (_activeMap == 1)
+            //    GraphicsDevice.Clear(Color.Black);
+            //else
+            //    GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //Drawing Overworld
+
+
+            // TODO: Add your drawing code here
+            
+            
             //Drawing Overworld
             _spriteBatch.DrawString(_text, _health, _textPos, Color.DarkRed);
             _spriteBatch.End();
