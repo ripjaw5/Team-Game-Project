@@ -237,7 +237,10 @@ namespace Team_Game_Project
             else if (_state == GameState.overworld)
             {
                 if (kb.IsKeyDown(Keys.LeftAlt))
+                {
                     _state = GameState.battle;
+                    _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
+                }
                 if (kb.IsKeyDown(Keys.LeftShift))
                     _sprint = true;
                 else
@@ -349,6 +352,8 @@ namespace Team_Game_Project
                     _turnTimer = 30;
                 }
                 _turnTimer--;
+                if (_activeEnemy.getCurrHP() <= 0)
+                    _state = GameState.overworld;
             }
             _oldKB = kb;
 
