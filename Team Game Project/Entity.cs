@@ -15,7 +15,6 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
-        protected int[] _modifiers;
         public Entity(int hp, int str, int def, int mag, int res, string name)
         {
             _hp = hp;
