@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 
 namespace Team_Game_Project
@@ -23,14 +25,17 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
-        private int _activeMap;
+        //private int _activeMap;
         private int _activePlayer;
         private bool _isLeft;
         private Texture2D _bat;
-        //private Rectangle[,] _map;
+        private bool _selector;
         private Rectangle _pos;
         private bool _sprint;
-
+        private KeyboardState _oldKB;
+        private List<Entity> _enemies;
+        private Entity _activeEnemy;
+        private Random _rng;
         //Screen Dimentions Code
         private int _screenWidth;
         private int _screenHeight;
@@ -38,10 +43,22 @@ namespace Team_Game_Project
         private int _screenHeightPortion;
 
         //Overworld Test Code
+        //I = Columns J = Rows
         private Rectangle[,] _testOverworldTiles = new Rectangle[10, 6];
         private Texture2D[,] _testOverworldTileTextures = new Texture2D[10, 6];
         private string[,] _testOverworldTileProperties = new string[10, 6];
         private Texture2D _blankTexture;
+
+        //Overworld Int 2D Array
+        //Default is [1,1]
+        private int[,] _testOverworldScreens = new int[3, 3];
+        private bool _leftTransition = false;
+        private bool _rightTransition = false;
+        private bool _upTransition = false;
+        private bool _downTransition = false;
+
+        private int _currentScreenValue1 = 1;
+        private int _currentScreenValue2 = 1;
 
         private Player dude;
         private int _hp;
@@ -54,29 +71,44 @@ namespace Team_Game_Project
             IsMouseVisible = true;
             _graphics.ApplyChanges();
             _state = GameState.startScreen;
-            _activeMap = 0;
+            //_activeMap = 0;
             _playerSrc = new Rectangle[3];
             _batSrc = new Rectangle[6];
             _activePlayer = 1;
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
-            dude = new Player("name");
             
+            _oldKB = Keyboard.GetState();
+            _enemies = new List<Entity>();
+            _rng = new Random();
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
-            _hp = dude.getCurrHP();
-            _health = "HP: " + _hp.ToString();
+            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //OverworldScreenLoading
+            _testOverworldScreens[0, 0] = 0;
+            _testOverworldScreens[1, 0] = 0;
+            _testOverworldScreens[2, 0] = 0;
+
+            _testOverworldScreens[0, 1] = 0;
+            //Screen Origin
+            _testOverworldScreens[1, 1] = 1;
+            _testOverworldScreens[2, 1] = 0;
+
+            _testOverworldScreens[0, 2] = 0;
+            _testOverworldScreens[1, 2] = 0;
+            _testOverworldScreens[2, 2] = 0;
 
             // TODO: use this.Content to load your game content here
             _icons = Content.Load<Texture2D>("free_icons1");
@@ -102,40 +134,86 @@ namespace Team_Game_Project
             _screenHeightPortion = _screenHeight / 6;
 
             //Loading Overworld 2D Arrays
-            for (int i = 0; i < 10; i++)
+
+            //Screen Origin
+            if (_testOverworldScreens[1, 1] == 1)
             {
-                int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                for (int j = 0; j < 6; j++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                    //Field
-                    //Swap I and J in code to switch collumns + rows
-                    if (i <= 3)
+                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                    for (int j = 0; j < 6; j++)
                     {
-                        _testOverworldTiles[i, j] = new Rectangle (_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                        //Field
+                        //Swap I and J in code to switch collumns + rows
+                        if (i <= 3)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
-                        _testOverworldTileProperties[i, j] = "Grass";
-                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                    }
-                    //Water
-                    if (i > 3 && i < 6)
-                    {
-                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+                            _testOverworldTileProperties[i, j] = "Grass";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                        }
+                        //Water
+                        if (i > 3 && i < 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
-                        _testOverworldTileProperties[i, j] = "Water";
-                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                    }
-                    //Sand
-                    if (i >= 6)
-                    {
-                        _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+                            _testOverworldTileProperties[i, j] = "Water";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                        }
+                        //Sand
+                        if (i >= 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
-                        _testOverworldTileProperties[i, j] = "Sand";
-                        _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                            _testOverworldTileProperties[i, j] = "Sand";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                        }
                     }
                 }
             }
+            //Screen Up 1
+            if (_testOverworldScreens[1, 0] == 1)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                    for (int j = 0; j < 6; j++)
+                    {
+                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                        //Field
+                        //Swap I and J in code to switch collumns + rows
+                        if (i >= 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
+                            _testOverworldTileProperties[i, j] = "Grass";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                        }
+                        //Water
+                        if (i > 3 && i < 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Water";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                        }
+                        //Sand
+                        if (i <= 3)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Sand";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                        }
+                    }
+                }
+            }
+            dude = new Player("name", _player);
+            _hp = dude.getCurrHP();
+            _health = "HP: " + _hp.ToString();
+            //Temporary Enemy for demo battle, axe this
+            _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
 
         }
 
@@ -168,20 +246,24 @@ namespace Team_Game_Project
                         _activePlayer = 2;
                         _pos.Y -= 2;
                     }
-                    else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0 && _activeMap == 0)
+                    else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
-                        _activeMap = 1;
                         _pos.Y = _screen.Height - 48;
+                        _upTransition = true;
+
+                        
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
                         _activePlayer = 1;
                         _pos.Y += 2;
                     }
-                    else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48 && _activeMap == 1)
+                    else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
-                        _activeMap = 0;
                         _pos.Y = 0;
+                        _downTransition = true;
+
+                        
                     }
                     if (kb.IsKeyDown(Keys.Left) && _pos.X >= 0)
                     {
@@ -198,19 +280,27 @@ namespace Team_Game_Project
                     {
                         _pos.Y -= 8;
                     }
-                    else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0 && _activeMap == 0)
+                    else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
-                        _activeMap = 1;
                         _pos.Y = _screen.Height - 48;
+                        _upTransition = true;
+
+                        _downTransition = false;
+                        _leftTransition = false;
+                        _rightTransition = false;
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
                         _pos.Y += 8;
                     }
-                    else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48 && _activeMap == 1)
+                    else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
-                        _activeMap = 0;
                         _pos.Y = 0;
+                        _downTransition = true;
+
+                        _upTransition = false;
+                        _leftTransition = false;
+                        _rightTransition = false;
                     }
                     if (kb.IsKeyDown(Keys.Left) && _pos.X >= 0)
                     {
@@ -231,7 +321,123 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
+                if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
+                {
+                    _selector = !_selector;
+                }
+                if (kb.IsKeyDown(Keys.Z))
+                {
+                    if (_selector)
+                    {
+                        dude.attack(_activeEnemy);
+                    }
+                    else
+                    {
+                        //open skill list
+                    }
+                }
+            }
+            _oldKB = kb;
 
+            //Transition UPDATING
+            if (_upTransition == true && _currentScreenValue2 != -1)
+            {
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                _currentScreenValue2 -= 1;
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+
+                _upTransition = false;
+            }
+            if (_downTransition == true && _currentScreenValue2 != 3)
+            {
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                _currentScreenValue2 += 1;
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+
+                _downTransition = false;
+            }
+            if (_leftTransition == true)
+            {
+
+            }
+            if (_rightTransition == true)
+            {
+
+            }
+
+            //Screen Origin
+            if (_testOverworldScreens[1, 1] == 1)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                    for (int j = 0; j < 6; j++)
+                    {
+                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                        //Field
+                        //Swap I and J in code to switch collumns + rows
+                        if (i <= 3)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Grass";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                        }
+                        //Water
+                        if (i > 3 && i < 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Water";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                        }
+                        //Sand
+                        if (i >= 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Sand";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                        }
+                    }
+                }
+            }
+            //Screen Up 1
+            if (_testOverworldScreens[1, 0] == 1)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
+                    for (int j = 0; j < 6; j++)
+                    {
+                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
+                        //Field
+                        //Swap I and J in code to switch collumns + rows
+                        if (i >= 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Grass";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+                        }
+                        //Water
+                        if (i > 3 && i < 6)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Water";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+                        }
+                        //Sand
+                        if (i <= 3)
+                        {
+                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
+
+                            _testOverworldTileProperties[i, j] = "Sand";
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+                        }
+                    }
+                }
             }
             base.Update(gameTime);
         }
@@ -242,15 +448,15 @@ namespace Team_Game_Project
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
             }
-            else
-            {
-                if (_activeMap == 0)
-                    GraphicsDevice.Clear(Color.White);
-                else if (_activeMap == 1)
-                    GraphicsDevice.Clear(Color.Black);
-                else
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
-            }
+            //else
+            //{
+            //    if (_activeMap == 0)
+            //        GraphicsDevice.Clear(Color.White);
+            //    else if (_activeMap == 1)
+            //        GraphicsDevice.Clear(Color.Black);
+            //    else
+            //        GraphicsDevice.Clear(Color.CornflowerBlue);
+            //}
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             if (_state == GameState.overworld)
@@ -261,6 +467,25 @@ namespace Team_Game_Project
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 else
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+            }
+            else if (_state == GameState.battle)
+            {
+                _spriteBatch.Draw(_player, new Vector2(100, 200), _playerSrc[0], Color.White);
+                _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+            }
+            
+
+            //if (_activeMap == 0)
+            //    GraphicsDevice.Clear(Color.White);
+            //else if (_activeMap == 1)
+            //    GraphicsDevice.Clear(Color.Black);
+            //else
+            //    GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //Drawing Overworld
+            
+
+            // TODO: Add your drawing code here
             for (int i = 0; i < 10; i++)
             {
                 int _updateTileDimensionsHeight = i * _screenHeightPortion;
@@ -279,8 +504,14 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
-                _spriteBatch.Draw(_player, new Vector2(100, 200), _playerSrc[0], Color.White);
+                dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
+                if (_selector)
+                    _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                else
+                    _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
 
             }
             //Drawing Overworld
