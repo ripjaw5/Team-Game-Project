@@ -32,13 +32,16 @@ namespace Team_Game_Project
             _xp -= _levelThreshold;
             _levelThreshold = (int) Math.Round(_levelThreshold * 1.2);
             _def += 10;
+            _str += 5;
+            _mag += 5;
         }
         
         public void makeSkillList()
         {
-            _skillList.Add(new Skill(0, _str + 10, "Insert Flavor Text Here", "Bite", 5));
-            _skillList.Add(new Skill(2, (int) (_mag * 1.25), "Insert Flavor Text Here", "Fireball", 2));
-            _skillList.Add(new Skill(1, (int)(_mag * 1.9), "Insert Flavor Text Here", "Class1SUCK", 1));
+            _skillList.Add(new Skill(0, (int)(_str*1.75) , "Insert Flavor Text Here", "Bite", 5));
+            _skillList.Add(new Skill(2, (int)(_mag*1.25), "Insert Flavor Text Here", "Fireball", 2));
+            _skillList.Add(new Skill(0, (int)(_str*.5), "Insert Flavor Text Here", "suck", 10));
+            _skillList.Add(new Skill(1, (int)(_mag*.5), "Insert Flavor Text Here", "SUCK", 10));
         }
     }
 }
