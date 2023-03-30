@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Team_Game_Project
         private int _level;
         private int _xp;
         private int _levelThreshold;
-        public Player(string name): base(50, 5, 5, 5, 5, 5, name)
+        public Player(string name, Texture2D t): base(50, 5, 10, 5, 5, name, t)
         {
             _level = 1;
             _xp = 0;
@@ -29,7 +30,7 @@ namespace Team_Game_Project
             _level++;
             _xp -= _levelThreshold;
             _levelThreshold = (int) Math.Round(_levelThreshold * 1.2);
-
+            _def += 10;
         }
         
     }
