@@ -41,6 +41,7 @@ namespace Team_Game_Project
         private int _screenHeight;
         private int _screenWidthPortion;
         private int _screenHeightPortion;
+        private int _turnTimer;
 
         //Overworld Test Code
         //I = Columns J = Rows
@@ -59,6 +60,7 @@ namespace Team_Game_Project
 
         private int _currentScreenValue1 = 1;
         private int _currentScreenValue2 = 1;
+        private bool _yourTurn;
 
         private Player dude;
         private int _hp;
@@ -78,10 +80,11 @@ namespace Team_Game_Project
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
-            
+            _yourTurn = true;
             _oldKB = Keyboard.GetState();
             _enemies = new List<Entity>();
             _rng = new Random();
+            _turnTimer = 0;
         }
 
         protected override void Initialize()
@@ -234,7 +237,10 @@ namespace Team_Game_Project
             else if (_state == GameState.overworld)
             {
                 if (kb.IsKeyDown(Keys.LeftAlt))
+                {
                     _state = GameState.battle;
+                    _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
+                }
                 if (kb.IsKeyDown(Keys.LeftShift))
                     _sprint = true;
                 else
@@ -339,21 +345,33 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
+                
                 if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
                 {
                     _selector = !_selector;
                 }
-                if (kb.IsKeyDown(Keys.Z))
+                if (kb.IsKeyDown(Keys.Z) && _yourTurn && _turnTimer <= 0)
                 {
                     if (_selector)
                     {
+                        _turnTimer = 30;
                         dude.attack(_activeEnemy);
+                        _yourTurn = false;
                     }
                     else
                     {
                         //open skill list
                     }
                 }
+                else if (!_yourTurn && _turnTimer <= 0)
+                {
+                    _activeEnemy.attack(dude);
+                    _yourTurn = true;
+                    _turnTimer = 30;
+                }
+                _turnTimer--;
+                if (_activeEnemy.getCurrHP() <= 0)
+                    _state = GameState.overworld;
             }
             _oldKB = kb;
 
@@ -703,6 +721,7 @@ namespace Team_Game_Project
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
                 if (_selector)
@@ -724,10 +743,8 @@ namespace Team_Game_Project
 
 
             // TODO: Add your drawing code here
-            
-            
             //Drawing Overworld
-            _spriteBatch.DrawString(_text, _health, _textPos, Color.DarkRed);
+            
             _spriteBatch.End();
             base.Draw(gameTime);
         }
