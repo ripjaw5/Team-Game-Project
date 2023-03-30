@@ -13,8 +13,7 @@ namespace Team_Game_Project
         {
             Phys,
             Drain,
-            Mag,
-            Status
+            Mag
         }
         private SkillType _skillType;
         private int _dmg;
