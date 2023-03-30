@@ -13,7 +13,7 @@ namespace Team_Game_Project
         private int _level;
         private int _xp;
         private int _levelThreshold;
-        public Player(string name, Texture2D t): base(50, 5, 10, 5, 5, name, t)
+        public Player(string name, Texture2D t): base(50, 10, 10, 5, 5, name, t)
         {
             _level = 1;
             _xp = 0;
