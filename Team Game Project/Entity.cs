@@ -38,11 +38,11 @@ namespace Team_Game_Project
         {
             int dmgtaken;
             dmgtaken = dmg - _def;
-            if(dmgtaken <= 0)
+            if (dmgtaken <= 0)
             {
                 dmgtaken = 1;
             }
-            _hp -= dmgtaken;
+            _currHP -= dmgtaken;
         }
         public int getCurrHP()
         {
