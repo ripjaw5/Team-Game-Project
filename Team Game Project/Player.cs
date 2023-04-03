@@ -47,7 +47,7 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag*1.75), "Insert Flavor Text Here", "Blood Slash", 20));
             _skillList.Add(new Skill(2, (int) (_mag*2.5), "Insert Flavor Text Here", "Blood Rain",50));
             _skillList.Add(new Skill(1, (int) ((_mag*.2) +(_str *.5)), "Insert Flavor Text Here", "Drain", 20)); 
-            _skillList.Add(new SKill(0, _mag + _str, "Insert Flavor Text Here", "Enhanced Claws", 10));
+            _skillList.Add(new Skill(0, _mag + _str, "Insert Flavor Text Here", "Enhanced Claws", 10));
         }
     }
 }
