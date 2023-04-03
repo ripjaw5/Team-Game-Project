@@ -34,6 +34,7 @@ namespace Team_Game_Project
         private bool _sprint;
         private KeyboardState _oldKB;
         private List<Entity> _enemies;
+        private List<Entity> _bossEnemies;
         private Entity _activeEnemy;
         private Random _rng;
         //Screen Dimentions Code
@@ -149,104 +150,60 @@ namespace Team_Game_Project
             _screenWidthPortion = _screenWidth / 10;
             _screenHeightPortion = _screenHeight / 6;
 
-            //Loading Overworld 2D Arrays
 
-            //Screen Origin
-            if (_testOverworldScreens[1, 1] == 1)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                        //Field
-                        //Swap I and J in code to switch collumns + rows
-                        if (i <= 3)
-                        {
-                            if (_TextureTracker == 1)
-                            {
-                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
-                            }
-
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                            
-                            
-
-                            
-                        }
-                        //Water
-                        if (i > 3 && i < 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
-                        //Sand
-                        if (i >= 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Sand";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        }
-                    }
-                }
-            }
-            //Screen Up 1
-            if (_testOverworldScreens[1, 0] == 1)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                        //Field
-                        //Swap I and J in code to switch collumns + rows
-                        if (i >= 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                        }
-                        //Water
-                        if (i > 3 && i < 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
-                        //Sand
-                        if (i <= 3)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Sand";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        }
-                    }
-                }
-            }
             dude = new Player("name", _player);
             _hp = dude.getCurrHP();
             _health = "HP: " + _hp.ToString();
-            //Temporary Enemy for demo battle, axe this
-            _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
+            
+            
+            _enemies.Clear();
+            _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")).clone();
+            // EARLY GAME ENEMIES
+            // Slimes are a very easy enemy, should be all over the place at the start
+            _enemies.Add(new Entity(30, 5, 5, 5, 5, "Slime", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Necomancer is a basic enemy, should be common at the start
+            _enemies.Add(new Entity(50, 15, 5, 2, 5, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
+            _enemies.Add(new Entity(70, 20, 25, 5, 10, "Soldier", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //The Wizard is a magical attacking version of the soldier, with weaker physical defense
+            _enemies.Add(new Entity(50, 5, 20, 25, 40, "Wizard", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
 
+
+            //MID GAME ENEMIES
+            // The Tank enemy should not be too diffucult, it merely exists to annoy the player
+            _enemies.Add(new Entity(10, 10, 250, 1, 250, "Tank", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //The captain is a stonger version of the soldier be aware when fighting them
+            _enemies.Add(new Entity(90, 30, 35, 25, 20, "Captain", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Destructo is a rare glass cannon type enemy 
+            _enemies.Add(new Entity(25, 100, 10, 2, 10, "Destructo", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+           
+
+            //LATE GAME ENEMIES
+            // The Knight is a late game enemy
+            _enemies.Add(new Entity(200, 70, 80, 40, 80, "Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Hunter is an early game boss that later becomes a normal enemy
+            _enemies.Add(new Entity(120, 50, 100, 50, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Vampire Knight is a tougher version of the Knight
+            _enemies.Add(new Entity(250,90,100,80,100,"Vampire Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Blood Knight is a magical attacking version of the Knight
+            _enemies.Add(new Entity(175,40,80,70,80,"Blood Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            
+            
+            // BOSS ENCOUNTERS
+            // The Hunter is an early game boss that later becomes a normal enemy
+            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Captain Odric is a mid game boss
+            _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Vampire Knight Arvad is a late game boss
+            _bossEnemies.Add(new Entity(700,150,200,120,200," Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //Vampire Lord CringeFail is the Final Boss of the game
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+            bool move = false;
             // TODO: Add your update logic here
             KeyboardState kb = Keyboard.GetState();
             if (_state == GameState.startScreen)
@@ -254,15 +211,11 @@ namespace Team_Game_Project
                 if (kb.IsKeyDown(Keys.Space))
                 {
                     _state = GameState.overworld;
+                    LoadContent();
                 }
             }
             else if (_state == GameState.overworld)
             {
-                if (kb.IsKeyDown(Keys.LeftAlt))
-                {
-                    _state = GameState.battle;
-                    _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
-                }
                 if (kb.IsKeyDown(Keys.LeftShift))
                     _sprint = true;
                 else
@@ -273,33 +226,31 @@ namespace Team_Game_Project
                     {
                         _activePlayer = 2;
                         _pos.Y -= 2;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
                         _pos.Y = _screen.Height - 48;
                         _upTransition = true;
-
-                        
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
                         _activePlayer = 1;
                         _pos.Y += 2;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
                         _pos.Y = 0;
                         _downTransition = true;
-
-                        
                     }
-                    //Added Left Right Transition Detection
                     
-                        if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
+                    if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
                     {
                         _pos.X -= 2;
+                        move = true;
                     }
-                        else if (kb.IsKeyDown(Keys.Left) && _pos.X <= 0)
+                    else if (kb.IsKeyDown(Keys.Left) && _pos.X <= 0)
                     {
                         _pos.X = _screen.Width - 48;
                         _leftTransition = true;
@@ -307,11 +258,21 @@ namespace Team_Game_Project
                     if (kb.IsKeyDown(Keys.Right) && _pos.X < _screen.Width - 48)
                     {
                         _pos.X += 2;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                     {
                         _pos.X = 0;
                         _rightTransition = true;
+                    }
+                    if (move)
+                    {
+                        if (_rng.Next(100) < 1)
+                        {
+                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone();
+                            _state = GameState.battle;
+                            _yourTurn = true;
+                        }
                     }
                 }
                 else
@@ -319,29 +280,28 @@ namespace Team_Game_Project
                     if (kb.IsKeyDown(Keys.Up) && _pos.Y > 0)
                     {
                         _pos.Y -= 8;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
                         _pos.Y = _screen.Height - 48;
                         _upTransition = true;
-
-                        
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
                         _pos.Y += 8;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
                         _pos.Y = 0;
                         _downTransition = true;
-
-                        
                     }
                     if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
                     {
                         _isLeft = true;
                         _pos.X -= 8;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Left) && _pos.X <= 0)
                     {
@@ -352,6 +312,7 @@ namespace Team_Game_Project
                     {
                         _isLeft = false;
                         _pos.X += 8;
+                        move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                     {
@@ -362,6 +323,15 @@ namespace Team_Game_Project
                     if (_activeBat >= 6)
                     {
                         _activeBat = 0;
+                    }
+                    if (move)
+                    {
+                        if (_rng.Next(100) < 3)
+                        {
+                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(); ;
+                            _state = GameState.battle;
+                            _yourTurn = true;
+                        }
                     }
                 }
             }
@@ -394,6 +364,8 @@ namespace Team_Game_Project
                 _turnTimer--;
                 if (_activeEnemy.getCurrHP() <= 0)
                     _state = GameState.overworld;
+                if (dude.getCurrHP() <= 0)
+                    _state = GameState.startScreen;
             }
             _oldKB = kb;
 
@@ -799,31 +771,20 @@ namespace Team_Game_Project
             else if (_state == GameState.battle)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
-                _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                if (_yourTurn && _turnTimer <= 0)
+                {
+                    _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                    if (_selector)
+                        _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                    else
+                        _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                }
+                
                 _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
-                if (_selector)
-                    _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
-                else
-                    _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
 
             }
-
-
-            //if (_activeMap == 0)
-            //    GraphicsDevice.Clear(Color.White);
-            //else if (_activeMap == 1)
-            //    GraphicsDevice.Clear(Color.Black);
-            //else
-            //    GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //Drawing Overworld
-
-
-            // TODO: Add your drawing code here
-            //Drawing Overworld
-            
             _spriteBatch.End();
             base.Draw(gameTime);
         }

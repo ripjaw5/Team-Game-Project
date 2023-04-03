@@ -35,13 +35,22 @@ namespace Team_Game_Project
             _str += 5;
             _mag += 5;
         }
-        
+        public int getLevel()
+        {
+            return _level;
+        }
         public void makeSkillList()
         {
-            _skillList.Add(new Skill(0, (int)(_str*1.75) , "Insert Flavor Text Here", "Bite", 5));
-            _skillList.Add(new Skill(2, (int)(_mag*1.25), "Insert Flavor Text Here", "Fireball", 2));
-            _skillList.Add(new Skill(0, (int)(_str*.5), "Insert Flavor Text Here", "suck", 10));
-            _skillList.Add(new Skill(1, (int)(_mag*.5), "Insert Flavor Text Here", "SUCK", 10));
+            _skillList.Add(new Skill(0, (int)(_str*1.25), "Bite", 5));
+            _skillList.Add(new Skill(2, (int)(_mag*1.25), "Fireball", 2));
+            _skillList.Add(new Skill(1, (int)(_str*.5), "suck", 10));
+            _skillList.Add(new Skill(1, (int)(_mag*.75), "SUCK", 12));
+            _skillList.Add(new Skill(0, _str, "Strike", 0));
+            _skillList.Add(new Skill(2, (int)(_mag*1.5), "Blood Spear", 15));
+            _skillList.Add(new Skill(2, (int)(_mag*1.75), "Blood Slash", 20));
+            _skillList.Add(new Skill(2, (int) (_mag*2.5), "Blood Rain",50));
+            _skillList.Add(new Skill(1, (int) ((_mag*.2) +(_str *.5)), "Drain", 20)); 
+            _skillList.Add(new Skill(0, _mag + _str, "Enhanced Claws", 10));
         }
     }
 }

@@ -32,10 +32,14 @@ namespace Team_Game_Project
 
         public void attack(Entity e)
         {
-            e.hurt(_str);
+            if (_str > _mag)
+                e.hurt(_str, "phys");
+            else
+                e.hurt(_mag, "mag");
         }
-        public void hurt(int dmg)
+        public void hurt(int dmg, String type)
         {
+
             int dmgtaken;
             dmgtaken = dmg - _def;
             if (dmgtaken <= 0)
@@ -54,6 +58,10 @@ namespace Team_Game_Project
                 spriteBatch.Draw(_texture, pos, src, Color.White);
             else
                 spriteBatch.Draw(_texture, pos, Color.White);
+        }
+        public Entity clone()
+        {
+            return new Entity(_hp, _str, _def, _mag, _res, _name, _texture);
         }
     }
 }
