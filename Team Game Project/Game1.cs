@@ -34,6 +34,7 @@ namespace Team_Game_Project
         private bool _sprint;
         private KeyboardState _oldKB;
         private List<Entity> _enemies;
+        private List<Entity> _bossEnemies;
         private Entity _activeEnemy;
         private Random _rng;
         //Screen Dimentions Code
@@ -138,85 +139,51 @@ namespace Team_Game_Project
 
             //Loading Overworld 2D Arrays
 
-            //Screen Origin
-            if (_testOverworldScreens[1, 1] == 1)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                        //Field
-                        //Swap I and J in code to switch collumns + rows
-                        if (i <= 3)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                        }
-                        //Water
-                        if (i > 3 && i < 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
-                        //Sand
-                        if (i >= 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Sand";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        }
-                    }
-                }
-            }
-            //Screen Up 1
-            if (_testOverworldScreens[1, 0] == 1)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    int _updateTileDimensionsHeight = i * _screenHeightPortion;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        int _updateTileDimensionsWidth = j * _screenWidthPortion;
-                        //Field
-                        //Swap I and J in code to switch collumns + rows
-                        if (i >= 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                        }
-                        //Water
-                        if (i > 3 && i < 6)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
-                        //Sand
-                        if (i <= 3)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Sand";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        }
-                    }
-                }
-            }
+            
             dude = new Player("name", _player);
             _hp = dude.getCurrHP();
             _health = "HP: " + _hp.ToString();
             //Temporary Enemy for demo battle, axe this
             _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"));
+            // EARLY GAME ENEMIES
+            // Slimes are a very easy enemy, should be all over the place at the start
+            _enemies.Add(new Entity(30, 5, 5, 5, 5, "Slime", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Necomancer is a basic enemy, should be common at the start
+            _enemies.Add(new Entity(50, 15, 5, 2, 5, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
+            _enemies.Add(new Entity(70, 20, 25, 5, 10, "Soldier", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //The Wizard is a magical attacking version of the soldier, with weaker physical defense
+            _enemies.Add(new Entity(50, 5, 20, 25, 40, "Wizard", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+
+
+            //MID GAME ENEMIES
+            // The Tank enemy should not be too diffucult, it merely exists to annoy the player
+            _enemies.Add(new Entity(10, 10, 250, 1, 250, "Tank", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //The captain is a stonger version of the soldier be aware when fighting them
+            _enemies.Add(new Entity(90, 30, 35, 25, 20, "Captain", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Destructo is a rare glass cannon type enemy 
+            _enemies.Add(new Entity(25, 100, 10, 2, 10, "Destructo", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+           
+
+            //LATE GAME ENEMIES
+            // The Knight is a late game enemy
+            _enemies.Add(new Entity(200, 70, 80, 40, 80, "Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Hunter is an early game boss that later becomes a normal enemy
+            _enemies.Add(new Entity(120, 50, 100, 50, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Vampire Knight is a tougher version of the Knight
+            _enemies.Add(new Entity(250,90,100,80,100,"Vampire Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // The Blood Knight is a magical attacking version of the Knight
+            _enemies.Add(new Entity(175,40,80,70,80,"Blood Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            
+            
+            // BOSS ENCOUNTERS
+            // The Hunter is an early game boss that later becomes a normal enemy
+            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Captain Odric is a mid game boss
+            _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            // Vampire Knight Arvad is a late game boss
+            _bossEnemies.Add(new Entity(700,150,200,120,200," Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            //Vampire Lord CringeFail is the Final Boss of the game
 
         }
 
