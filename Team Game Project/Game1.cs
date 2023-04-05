@@ -74,6 +74,8 @@ namespace Team_Game_Project
         private int _hp;
         private string _health;
         private Vector2 _textPos;
+
+        private Vector2 position;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -91,6 +93,7 @@ namespace Team_Game_Project
             _yourTurn = true;
             _oldKB = Keyboard.GetState();
             _enemies = new List<Entity>();
+            _bossEnemies = new List<Entity>();
             _rng = new Random();
             _turnTimer = 0;
             _bossEnemies = new List<Entity>();
@@ -101,6 +104,7 @@ namespace Team_Game_Project
         {
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
+            position = new Vector2(450, 200);
             
             base.Initialize();
         }
@@ -163,42 +167,43 @@ namespace Team_Game_Project
             _activeEnemy = new Entity(50, 8, 3, 1, 3, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100).clone(dude);
             // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
-            _enemies.Add(new Entity(15, 3, 3, 3, 3, "Slime", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
+
+            _enemies.Add(new Entity(15, 3, 3, 3, 3, "Slime", Content.Load<Texture2D>("Slime"), 100));
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 8, 3, 1, 3, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(35, 10, 13, 3, 5, "Soldier", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
+            _enemies.Add(new Entity(35, 10, 13, 3, 5, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 100));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(25, 3, 10, 13, 20, "Wizard", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
+            _enemies.Add(new Entity(25, 3, 10, 13, 20, "Wizard", Content.Load<Texture2D>("WizardIcon"), 100));
 
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(20, 1, 250, 1, 250, "Tank", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 200));
+            _enemies.Add(new Entity(20, 1, 250, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             //The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(40, 15, 17, 12, 10, "Captain", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 200));
+            _enemies.Add(new Entity(40, 15, 17, 12, 10, "Captain", Content.Load<Texture2D>("CaptainIcon"), 200));
             // Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(13, 50, 5, 1, 5, "Destructo", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 200));
+            _enemies.Add(new Entity(13, 50, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 200));
            
 
             //PAIN ENEMIES
             // The Knight is a late game enemy
-            _enemies.Add(new Entity(70, 30, 17, 10, 15, "Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 300));
+            _enemies.Add(new Entity(70, 30, 17, 10, 15, "Knight", Content.Load<Texture2D>("KnightIcon"), 300));
             // The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(50, 25, 17, 20, 22, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 300));
+            _enemies.Add(new Entity(50, 25, 17, 20, 22, "Hunter", Content.Load<Texture2D>("HunterIcon"), 300));
             // The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(90, 40, 20, 30, 20, "Vampire Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 300));
+            _enemies.Add(new Entity(90, 40, 20, 30, 20, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 300));
             // The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(60, 10, 15, 30, 20, "Blood Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 300));
+            _enemies.Add(new Entity(60, 10, 15, 30, 20, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 300));
             
             
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
-            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
+            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
             // Captain Odric is a mid game boss
             _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
             // Vampire Knight Arvad is a late game boss
-            _bossEnemies.Add(new Entity(700,150,200,120,200," Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
+            _bossEnemies.Add(new Entity(700,150,200,120,200, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
             //Vampire Lord CringeFail is the Final Boss of the game
         }
 
@@ -470,21 +475,8 @@ namespace Team_Game_Project
                         int _updateTileDimensionsWidth = j * _screenWidthPortion;
                         //Field
                         //Swap I and J in code to switch collumns + rows
-                        if (i % 2 == 0)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                        }
-                        //Water
-                        if (i % 2 != 0)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
+                        
                         //Field
                         if (j % 2 == 0)
                         {
@@ -492,6 +484,23 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Water
                         if (j % 2 != 0)
@@ -500,9 +509,33 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Water";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water4");
+                            }
                         }
 
-
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
+                        }
                     }
                 }
             }
@@ -523,6 +556,23 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Pavement
                         else
@@ -576,21 +626,7 @@ namespace Team_Game_Project
                         int _updateTileDimensionsWidth = j * _screenWidthPortion;
                         //Field
                         //Swap I and J in code to switch collumns + rows
-                        if (i == 2 || i == 3 || i == 5 || i == 7)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Grass";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
-                        }
-                        //Water
-                        else
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
+                        
                         //Field
                         if (j == 2 || j == 3 || j == 5 || j == 7)
                         {
@@ -598,14 +634,73 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Water
                         else
                         {
                             _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
-                            _testOverworldTileProperties[i, j] = "Water";
+                            
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileProperties[i, j] = "Water";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water1");
+                            }
+                            
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileProperties[i, j] = "Water";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water2");
+                            }
+                            
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileProperties[i, j] = "Water";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water3");
+                            }
+                            if (_TextureTracker == 3 && (j == 0 || j == 4 || j == 1))
+                            {
+                                _testOverworldTileProperties[i, j] = "Bridge";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("BridgeUp1");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileProperties[i, j] = "Water";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water4");
+                            }
+                            if (_TextureTracker == 4 && j == 1)
+                            {
+                                _testOverworldTileProperties[i, j] = "Bridge";
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("BridgeUp1");
+                            }
+                        }
+
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
                         }
                     }
                 }
@@ -621,28 +716,31 @@ namespace Team_Game_Project
                         int _updateTileDimensionsWidth = j * _screenWidthPortion;
                         //Sand
                         //Swap I and J in code to switch collumns + rows
-                        if (i == 2 || i == 3 || i == 5 || i == 7)
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Sand";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        }
-                        //Water
-                        else
-                        {
-                            _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
-
-                            _testOverworldTileProperties[i, j] = "Water";
-                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        }
+                        
                         //Sand
-                        if (j == 2 || j == 3 || j == 5 || j == 7)
+                        if (j == 0 || j == 2 || j == 3 || j == 5 || j == 7)
                         {
                             _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
                             _testOverworldTileProperties[i, j] = "Sand";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement4");
+                            }
                         }
                         //Water
                         else
@@ -651,6 +749,32 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Water";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("BridgeUp1");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("BridgeUp1");
+                            }
+                        }
+
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
                         }
                     }
                 }
@@ -671,9 +795,34 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Water";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
-                        
-                        
+
+
+                        if (_TextureTracker == 1)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water1");
+                        }
+                        if (_TextureTracker == 2)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water2");
+                        }
+                        if (_TextureTracker == 3)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water3");
+                        }
+                        if (_TextureTracker == 4)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water4");
+                        }
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
+                        }
                     }
+                    
                 }
             }
             //Screen Top Right
@@ -692,6 +841,31 @@ namespace Team_Game_Project
                         _testOverworldTileProperties[i, j] = "Grass";
                         _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
 
+                        if (_TextureTracker == 1)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                        }
+                        if (_TextureTracker == 2)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                        }
+                        if (_TextureTracker == 3)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                        }
+                        if (_TextureTracker == 4)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                        }
+
+                    }
+                    if (_TextureTracker != 5)
+                    {
+                        _TextureTracker++;
+                    }
+                    if (_TextureTracker == 5)
+                    {
+                        _TextureTracker = 1;
                     }
                 }
             }
@@ -712,6 +886,24 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Water";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water4");
+                            }
+
                         }
                         //sand
                         else
@@ -720,6 +912,31 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Sand";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement4");
+                            }
+                        }
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
                         }
                     }
                 }
@@ -740,9 +957,36 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Sand";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Sand Texture");
-                        
+
+                        if (_TextureTracker == 1)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement1");
+                        }
+                        if (_TextureTracker == 2)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement2");
+                        }
+                        if (_TextureTracker == 3)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement3");
+                        }
+                        if (_TextureTracker == 4)
+                        {
+                            _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Pavement4");
+                        }
+
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
+                        }
                     }
+                    
                 }
+                
             }
 
             base.Update(gameTime);
@@ -780,6 +1024,7 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
+                //_enemies[0].Draw(_spriteBatch, position, null);
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
@@ -792,7 +1037,7 @@ namespace Team_Game_Project
                             _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
                     }
                 }
-                
+
                 _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
