@@ -494,6 +494,23 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Water
                         if (i % 2 != 0)
@@ -510,6 +527,23 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Water
                         if (j % 2 != 0)
@@ -520,7 +554,14 @@ namespace Team_Game_Project
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Water Texture");
                         }
 
-
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
+                        }
                     }
                 }
             }
@@ -541,6 +582,23 @@ namespace Team_Game_Project
 
                             _testOverworldTileProperties[i, j] = "Grass";
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                            if (_TextureTracker == 1)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass1");
+                            }
+                            if (_TextureTracker == 2)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass2");
+                            }
+                            if (_TextureTracker == 3)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass3");
+                            }
+                            if (_TextureTracker == 4)
+                            {
+                                _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
+                            }
                         }
                         //Pavement
                         else
