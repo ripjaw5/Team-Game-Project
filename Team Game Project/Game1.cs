@@ -74,6 +74,8 @@ namespace Team_Game_Project
         private int _hp;
         private string _health;
         private Vector2 _textPos;
+
+        private Vector2 position;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -91,6 +93,7 @@ namespace Team_Game_Project
             _yourTurn = true;
             _oldKB = Keyboard.GetState();
             _enemies = new List<Entity>();
+            _bossEnemies = new List<Entity>();
             _rng = new Random();
             _turnTimer = 0;
         }
@@ -99,6 +102,7 @@ namespace Team_Game_Project
         {
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
+            position = new Vector2(450, 200);
             
             base.Initialize();
         }
@@ -160,38 +164,38 @@ namespace Team_Game_Project
             _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")).clone();
             // EARLY GAME ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
-            _enemies.Add(new Entity(30, 5, 5, 5, 5, "Slime", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(30, 5, 5, 5, 5, "Slime", Content.Load<Texture2D>("Slime")));
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(50, 15, 5, 2, 5, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(70, 20, 25, 5, 10, "Soldier", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(70, 20, 25, 5, 10, "Soldier", Content.Load<Texture2D>("SoldierIcon")));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(50, 5, 20, 25, 40, "Wizard", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(50, 5, 20, 25, 40, "Wizard", Content.Load<Texture2D>("WizardIcon")));
 
 
             //MID GAME ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(10, 10, 250, 1, 250, "Tank", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(10, 10, 250, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon")));
             //The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(90, 30, 35, 25, 20, "Captain", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(90, 30, 35, 25, 20, "Captain", Content.Load<Texture2D>("CaptainIcon")));
             // Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(25, 100, 10, 2, 10, "Destructo", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(25, 100, 10, 2, 10, "Destructo", Content.Load<Texture2D>("DestructoIcon")));
            
 
             //LATE GAME ENEMIES
             // The Knight is a late game enemy
-            _enemies.Add(new Entity(200, 70, 80, 40, 80, "Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(200, 70, 80, 40, 80, "Knight", Content.Load<Texture2D>("KnightIcon")));
             // The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(120, 50, 100, 50, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(120, 50, 100, 50, 100, "Hunter", Content.Load<Texture2D>("HunterIcon")));
             // The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(250,90,100,80,100,"Vampire Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(250,90,100,80,100,"Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon")));
             // The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(175,40,80,70,80,"Blood Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(175,40,80,70,80,"Blood Knight", Content.Load<Texture2D>("BloodKnightIcon")));
             
             
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
-            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("HunterIcon")));
             // Captain Odric is a mid game boss
             _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
             // Vampire Knight Arvad is a late game boss
@@ -770,6 +774,7 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
+                //_enemies[0].Draw(_spriteBatch, position, null);
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
@@ -779,7 +784,7 @@ namespace Team_Game_Project
                     else
                         _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
                 }
-                
+
                 _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
