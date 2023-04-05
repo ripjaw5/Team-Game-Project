@@ -13,7 +13,7 @@ namespace Team_Game_Project
         private int _level;
         private int _xp;
         private int _levelThreshold;
-        public Player(string name, Texture2D t): base(50, 10, 10, 10, 5, name, t)
+        public Player(string name, Texture2D t): base(50, 10, 10, 10, 5, name, t, 0)
         {
             _level = 1;
             _xp = 0;
@@ -34,6 +34,7 @@ namespace Team_Game_Project
             _def += 10;
             _str += 5;
             _mag += 5;
+            makeSkillList();
         }
         public int getLevel()
         {
@@ -41,6 +42,7 @@ namespace Team_Game_Project
         }
         public void makeSkillList()
         {
+            _skillList.Clear();
             _skillList.Add(new Skill(0, (int)(_str*1.25), "Bite", 5));
             _skillList.Add(new Skill(2, (int)(_mag*1.25), "Fireball", 2));
             _skillList.Add(new Skill(1, (int)(_str*.5), "suck", 10));
@@ -51,6 +53,21 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int) (_mag*2.5), "Blood Rain",50));
             _skillList.Add(new Skill(1, (int) ((_mag*.2) +(_str *.5)), "Drain", 20)); 
             _skillList.Add(new Skill(0, _mag + _str, "Enhanced Claws", 10));
+        }
+        public void useSkill(Entity e, Skill s)
+        {
+            _currHP -= s.GetCost();
+            int dmg = e.hurt(s.GetDMG(), s.GetSkillType());
+            if (s.GetSkillType().Equals("Drain"))
+                _currHP += dmg;
+        }
+
+        public void attack(Entity e)
+        {
+            if (_str > _mag)
+                e.hurt(_str, "phys");
+            else
+                e.hurt(_mag, "mag");
         }
     }
 }
