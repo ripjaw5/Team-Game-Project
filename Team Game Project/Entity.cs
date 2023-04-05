@@ -17,8 +17,9 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
+        private int _xp;
         protected Texture2D _texture;
-        public Entity(int hp, int str, int def, int mag, int res, string name, Texture2D texture)
+        public Entity(int hp, int str, int def, int mag, int res, string name, Texture2D texture, int xp)
         {
             _hp = hp;
             _str = str;
@@ -28,6 +29,7 @@ namespace Team_Game_Project
             _name = name;
             _currHP = _hp;
             _texture = texture;
+            _xp = xp;
         }
 
         public void attack(Entity e)
@@ -37,16 +39,17 @@ namespace Team_Game_Project
             else
                 e.hurt(_mag, "mag");
         }
-        public void hurt(int dmg, String type)
+        public int hurt(int dmg, String type)
         {
 
-            int dmgtaken;
-            dmgtaken = dmg - _def;
-            if (dmgtaken <= 0)
+            int dmgTaken;
+            dmgTaken = dmg - _def;
+            if (dmgTaken <= 0)
             {
-                dmgtaken = 1;
+                dmgTaken = 1;
             }
-            _currHP -= dmgtaken;
+            _currHP -= dmgTaken;
+            return dmgTaken;
         }
         public int getCurrHP()
         {
@@ -59,9 +62,10 @@ namespace Team_Game_Project
             else
                 spriteBatch.Draw(_texture, pos, Color.White);
         }
-        public Entity clone()
+        public Entity clone(Player p)
         {
-            return new Entity(_hp, _str, _def, _mag, _res, _name, _texture);
+            double multiplier = Math.Max(p.getLevel() / 2.0, 1);
+            return new Entity(_hp * p.getLevel(), (int) (_str * multiplier), (int)(_def * multiplier), (int)(_mag * multiplier), (int)(_res * multiplier), _name, _texture, (int) (_xp * (.5 * multiplier)));
         }
     }
 }
