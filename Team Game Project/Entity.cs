@@ -17,7 +17,7 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
-        private int _xp;
+        public int _xp;
         protected Texture2D _texture;
         public Entity(int hp, int str, int def, int mag, int res, string name, Texture2D texture, int xp)
         {
@@ -64,7 +64,7 @@ namespace Team_Game_Project
         }
         public Entity clone(Player p)
         {
-            double multiplier = Math.Max(p.getLevel() / 2.0, 1);
+            double multiplier = Math.Max(p.getLevel() *.75 , 1);
             return new Entity(_hp * p.getLevel(), (int) (_str * multiplier), (int)(_def * multiplier), (int)(_mag * multiplier), (int)(_res * multiplier), _name, _texture, (int) (_xp * (.5 * multiplier)));
         }
     }
