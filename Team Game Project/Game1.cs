@@ -53,7 +53,7 @@ namespace Team_Game_Project
 
         //Overworld Int 2D Array
         //Default is [1,1]
-        private int[,] _testOverworldScreens = new int[3, 3];
+        private int[,] _testOverworldScreens = new int[5, 5];
         private bool _leftTransition = false;
         private bool _rightTransition = false;
         private bool _upTransition = false;
@@ -69,6 +69,7 @@ namespace Team_Game_Project
         private int _currentScreenValue1 = 1;
         private int _currentScreenValue2 = 1;
         private bool _yourTurn;
+        private int _transitionRng;
 
         private Player dude;
         private int _hp;
@@ -82,7 +83,7 @@ namespace Team_Game_Project
             _graphics.ApplyChanges();
             _state = GameState.startScreen;
             //_activeMap = 0;
-            _playerSrc = new Rectangle[3];
+            _playerSrc = new Rectangle[13];
             _batSrc = new Rectangle[6];
             _activePlayer = 1;
             _activeBat = 0;
@@ -131,13 +132,18 @@ namespace Team_Game_Project
             // TODO: use this.Content to load your game content here
             _icons = Content.Load<Texture2D>("free_icons1");
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            _player = Content.Load<Texture2D>("spr_Player");
+            _player = Content.Load<Texture2D>("Updated Player Spritesheet");
             _bat = Content.Load<Texture2D>("spr_Bat");
             _blankTexture = Content.Load<Texture2D>("White Square");
-            _pos = new Rectangle(400, 200, 48, 48);
+            _pos = new Rectangle(400, 200, 50, 100);
             _playerSrc[0] = new Rectangle(0, 0, 64, 128);
-            _playerSrc[1] = new Rectangle(0, 129, 48, 48);
-            _playerSrc[2] = new Rectangle(0, 256, 48, 48);
+            //FaceUp
+            _playerSrc[1] = new Rectangle(0, 160, 80, 160);
+            //FaceDown
+            _playerSrc[2] = new Rectangle(0, 320, 80, 160);
+            //FaceRight
+            _playerSrc[3] = new Rectangle(0, 0, 80, 160);
+            _playerSrc[4] = new Rectangle(0, 0, 0, 0);
             _text = Content.Load<SpriteFont>("Text");
             for (int i = 0; i < 6; i++)
             {
@@ -404,6 +410,17 @@ namespace Team_Game_Project
                 _rightTransition = false;
             }
 
+            if (_leftTransition == true && _currentScreenValue2 == -1)
+            {
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                _currentScreenValue1 = _rng.Next(0, 3);
+                _currentScreenValue2 = _rng.Next(0, 3);
+                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+
+                _leftTransition = false;
+            }
+
+
             //Screen Origin
             if (_testOverworldScreens[1, 1] == 1)
             {
@@ -637,6 +654,8 @@ namespace Team_Game_Project
                             {
                                 _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
                             }
+
+                            
                         }
                         //Water
                         else
@@ -678,8 +697,10 @@ namespace Team_Game_Project
                                 _testOverworldTileProperties[i, j] = "Bridge";
                                 _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("BridgeUp1");
                             }
-                        }
 
+
+                            
+                        }
                         if (_TextureTracker != 5)
                         {
                             _TextureTracker++;
@@ -688,7 +709,9 @@ namespace Team_Game_Project
                         {
                             _TextureTracker = 1;
                         }
+
                     }
+
                 }
             }
             //Screen Right 1
