@@ -19,6 +19,7 @@ namespace Team_Game_Project
         private SpriteBatch _spriteBatch;
         private SpriteFont _text;
         private Texture2D _icons;
+        private Texture2D _skills;
         private GameState _state;
         private Rectangle _screen;
         private Texture2D _player;
@@ -27,6 +28,7 @@ namespace Team_Game_Project
         private double _activeBat;
         private bool _menu;
         private int _activePlayer;
+        private int _menuPos;
         private bool _isLeft;
         private Texture2D _bat;
         private bool _selector;
@@ -98,6 +100,7 @@ namespace Team_Game_Project
             _turnTimer = 0;
             _bossEnemies = new List<Entity>();
             _menu = false;
+            _menuPos = 0;
         }
 
         protected override void Initialize()
@@ -135,6 +138,7 @@ namespace Team_Game_Project
 
             // TODO: use this.Content to load your game content here
             _icons = Content.Load<Texture2D>("AttackMenu");
+            _skills = Content.Load<Texture2D>("SkillsMenu");
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _player = Content.Load<Texture2D>("spr_Player");
             _bat = Content.Load<Texture2D>("spr_Bat");
@@ -170,7 +174,7 @@ namespace Team_Game_Project
 
             _enemies.Add(new Entity(15, 3, 3, 3, 3, "Slime", Content.Load<Texture2D>("Slime"), 100));
             // The Necomancer is a basic enemy, should be common at the start
-            _enemies.Add(new Entity(25, 8, 3, 1, 3, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
+            _enemies.Add(new Entity(25, 8, 3, 1, 3, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
             _enemies.Add(new Entity(35, 10, 13, 3, 5, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 100));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
@@ -345,30 +349,54 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
-                if (!_menu)
+                if (_yourTurn && _turnTimer <= 0)
                 {
-                    if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
+                    if (!_menu)
                     {
-                        _selector = !_selector;
-                    }
-                    if (kb.IsKeyDown(Keys.Z) && _yourTurn && _turnTimer <= 0)
-                    {
-                        if (_selector)
+                        if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
                         {
-                            _turnTimer = 30;
-                            dude.attack(_activeEnemy);
-                            _yourTurn = false;
+                            _selector = !_selector;
                         }
-                        else
+                        if (_yourTurn && _turnTimer <= 0)
                         {
-                            _menu = true;
-                        }
-                    }
-                    
-                }
-                else
-                {
+                            if (kb.IsKeyDown(Keys.Z))
+                            {
+                                if (_selector)
+                                {
+                                    _turnTimer = 30;
+                                    dude.attack(_activeEnemy);
+                                    _yourTurn = false;
+                                }
+                                else
+                                {
+                                    _menu = true;
+                                    _turnTimer = 30;
+                                }
+                            }
 
+
+                        }
+
+                    }
+                    else if (_menu)
+                    {
+                        if (kb.IsKeyDown(Keys.X))
+                        {
+                            _menu = false;
+                            _turnTimer = 30;
+                        }
+                        else if (kb.IsKeyDown(Keys.Z))
+                        {
+                            dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
+                            _turnTimer = 30;
+                            _yourTurn = false;
+
+                        }
+                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel())
+                            _menuPos++;
+                        else if (kb.IsKeyDown(Keys.Up) && _menuPos > 0)
+                            _menuPos--;
+                    }
                 }
                 if (!_yourTurn && _turnTimer <= 0)
                 {
@@ -1036,11 +1064,18 @@ namespace Team_Game_Project
                         else
                             _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
                     }
+                    else
+                    {
+                        for (int i = 0; i < dude.getLevel(); i++)
+                        {
+
+                        }
+                    }
                 }
 
-                _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n + Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
-                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
+                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
 
             }
             _spriteBatch.End();

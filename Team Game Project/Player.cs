@@ -74,14 +74,15 @@ namespace Team_Game_Project
             int dmg = e.hurt(s.GetDMG(), s.GetSkillType());
             if (s.GetSkillType().Equals("Drain"))
                 _currHP += dmg;
+            if (e.getCurrHP() <= 0)
+                addXP(e._xp);
         }
 
         public void attack(Entity e)
         {
-            if (_str > _mag)
-                e.hurt(_str, "phys");
-            else
-                e.hurt(_mag, "mag");
+            e.hurt(_str, "phys");
+            if (e.getCurrHP() <= 0)
+                addXP(e._xp);
         }
     }
 }
