@@ -25,7 +25,7 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
-        //private int _activeMap;
+        private bool _menu;
         private int _activePlayer;
         private bool _isLeft;
         private Texture2D _bat;
@@ -75,6 +75,8 @@ namespace Team_Game_Project
         private int _hp;
         private string _health;
         private Vector2 _textPos;
+
+        private Vector2 position;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -95,12 +97,15 @@ namespace Team_Game_Project
             _bossEnemies = new List<Entity>();
             _rng = new Random();
             _turnTimer = 0;
+            _bossEnemies = new List<Entity>();
+            _menu = false;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
+            position = new Vector2(450, 200);
             
             base.Initialize();
         }
@@ -159,50 +164,52 @@ namespace Team_Game_Project
 
 
             dude = new Player("name", _player);
+            dude.makeSkillList();
             _hp = dude.getCurrHP();
             _health = "HP: " + _hp.ToString();
             
             
             _enemies.Clear();
-            _activeEnemy = new Entity(50, 15, 5, 2, 5, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")).clone();
-            // EARLY GAME ENEMIES
+            _activeEnemy = new Entity(50, 8, 3, 1, 3, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100).clone(dude);
+            // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
-            _enemies.Add(new Entity(30, 5, 5, 5, 5, "Slime", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+
+            _enemies.Add(new Entity(15, 3, 3, 3, 3, "Slime", Content.Load<Texture2D>("Slime"), 100));
             // The Necomancer is a basic enemy, should be common at the start
-            _enemies.Add(new Entity(50, 15, 5, 2, 5, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(25, 8, 3, 1, 3, "Necomancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(70, 20, 25, 5, 10, "Soldier", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(35, 10, 13, 3, 5, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 100));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(50, 5, 20, 25, 40, "Wizard", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(25, 3, 10, 13, 20, "Wizard", Content.Load<Texture2D>("WizardIcon"), 100));
 
 
-            //MID GAME ENEMIES
+            //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(10, 10, 250, 1, 250, "Tank", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(20, 1, 250, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             //The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(90, 30, 35, 25, 20, "Captain", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(40, 15, 17, 12, 10, "Captain", Content.Load<Texture2D>("CaptainIcon"), 200));
             // Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(25, 100, 10, 2, 10, "Destructo", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(13, 50, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 200));
            
 
-            //LATE GAME ENEMIES
+            //PAIN ENEMIES
             // The Knight is a late game enemy
-            _enemies.Add(new Entity(200, 70, 80, 40, 80, "Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(70, 30, 17, 10, 15, "Knight", Content.Load<Texture2D>("KnightIcon"), 300));
             // The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(120, 50, 100, 50, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(50, 25, 17, 20, 22, "Hunter", Content.Load<Texture2D>("HunterIcon"), 300));
             // The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(250,90,100,80,100,"Vampire Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(90, 40, 20, 30, 20, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 300));
             // The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(175,40,80,70,80,"Blood Knight", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _enemies.Add(new Entity(60, 10, 15, 30, 20, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 300));
             
             
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
-            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
             // Captain Odric is a mid game boss
-            _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
             // Vampire Knight Arvad is a late game boss
-            _bossEnemies.Add(new Entity(700,150,200,120,200," Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet")));
+            _bossEnemies.Add(new Entity(700,150,200,120,200, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
             //Vampire Lord CringeFail is the Final Boss of the game
         }
 
@@ -276,7 +283,7 @@ namespace Team_Game_Project
                     {
                         if (_rng.Next(100) < 1)
                         {
-                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone();
+                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(dude);
                             _state = GameState.battle;
                             _yourTurn = true;
                         }
@@ -333,36 +340,43 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        //if (_rng.Next(100) < 3)
-                        //{
-                        //    _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(); ;
-                        //    _state = GameState.battle;
-                        //    _yourTurn = true;
-                        //}
+                        if (_rng.Next(100) < 3)
+                        {
+                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(dude); ;
+                            _state = GameState.battle;
+                            _yourTurn = true;
+                        }
                     }
                 }
             }
             else if (_state == GameState.battle)
             {
-                
-                if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
+                if (!_menu)
                 {
-                    _selector = !_selector;
+                    if ((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.Left)) && !(_oldKB.IsKeyDown(Keys.Left) || _oldKB.IsKeyDown(Keys.Right)))
+                    {
+                        _selector = !_selector;
+                    }
+                    if (kb.IsKeyDown(Keys.Z) && _yourTurn && _turnTimer <= 0)
+                    {
+                        if (_selector)
+                        {
+                            _turnTimer = 30;
+                            dude.attack(_activeEnemy);
+                            _yourTurn = false;
+                        }
+                        else
+                        {
+                            _menu = true;
+                        }
+                    }
+                    
                 }
-                if (kb.IsKeyDown(Keys.Z) && _yourTurn && _turnTimer <= 0)
+                else
                 {
-                    if (_selector)
-                    {
-                        _turnTimer = 30;
-                        dude.attack(_activeEnemy);
-                        _yourTurn = false;
-                    }
-                    else
-                    {
-                        //open skill list
-                    }
+
                 }
-                else if (!_yourTurn && _turnTimer <= 0)
+                if (!_yourTurn && _turnTimer <= 0)
                 {
                     _activeEnemy.attack(dude);
                     _yourTurn = true;
@@ -1033,16 +1047,20 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
+                //_enemies[0].Draw(_spriteBatch, position, null);
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
-                    _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
-                    if (_selector)
-                        _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
-                    else
-                        _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    if (!_menu)
+                    {
+                        _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        if (_selector)
+                            _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                        else
+                            _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    }
                 }
-                
+
                 _spriteBatch.DrawString(_text, dude.getCurrHP().ToString(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(175, 180, 145, 175));
