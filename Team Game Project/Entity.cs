@@ -64,7 +64,7 @@ namespace Team_Game_Project
         }
         public Entity clone(Player p)
         {
-            double multiplier = Math.Max(p.getLevel() / 2.0, 1);
+            double multiplier = Math.Max(p.getLevel() *.75 , 1);
             return new Entity(_hp * p.getLevel(), (int) (_str * multiplier), (int)(_def * multiplier), (int)(_mag * multiplier), (int)(_res * multiplier), _name, _texture, (int) (_xp * (.5 * multiplier)));
         }
     }
