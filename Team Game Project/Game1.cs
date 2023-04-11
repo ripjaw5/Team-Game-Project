@@ -27,6 +27,7 @@ namespace Team_Game_Project
         private double _activeBat;
         private bool _menu;
         private int _activePlayer;
+        private int _menuPos;
         private bool _isLeft;
         private Texture2D _bat;
         private bool _selector;
@@ -95,6 +96,7 @@ namespace Team_Game_Project
             _turnTimer = 0;
             _bossEnemies = new List<Entity>();
             _menu = false;
+            _menuPos = 0;
         }
 
         protected override void Initialize()
@@ -346,18 +348,31 @@ namespace Team_Game_Project
                     {
                         _selector = !_selector;
                     }
-                    if (kb.IsKeyDown(Keys.Z) && _yourTurn && _turnTimer <= 0)
+                    if (_yourTurn && _turnTimer <= 0)
                     {
-                        if (_selector)
+                        if (kb.IsKeyDown(Keys.Z) && !_menu)
                         {
-                            _turnTimer = 30;
-                            dude.attack(_activeEnemy);
-                            _yourTurn = false;
+                            if (_selector)
+                            {
+                                _turnTimer = 30;
+                                dude.attack(_activeEnemy);
+                                _yourTurn = false;
+                            }
+                            else
+                            {
+                                _menu = true;
+                            }   
                         }
-                        else
+                        else if (_menu)
                         {
-                            _menu = true;
+                            if (kb.IsKeyDown(Keys.X))
+                                _menu = false;
+                            else if (kb.IsKeyDown(Keys.Z))
+                                dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
+                            else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel())
+                                _menuPos++;
                         }
+                        
                     }
                     
                 }
