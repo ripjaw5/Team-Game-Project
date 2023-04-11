@@ -17,7 +17,7 @@ namespace Team_Game_Project
         protected int _mag;
         protected int _currHP;
         protected string _name;
-        private int _xp;
+        public int _xp;
         protected Texture2D _texture;
         public Entity(int hp, int str, int def, int mag, int res, string name, Texture2D texture, int xp)
         {
