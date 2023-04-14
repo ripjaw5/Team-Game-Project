@@ -177,44 +177,44 @@ namespace Team_Game_Project
             _activeEnemy = new Entity(50, 8, 3, 1, 3, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100).clone(dude);
             // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
-
-            _enemies.Add(new Entity(15, 3, 3, 3, 3, "Slime", Content.Load<Texture2D>("Slime"), 100));
+            _enemies.Add(new Entity(10, 1, 2, 1, 2, "Slime", Content.Load<Texture2D>("Slime"), 100));
             // The Necomancer is a basic enemy, should be common at the start
-            _enemies.Add(new Entity(25, 8, 3, 1, 3, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100));
+            _enemies.Add(new Entity(25, 8, 3, 1, 25, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 120));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(35, 10, 13, 3, 5, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 100));
+            _enemies.Add(new Entity(35, 15, 13, 3, 25, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 150));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(25, 3, 10, 13, 20, "Wizard", Content.Load<Texture2D>("WizardIcon"), 100));
+            _enemies.Add(new Entity(30, 3, 5, 13, 35, "Wizard", Content.Load<Texture2D>("WizardIcon"), 130));
 
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(2, 1, 150, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(20, 1, 150, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             //The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(40, 15, 17, 12, 10, "Captain", Content.Load<Texture2D>("CaptainIcon"), 200));
+            _enemies.Add(new Entity(90, 30, 34, 12, 45, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
             // Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(13, 50, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 200));
+            _enemies.Add(new Entity(40, 100, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 250));
            
 
             //PAIN ENEMIES
             // The Knight is a late game enemy
-            _enemies.Add(new Entity(70, 30, 17, 10, 15, "Knight", Content.Load<Texture2D>("KnightIcon"), 300));
+            _enemies.Add(new Entity(350, 60, 90, 10, 90, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
             // The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(50, 25, 17, 20, 22, "Hunter", Content.Load<Texture2D>("HunterIcon"), 300));
+            _enemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
             // The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(90, 40, 20, 30, 20, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 300));
+            _enemies.Add(new Entity(500, 80, 150, 30, 150, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
             // The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(60, 10, 15, 30, 20, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 300));
+            _enemies.Add(new Entity(350, 10, 60, 80, 140, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
             
             
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
             _bossEnemies.Add(new Entity(120, 45, 100, 25, 100, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
             // Captain Odric is a mid game boss
-            _bossEnemies.Add(new Entity(150,65,50,10,30,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
+            _bossEnemies.Add(new Entity(700,65,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
             // Vampire Knight Arvad is a late game boss
-            _bossEnemies.Add(new Entity(700,150,200,120,200, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 1000));
+            _bossEnemies.Add(new Entity(1000,150,350,120,350, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
+            
         }
 
         protected override void Update(GameTime gameTime)
