@@ -60,7 +60,7 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag * 2.5), "Bloodbolt", 120));   
             _skillList.Add(new Skill(0, (int)(_str * 2.75), "Punch Of Nuclear Power", 130));
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
-            _skillList.Add(new Skill(2, 300, "Vampire Rage", 150)); 
+            _skillList.Add(new Skill(2, 300, "Vampire Rage", 350)); 
             _skillList.Add(new Skill(1, (int)(_mag * 4.5), "Draining Glare",200));
             _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _currHP-1));
 
