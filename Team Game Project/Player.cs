@@ -54,9 +54,9 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(1, (int)(_mag * 2.5), "Drain", (int)(5 * _level * .25)));
             _skillList.Add(new Skill(2, (int)(_mag*1.75), "Blood Slash", (int)(8 * _level * .25)));
             _skillList.Add(new Skill(0, (int)(_mag * 1.85), "Bloody Stab", 45));
-            _skillList.Add(new Skill(2, (int)(_mag * 2), "Eye Beams", 50));
-            _skillList.Add(new Skill(2, (int) (_mag*2.25), "Blood Rain",65));
-            _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch",90));
+            _skillList.Add(new Skill(2, (int)(_mag * 2), "Eye Beams", 75));
+            _skillList.Add(new Skill(2, (int) (_mag*2.25), "Blood Rain",80));
+            _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch",95));
             _skillList.Add(new Skill(2, (int)(_mag * 2.5), "Bloodbolt", 120));   
             _skillList.Add(new Skill(0, (int)(_str * 2.75), "Punch Of Nuclear Power", 130));
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
