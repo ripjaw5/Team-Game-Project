@@ -55,7 +55,10 @@ namespace Team_Game_Project
 
         //Overworld Int 2D Array
         //Default is [1,1]
-        private int[,] _testOverworldScreens = new int[5, 5];
+        private int[,] _testOverworldScreens = new int[3, 3];
+
+        private int[,] _screenDifficultyValues = new int[3, 3];
+
         private bool _leftTransition = false;
         private bool _rightTransition = false;
         private bool _upTransition = false;
@@ -130,6 +133,21 @@ namespace Team_Game_Project
             _testOverworldScreens[0, 2] = 0;
             _testOverworldScreens[1, 2] = 0;
             _testOverworldScreens[2, 2] = 0;
+
+
+            //Screen Difficulty
+            //Left Column
+            _screenDifficultyValues[0, 0] = 3;
+            _screenDifficultyValues[1, 0] = 2;
+            _screenDifficultyValues[2, 0] = 3;
+            //Middle Column
+            _screenDifficultyValues[0, 1] = 2;
+            _screenDifficultyValues[1, 1] = 1;
+            _screenDifficultyValues[2, 1] = 2;
+            //Right Column
+            _screenDifficultyValues[0, 2] = 3;
+            _screenDifficultyValues[1, 2] = 2;
+            _screenDifficultyValues[2, 2] = 3;
 
             //OverworldSpriteLoading
             _Grass1 = Content.Load<Texture2D>("Grass1");
@@ -1071,11 +1089,24 @@ namespace Team_Game_Project
                     }
                 }
                 if (!_sprint)
+                {
+                    _pos = new Rectangle(400, 200, 50, 100);
+
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
+                }
                 else if (_isLeft)
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+                }
+
                 else
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+                }
             }
             else if (_state == GameState.battle)
             {
