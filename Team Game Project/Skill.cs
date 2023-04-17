@@ -53,9 +53,9 @@ namespace Team_Game_Project
             string dType;
             if (_skillType == SkillType.Drain)
                 dType = "Drain";
-            if (_skillType == SkillType.Phys)
+            else if (_skillType == SkillType.Phys)
                 dType = "Phys";
-            if (_skillType == SkillType.Mag)
+            else if (_skillType == SkillType.Mag)
                 dType = "Mag";
             else
                 dType = "";
