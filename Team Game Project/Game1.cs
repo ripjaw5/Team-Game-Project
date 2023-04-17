@@ -27,9 +27,12 @@ namespace Team_Game_Project
         private Rectangle[] _batSrc;
         private double _activeBat;
         private bool _menu;
-        private int _activePlayer;
+        private double _activePlayer;
         private int _menuPos;
         private bool _isLeft;
+        private bool _isRight;
+        private bool _isUp;
+        private bool _isDown;
         private Texture2D _bat;
         private bool _selector;
         private Rectangle _pos;
@@ -80,6 +83,8 @@ namespace Team_Game_Project
         private Vector2 _textPos;
         private Texture2D _white;
         private Vector2 position;
+
+        private int VariableChecker = 0;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -94,6 +99,9 @@ namespace Team_Game_Project
             _activeBat = 0;
             _sprint = false;
             _isLeft = false;
+            _isRight = false;
+            _isUp = false;
+            _isDown = false;
             _yourTurn = true;
             _oldKB = Keyboard.GetState();
             _enemies = new List<Entity>();
@@ -164,11 +172,20 @@ namespace Team_Game_Project
             _playerSrc[0] = new Rectangle(0, 0, 64, 128);
             //FaceUp
             _playerSrc[1] = new Rectangle(0, 160, 80, 160);
+            _playerSrc[2] = new Rectangle(80, 160, 80, 160);
+            _playerSrc[3] = new Rectangle(160, 160, 80, 160);
+            _playerSrc[4] = new Rectangle(240, 160, 80, 160);
             //FaceDown
-            _playerSrc[2] = new Rectangle(0, 320, 80, 160);
+            _playerSrc[5] = new Rectangle(0, 320, 80, 160);
+            _playerSrc[6] = new Rectangle(80, 320, 80, 160);
+            _playerSrc[7] = new Rectangle(160, 320, 80, 160);
+            _playerSrc[8] = new Rectangle(240, 320, 80, 160);
             //FaceRight
-            _playerSrc[3] = new Rectangle(0, 0, 80, 160);
-            _playerSrc[4] = new Rectangle(0, 0, 0, 0);
+            _playerSrc[9] = new Rectangle(0, 0, 80, 160);
+            _playerSrc[10] = new Rectangle(80, 0, 80, 160);
+            _playerSrc[11] = new Rectangle(160, 0, 80, 160);
+            _playerSrc[12] = new Rectangle(240, 0, 80, 160);
+
             _text = Content.Load<SpriteFont>("Text");
             _white = Content.Load<Texture2D>("white");
             for (int i = 0; i < 6; i++)
@@ -259,8 +276,14 @@ namespace Team_Game_Project
                     _sprint = false;
                 if (!_sprint)
                 {
+                    
                     if (kb.IsKeyDown(Keys.Up) && _pos.Y > 0)
                     {
+                        _isLeft = false;
+                        _isDown = false;
+                        _isRight = false;
+                        _isUp = true;
+
                         _activePlayer = 2;
                         _pos.Y -= 2;
                         move = true;
@@ -272,6 +295,11 @@ namespace Team_Game_Project
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
+                        _isLeft = false;
+                        _isDown = true;
+                        _isRight = false;
+                        _isUp = false;
+
                         _activePlayer = 1;
                         _pos.Y += 2;
                         move = true;
@@ -284,6 +312,11 @@ namespace Team_Game_Project
                     
                     if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
                     {
+                        _isLeft = true;
+                        _isDown = false;
+                        _isRight = false;
+                        _isUp = false;
+
                         _pos.X -= 2;
                         move = true;
                     }
@@ -294,11 +327,18 @@ namespace Team_Game_Project
                     }
                     if (kb.IsKeyDown(Keys.Right) && _pos.X < _screen.Width - 48)
                     {
+                        _isLeft = false;
+                        _isDown = false;
+                        _isRight = true;
+                        _isUp = false;
+
                         _pos.X += 2;
                         move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                     {
+                        
+
                         _pos.X = 0;
                         _rightTransition = true;
                     }
@@ -1094,23 +1134,98 @@ namespace Team_Game_Project
                         _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
                     }
                 }
-                if (!_sprint)
+                if (!_sprint && _isRight)
                 {
-                    _activePlayer = 1;
-                    _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
-                }
-                else if (_isLeft)
-                {
+                    if (VariableChecker == 0)
+                    {
+                        _activePlayer = 9;
+
+                        VariableChecker = 1;
+                    }
+                    
+                    _activePlayer += .25;
+                    if (_activePlayer >= 13)
+                    {
+                        _activePlayer = 9;
+                    }
+
                     _pos.Width = 50;
-                    _pos.Height = 50;
-                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+                    _pos.Height = 100;
+
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
-                else
+                else if (!_sprint && _isLeft)
                 {
+                    if (VariableChecker == 0)
+                    {
+                        _activePlayer = 9;
+
+                        VariableChecker = 1;
+                    }
+
+                    _activePlayer += .25;
+                    if (_activePlayer >= 13)
+                    {
+                        _activePlayer = 9;
+                    }
                     _pos.Width = 50;
-                    _pos.Height = 50;
-                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+                    _pos.Height = 100;
+
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
+                else if (!_sprint && _isUp)
+                {
+                    if (VariableChecker == 0)
+                    {
+                        _activePlayer = 5;
+
+                        VariableChecker = 1;
+                    }
+
+                    _activePlayer += .25;
+                    if (_activePlayer >= 9)
+                    {
+                        _activePlayer = 9;
+                    }
+
+                    _pos.Width = 50;
+                    _pos.Height = 100;
+
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
+                }
+                else if (!_sprint && _isDown)
+                {
+                    if (VariableChecker == 0)
+                    {
+                        _activePlayer = 1;
+
+                        VariableChecker = 1;
+                    }
+
+                    _activePlayer += .25;
+                    if (_activePlayer >= 5)
+                    {
+                        _activePlayer = 1;
+                    }
+                    _pos.Width = 50;
+                    _pos.Height = 100;
+
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
+                }
+
+                else if (_sprint == true && _isLeft)
+            {
+                _pos.Width = 50;
+                _pos.Height = 50;
+                _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+            }
+
+            else if (_sprint == true)
+            {
+                _pos.Width = 50;
+                _pos.Height = 50;
+                _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+            }
             }
             else if (_state == GameState.battle)
             {
