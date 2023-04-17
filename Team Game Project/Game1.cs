@@ -178,6 +178,7 @@ namespace Team_Game_Project
             // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
             _enemies.Add(new Entity(10, 1, 2, 1, 2, "Slime", Content.Load<Texture2D>("Slime"), 100));
+          
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 8, 3, 1, 25, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 120));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
@@ -188,7 +189,7 @@ namespace Team_Game_Project
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(20, 1, 200, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(10, 1, 200, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             //The captain is a stonger version of the soldier be aware when fighting them
             _enemies.Add(new Entity(90, 30, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
             // Destructo is a rare glass cannon type enemy 
@@ -211,8 +212,6 @@ namespace Team_Game_Project
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
             _bossEnemies.Add(new Entity(120, 45, 120, 25, 120, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
-            //Lady Morona 
-            _bossEnemies.Add(new Entity(150, 20, 120, 100, 150, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500));
             // Captain Odric is a mid game boss
             _bossEnemies.Add(new Entity(500,65,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
             // Vampire Knight Arvad is a late game boss
@@ -1071,6 +1070,9 @@ namespace Team_Game_Project
                     }
                 }
                 if (!_sprint)
+                {
+                    _pos = new Rectangle(400, 200, 50, 100);
+
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
                 else if (_isLeft)
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
