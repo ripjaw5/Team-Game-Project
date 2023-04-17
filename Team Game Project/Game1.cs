@@ -1092,7 +1092,7 @@ namespace Team_Game_Project
                     else
                     {
 
-                        for (int i = 0; i < 10/*dude.getLevel()*/; i++)
+                        for (int i = 0; i < dude.getLevel(); i++)
                         {
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
