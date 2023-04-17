@@ -41,13 +41,14 @@ namespace Team_Game_Project
         }
         public int hurt(int dmg, String type)
         {
-
             int dmgTaken;
             dmgTaken = dmg - _def;
             if (dmgTaken <= 0)
             {
                 dmgTaken = 1;
             }
+            if (_currHP < dmgTaken)
+                dmgTaken = _currHP;
             _currHP -= dmgTaken;
             return dmgTaken;
         }

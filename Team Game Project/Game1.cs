@@ -195,7 +195,6 @@ namespace Team_Game_Project
             // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
             _enemies.Add(new Entity(10, 1, 2, 1, 2, "Slime", Content.Load<Texture2D>("Slime"), 100));
-          
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 8, 3, 1, 25, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 120));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
@@ -307,7 +306,12 @@ namespace Team_Game_Project
                     {
                         if (_rng.Next(100) < 1)
                         {
-                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(dude);
+                            int max = 4;
+                            if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
+                                max = 7;
+                            else if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 3)
+                                max = _enemies.Count;
+                            _activeEnemy = _enemies[_rng.Next(max)].clone(dude); ;
                             _state = GameState.battle;
                             _yourTurn = true;
                         }
@@ -366,7 +370,12 @@ namespace Team_Game_Project
                     {
                         if (_rng.Next(100) < 3)
                         {
-                            _activeEnemy = _enemies[_rng.Next(_enemies.Count)].clone(dude); ;
+                            int max = 4;
+                            if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
+                                max = 7;
+                            else if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 3)
+                                max = _enemies.Count;
+                            _activeEnemy = _enemies[_rng.Next(max)].clone(dude); ;
                             _state = GameState.battle;
                             _yourTurn = true;
                         }
@@ -399,10 +408,7 @@ namespace Team_Game_Project
                                     _turnTimer = 30;
                                 }
                             }
-
-
                         }
-
                     }
                     else if (_menu)
                     {
@@ -416,11 +422,13 @@ namespace Team_Game_Project
                             dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
                             _turnTimer = 30;
                             _yourTurn = false;
-
+                            _menu = false;
                         }
-                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel())
+                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && !_oldKB.IsKeyDown(Keys.Down))
+                        {
                             _menuPos++;
-                        else if (kb.IsKeyDown(Keys.Up) && _menuPos > 0)
+                        }
+                        else if (kb.IsKeyDown(Keys.Up) && _menuPos > 0 && !_oldKB.IsKeyDown(Keys.Up))
                             _menuPos--;
                     }
                 }
@@ -1088,8 +1096,7 @@ namespace Team_Game_Project
                 }
                 if (!_sprint)
                 {
-                    _pos = new Rectangle(400, 200, 50, 100);
-
+                    _activePlayer = 1;
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
                 }
                 else if (_isLeft)
@@ -1098,7 +1105,6 @@ namespace Team_Game_Project
                     _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
-
                 else
                 {
                     _pos.Width = 50;
@@ -1122,8 +1128,8 @@ namespace Team_Game_Project
                     }
                     else
                     {
-
-                        for (int i = 0; i < 10/*dude.getLevel()*/; i++)
+                        _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                        for (int i = 0; i < dude.getLevel(); i++)
                         {
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
