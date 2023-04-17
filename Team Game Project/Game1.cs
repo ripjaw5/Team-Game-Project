@@ -1074,6 +1074,7 @@ namespace Team_Game_Project
                     _pos = new Rectangle(400, 200, 50, 100);
 
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
+                }
                 else if (_isLeft)
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 else
