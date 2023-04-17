@@ -56,9 +56,7 @@ namespace Team_Game_Project
         //Overworld Int 2D Array
         //Default is [1,1]
         private int[,] _testOverworldScreens = new int[3, 3];
-
         private int[,] _screenDifficultyValues = new int[3, 3];
-
         private bool _leftTransition = false;
         private bool _rightTransition = false;
         private bool _upTransition = false;
@@ -80,7 +78,7 @@ namespace Team_Game_Project
         private int _hp;
         private string _health;
         private Vector2 _textPos;
-
+        private Texture2D _white;
         private Vector2 position;
         public Game1()
         {
@@ -172,6 +170,7 @@ namespace Team_Game_Project
             _playerSrc[3] = new Rectangle(0, 0, 80, 160);
             _playerSrc[4] = new Rectangle(0, 0, 0, 0);
             _text = Content.Load<SpriteFont>("Text");
+            _white = Content.Load<Texture2D>("white");
             for (int i = 0; i < 6; i++)
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
@@ -1124,14 +1123,15 @@ namespace Team_Game_Project
                     }
                     else
                     {
-                        for (int i = 0; i < dude.getLevel(); i++)
-                        {
 
+                        for (int i = 0; i < 10/*dude.getLevel()*/; i++)
+                        {
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
                 }
 
-                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n + Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel() + "\n width: " + _screen.Width + "\n height: " + _screen.Height, _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
 
