@@ -28,20 +28,25 @@ namespace Team_Game_Project
             _name = name;
             _cost = cost;
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 pos, SpriteFont font)
+        public void Draw(SpriteBatch spriteBatch, Vector2 pos, SpriteFont font, int hp)
         {
             string dType;
             if (_skillType == SkillType.Drain)
                 dType = "Drain";
-            if (_skillType == SkillType.Phys)
+            else if (_skillType == SkillType.Phys)
                 dType = "Phys";
-            if (_skillType == SkillType.Mag)
+            else if (_skillType == SkillType.Mag)
                 dType = "Mag";
             else
                 dType = "";
-            spriteBatch.DrawString(font, _name + ": ", pos, Color.White);
-            Vector2 pos2 = new Vector2(pos.X + 100, pos.Y);
-            spriteBatch.DrawString(font, _cost + " " + dType, pos2, Color.White);
+            Color c;
+            if (hp > _cost)
+                c = Color.Black;
+            else
+                c = Color.Red;
+            spriteBatch.DrawString(font, _name + ": ", pos, c);
+            Vector2 pos2 = new Vector2(pos.X + 180, pos.Y);
+            spriteBatch.DrawString(font, _cost + " " + dType, pos2, c);
         }
         public string GetSkillType()
         {

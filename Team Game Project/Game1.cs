@@ -55,7 +55,8 @@ namespace Team_Game_Project
 
         //Overworld Int 2D Array
         //Default is [1,1]
-        private int[,] _testOverworldScreens = new int[5, 5];
+        private int[,] _testOverworldScreens = new int[3, 3];
+        private int[,] _screenDifficultyValues = new int[3, 3];
         private bool _leftTransition = false;
         private bool _rightTransition = false;
         private bool _upTransition = false;
@@ -77,7 +78,7 @@ namespace Team_Game_Project
         private int _hp;
         private string _health;
         private Vector2 _textPos;
-
+        private Texture2D _white;
         private Vector2 position;
         public Game1()
         {
@@ -131,6 +132,21 @@ namespace Team_Game_Project
             _testOverworldScreens[1, 2] = 0;
             _testOverworldScreens[2, 2] = 0;
 
+
+            //Screen Difficulty
+            //Left Column
+            _screenDifficultyValues[0, 0] = 3;
+            _screenDifficultyValues[1, 0] = 2;
+            _screenDifficultyValues[2, 0] = 3;
+            //Middle Column
+            _screenDifficultyValues[0, 1] = 2;
+            _screenDifficultyValues[1, 1] = 1;
+            _screenDifficultyValues[2, 1] = 2;
+            //Right Column
+            _screenDifficultyValues[0, 2] = 3;
+            _screenDifficultyValues[1, 2] = 2;
+            _screenDifficultyValues[2, 2] = 3;
+
             //OverworldSpriteLoading
             _Grass1 = Content.Load<Texture2D>("Grass1");
             _Grass2 = Content.Load<Texture2D>("Grass2");
@@ -154,6 +170,7 @@ namespace Team_Game_Project
             _playerSrc[3] = new Rectangle(0, 0, 80, 160);
             _playerSrc[4] = new Rectangle(0, 0, 0, 0);
             _text = Content.Load<SpriteFont>("Text");
+            _white = Content.Load<Texture2D>("white");
             for (int i = 0; i < 6; i++)
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
@@ -1071,11 +1088,24 @@ namespace Team_Game_Project
                     }
                 }
                 if (!_sprint)
+                {
+                    _pos = new Rectangle(400, 200, 50, 100);
+
                     _spriteBatch.Draw(_player, _pos, _playerSrc[_activePlayer], Color.White);
+                }
                 else if (_isLeft)
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+                }
+
                 else
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+                }
             }
             else if (_state == GameState.battle)
             {
@@ -1093,14 +1123,15 @@ namespace Team_Game_Project
                     }
                     else
                     {
-                        for (int i = 0; i < dude.getLevel(); i++)
-                        {
 
+                        for (int i = 0; i < 10/*dude.getLevel()*/; i++)
+                        {
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
                 }
 
-                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n + Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel() + "\n width: " + _screen.Width + "\n height: " + _screen.Height, _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
 
