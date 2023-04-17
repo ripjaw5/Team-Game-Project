@@ -178,8 +178,6 @@ namespace Team_Game_Project
             // EASY ENEMIES
             // Slimes are a very easy enemy, should be all over the place at the start
             _enemies.Add(new Entity(10, 1, 2, 1, 2, "Slime", Content.Load<Texture2D>("Slime"), 100));
-            // Its a bat, in terms of the game it's a slime that bites you ever so slightly harder than a slime tickles you
-            _enemies.Add(new Entity(15,2,4,1,4,"Bat",Content.Load<Texture2D>("spr_Bat"),100));
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 8, 3, 1, 25, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 120));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
@@ -213,6 +211,8 @@ namespace Team_Game_Project
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy
             _bossEnemies.Add(new Entity(120, 45, 120, 25, 120, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
+            //Lady Morona 
+            _bossEnemies.Add(new Entity(150, 20, 120, 100, 150, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500));
             // Captain Odric is a mid game boss
             _bossEnemies.Add(new Entity(500,65,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
             // Vampire Knight Arvad is a late game boss
