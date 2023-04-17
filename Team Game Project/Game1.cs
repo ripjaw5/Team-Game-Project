@@ -205,7 +205,7 @@ namespace Team_Game_Project
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(20, 1, 200, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(10, 1, 200, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             //The captain is a stonger version of the soldier be aware when fighting them
             _enemies.Add(new Entity(90, 30, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
             // Destructo is a rare glass cannon type enemy 

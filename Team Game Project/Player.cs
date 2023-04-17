@@ -44,7 +44,7 @@ namespace Team_Game_Project
         public void makeSkillList()
         {
             _skillList.Clear();
-            _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int)(2 * _level * .5)));
+            _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int) (1 * _level *.5)));
             _skillList.Add(new Skill(2, (int)(_mag * 1.25), "Fireball", (int) (5 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str*1.25), "Bite", (int)(3 * _level * .5)));
             _skillList.Add(new Skill(1, (int)(_mag*1.75), "SUCK", (int)(10 * _level * .5)));
@@ -58,7 +58,7 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int) (_mag*2.25), "Blood Rain",80));
             _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch",95));
             _skillList.Add(new Skill(2, (int)(_mag * 2.5), "Bloodbolt", 120));   
-            _skillList.Add(new Skill(0, (int)(_str * 2.75), "Punch Of Nuclear Power", 130));
+            _skillList.Add(new Skill(0, (int)(_str * 2.75), "Nuke Punch", 130));
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
             _skillList.Add(new Skill(2, 300, "Vampire Rage", 350)); 
             _skillList.Add(new Skill(1, (int)(_mag * 4.5), "Draining Glare",200));
