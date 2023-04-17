@@ -344,7 +344,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(100) < 1)
+                        if (_rng.Next(1000) < 1)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -408,7 +408,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(100) < 3)
+                        if (_rng.Next(1000) < 3)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -487,7 +487,7 @@ namespace Team_Game_Project
             _oldKB = kb;
 
             //Transition UPDATING
-            if (_upTransition == true && _currentScreenValue2 != -1)
+            if (_upTransition && _currentScreenValue2 != -1)
             {
                 _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
                 _currentScreenValue2 -= 1;
@@ -495,7 +495,7 @@ namespace Team_Game_Project
 
                 _upTransition = false;
             }
-            if (_downTransition == true && _currentScreenValue2 != 3)
+            if (_downTransition && _currentScreenValue2 != 3)
             {
                 _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
                 _currentScreenValue2 += 1;
@@ -503,7 +503,7 @@ namespace Team_Game_Project
 
                 _downTransition = false;
             }
-            if (_leftTransition == true)
+            if (_leftTransition)
             {
                 _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
                 _currentScreenValue1 -= 1;
@@ -511,7 +511,7 @@ namespace Team_Game_Project
 
                 _leftTransition = false;
             }
-            if (_rightTransition == true)
+            if (_rightTransition)
             {
                 _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
                 _currentScreenValue1 += 1;
@@ -519,8 +519,7 @@ namespace Team_Game_Project
 
                 _rightTransition = false;
             }
-
-            if (_leftTransition == true && _currentScreenValue2 == -1)
+            if (_leftTransition && _currentScreenValue2 == -1)
             {
                 _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
                 _currentScreenValue1 = _rng.Next(0, 3);
@@ -1250,11 +1249,9 @@ namespace Team_Game_Project
                         }
                     }
                 }
-
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel() + "\n width: " + _screen.Width + "\n height: " + _screen.Height, _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
-
             }
             _spriteBatch.End();
             base.Draw(gameTime);

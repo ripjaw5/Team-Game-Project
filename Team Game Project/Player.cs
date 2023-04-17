@@ -65,7 +65,7 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _currHP-1));
 
             // and the funny one
-            // _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 35000));
+             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 35000));
         }
         public void useSkill(Entity e, Skill s)
         {
