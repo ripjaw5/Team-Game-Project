@@ -1184,7 +1184,7 @@ namespace Team_Game_Project
                     _activePlayer += .25;
                     if (_activePlayer >= 9)
                     {
-                        _activePlayer = 9;
+                        _activePlayer = 5;
                     }
 
                     _pos.Width = 50;
@@ -1228,13 +1228,13 @@ namespace Team_Game_Project
             }
             else if (_state == GameState.battle)
             {
-                //_enemies[0].Draw(_spriteBatch, position, null);
                 dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
                     if (!_menu)
                     {
                         _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
                         if (_selector)
                             _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
                         else
