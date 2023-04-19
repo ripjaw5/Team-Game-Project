@@ -85,6 +85,8 @@ namespace Team_Game_Project
         private Texture2D _white;
         private Vector2 position;
 
+        private bool _firstUse = false;
+
         private int VariableChecker = 0;
         public Game1()
         {
@@ -381,7 +383,6 @@ namespace Team_Game_Project
                         {
                             _activePlayer = 9;
                         }
-
                         _pos.X -= 2;
                         move = true;
                     }
@@ -414,14 +415,11 @@ namespace Team_Game_Project
 
                             VariableChecker = 1;
                         }
-
                         _activePlayer += .25;
                         if (_activePlayer >= 13)
                         {
                             _activePlayer = 9;
                         }
-
-
                         _pos.X += 2;
                         move = true;
                     }
@@ -1240,11 +1238,11 @@ namespace Team_Game_Project
                         _spriteBatch.Draw(_testOverworldTileTextures[i, j], _testOverworldTiles[i, j], Color.White);
                     }
                 }
-                if (!_sprint && _isRight)
+                if (!_sprint && !_isLeft)
                 {
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
-                else if (!_sprint && _isLeft)
+                if (!_sprint && _isLeft)
                 {
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
@@ -1257,13 +1255,13 @@ namespace Team_Game_Project
                 {
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
-                else if (_sprint == true && _isLeft)
+                else if (_sprint && _isLeft)
                 {
                     _pos.Width = 50;
                     _pos.Height = 50;
                     _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
-                else if (_sprint == true)
+                else if (_sprint)
                 {
                     _pos.Width = 50;
                     _pos.Height = 50;
