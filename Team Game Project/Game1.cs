@@ -441,14 +441,14 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 5)
+                        if (_rng.Next(1000) < 3)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
                                 max = 7;
                             else if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 3)
                                 max = _enemies.Count;
-                            _activeEnemy = _enemies[_rng.Next(max)].clone(dude); ;
+                            _activeEnemy = _enemies[_rng.Next(max)].clone(dude);
                             _state = GameState.battle;
                             _yourTurn = true;
                         }
@@ -505,7 +505,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 15)
+                        if (_rng.Next(1000) < 10)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
