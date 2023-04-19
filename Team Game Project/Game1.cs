@@ -281,18 +281,31 @@ namespace Team_Game_Project
                 if (kb.IsKeyDown(Keys.LeftShift))
                     _sprint = true;
                 else
+                {
                     _sprint = false;
+                    _pos.Width = 50;
+                    _pos.Height = 100;
+                }
                 if (!_sprint)
                 {
-                    
                     if (kb.IsKeyDown(Keys.Up) && _pos.Y > 0)
                     {
                         _isLeft = false;
                         _isDown = false;
                         _isRight = false;
                         _isUp = true;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 5;
 
-                        _activePlayer = 2;
+                            VariableChecker = 1;
+                        }
+                        _activePlayer += .25;
+                        if (_activePlayer >= 9)
+                        {
+                            _activePlayer = 5;
+                        }
+                        
                         _pos.Y -= 2;
                         move = true;
                     }
@@ -300,6 +313,17 @@ namespace Team_Game_Project
                     {
                         _pos.Y = _screen.Height - 48;
                         _upTransition = true;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 5;
+
+                            VariableChecker = 1;
+                        }
+                        _activePlayer += .25;
+                        if (_activePlayer >= 9)
+                        {
+                            _activePlayer = 5;
+                        }
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
@@ -307,8 +331,18 @@ namespace Team_Game_Project
                         _isDown = true;
                         _isRight = false;
                         _isUp = false;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 1;
 
-                        _activePlayer = 1;
+                            VariableChecker = 1;
+                        }
+
+                        _activePlayer += .25;
+                        if (_activePlayer >= 5)
+                        {
+                            _activePlayer = 1;
+                        }
                         _pos.Y += 2;
                         move = true;
                     }
@@ -316,14 +350,37 @@ namespace Team_Game_Project
                     {
                         _pos.Y = 0;
                         _downTransition = true;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 1;
+
+                            VariableChecker = 1;
+                        }
+
+                        _activePlayer += .25;
+                        if (_activePlayer >= 5)
+                        {
+                            _activePlayer = 1;
+                        }
                     }
-                    
                     if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
                     {
                         _isLeft = true;
                         _isDown = false;
                         _isRight = false;
                         _isUp = false;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 9;
+
+                            VariableChecker = 1;
+                        }
+
+                        _activePlayer += .25;
+                        if (_activePlayer >= 13)
+                        {
+                            _activePlayer = 9;
+                        }
 
                         _pos.X -= 2;
                         move = true;
@@ -332,6 +389,18 @@ namespace Team_Game_Project
                     {
                         _pos.X = _screen.Width - 48;
                         _leftTransition = true;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 9;
+
+                            VariableChecker = 1;
+                        }
+
+                        _activePlayer += .25;
+                        if (_activePlayer >= 13)
+                        {
+                            _activePlayer = 9;
+                        }
                     }
                     if (kb.IsKeyDown(Keys.Right) && _pos.X < _screen.Width - 48)
                     {
@@ -339,20 +408,42 @@ namespace Team_Game_Project
                         _isDown = false;
                         _isRight = true;
                         _isUp = false;
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 9;
+
+                            VariableChecker = 1;
+                        }
+
+                        _activePlayer += .25;
+                        if (_activePlayer >= 13)
+                        {
+                            _activePlayer = 9;
+                        }
+
 
                         _pos.X += 2;
                         move = true;
                     }
                     else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                     {
-                        
+                        if (VariableChecker == 0)
+                        {
+                            _activePlayer = 9;
 
+                            VariableChecker = 1;
+                        }
+                        _activePlayer += .25;
+                        if (_activePlayer >= 13)
+                        {
+                            _activePlayer = 9;
+                        }
                         _pos.X = 0;
                         _rightTransition = true;
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 1)
+                        if (_rng.Next(1000) < 5)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -416,7 +507,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 3)
+                        if (_rng.Next(1000) < 15)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -1151,100 +1242,39 @@ namespace Team_Game_Project
                 }
                 if (!_sprint && _isRight)
                 {
-                    if (VariableChecker == 0)
-                    {
-                        _activePlayer = 9;
-
-                        VariableChecker = 1;
-                    }
-                    
-                    _activePlayer += .25;
-                    if (_activePlayer >= 13)
-                    {
-                        _activePlayer = 9;
-                    }
-
-                    _pos.Width = 50;
-                    _pos.Height = 100;
-
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
                 else if (!_sprint && _isLeft)
                 {
-                    if (VariableChecker == 0)
-                    {
-                        _activePlayer = 9;
-
-                        VariableChecker = 1;
-                    }
-
-                    _activePlayer += .25;
-                    if (_activePlayer >= 13)
-                    {
-                        _activePlayer = 9;
-                    }
-                    _pos.Width = 50;
-                    _pos.Height = 100;
-
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
                 else if (!_sprint && _isUp)
                 {
-                    if (VariableChecker == 0)
-                    {
-                        _activePlayer = 5;
-
-                        VariableChecker = 1;
-                    }
-
-                    _activePlayer += .25;
-                    if (_activePlayer >= 9)
-                    {
-                        _activePlayer = 5;
-                    }
-
-                    _pos.Width = 50;
-                    _pos.Height = 100;
-
+                    
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
                 else if (!_sprint && _isDown)
                 {
-                    if (VariableChecker == 0)
-                    {
-                        _activePlayer = 1;
-
-                        VariableChecker = 1;
-                    }
-
-                    _activePlayer += .25;
-                    if (_activePlayer >= 5)
-                    {
-                        _activePlayer = 1;
-                    }
-                    _pos.Width = 50;
-                    _pos.Height = 100;
-
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
-
                 else if (_sprint == true && _isLeft)
-            {
-                _pos.Width = 50;
-                _pos.Height = 50;
-                _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
-            }
-
-            else if (_sprint == true)
-            {
-                _pos.Width = 50;
-                _pos.Height = 50;
-                _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
-            }
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
+                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
+                }
+                else if (_sprint == true)
+                {
+                    _pos.Width = 50;
+                    _pos.Height = 50;
+                    _spriteBatch.Draw(_bat, _pos, _batSrc[(int)_activeBat], Color.White);
+                }
+                else
+                    _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
             }
             else if (_state == GameState.battle)
             {
-                dude.Draw(_spriteBatch, new Vector2(100, 200), _playerSrc[0]);
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
                     if (!_menu)
