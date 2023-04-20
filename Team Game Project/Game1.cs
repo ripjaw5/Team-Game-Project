@@ -225,7 +225,7 @@ namespace Team_Game_Project
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(5, 1, 200, 1, 250, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             ////The captain is a stonger version of the soldier be aware when fighting them
             _enemies.Add(new Entity(90, 30, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
             //// Destructo is a rare glass cannon type enemy 
@@ -234,20 +234,22 @@ namespace Team_Game_Project
 
             ////PAIN ENEMIES
             //// The Knight is a late game enemy
-            _enemies.Add(new Entity(300, 60, 120, 10, 120, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
+            _enemies.Add(new Entity(300, 80, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
             //// The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(40, 105, 80, 25, 80, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
+            _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(700, 80, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(700, 80, 180, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(500, 10, 100, 80, 200, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
+            _enemies.Add(new Entity(450, 10, 100, 80, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
             
             
             // BOSS ENCOUNTERS
-            // The Hunter is an early game boss that later becomes a normal enemy
-            _bossEnemies.Add(new Entity(40, 105, 80, 25, 80, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
+            // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
+            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
+            //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
+            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500)); 
             // Captain Odric is a mid game boss
             _bossEnemies.Add(new Entity(500,250,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
             // Vampire Knight Arvad is a late game boss
