@@ -375,7 +375,7 @@ namespace Team_Game_Project
 
                         if (VariableChecker == 0)
                         {
-                            _activePlayer = 5;
+                            _activePlayer = 1;
 
                             
 
@@ -383,9 +383,9 @@ namespace Team_Game_Project
                         }
 
                         _activePlayer += .25;
-                        if (_activePlayer >= 9)
+                        if (_activePlayer >= 5)
                         {
-                            _activePlayer = 5;
+                            _activePlayer = 1;
 
                             
                         }
@@ -1230,10 +1230,16 @@ namespace Team_Game_Project
                 }
                 if (!_sprint && !_isLeft)
                 {
+
+                    _pos.Width = 50;
+                    _pos.Height = 100;
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
                 if (!_sprint && _isLeft)
                 {
+
+                    _pos.Width = 50;
+                    _pos.Height = 100;
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
 
