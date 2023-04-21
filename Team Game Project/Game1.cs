@@ -227,7 +227,7 @@ namespace Team_Game_Project
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
             _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
             ////The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(90, 30, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
+            _enemies.Add(new Entity(90, 60, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
             //// Destructo is a rare glass cannon type enemy 
             _enemies.Add(new Entity(30, 90, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 250));
            
@@ -240,7 +240,7 @@ namespace Team_Game_Project
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(700, 80, 180, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(500, 80, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
             _enemies.Add(new Entity(450, 10, 100, 80, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
             

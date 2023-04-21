@@ -28,14 +28,15 @@ namespace Team_Game_Project
         }
         public void levelUp()
         {
-            _level++;
-            _xp -= _levelThreshold;
-            _levelThreshold = (int) Math.Round(_levelThreshold * 1.2);
-            _def += 5;
-            _res += 5;
-            _str += 5;
-            _mag += 5;
-            makeSkillList();
+           
+                _level++;
+                _xp -= _levelThreshold;
+                _levelThreshold = (int)Math.Round(_levelThreshold * 1.2);
+                _def += 5;
+                _res += 5;
+                _str += 5;
+                _mag += 5;
+                makeSkillList();
         }
         public int getLevel()
         {
@@ -44,7 +45,7 @@ namespace Team_Game_Project
         public void makeSkillList()
         {
             _skillList.Clear();
-            _skillList.Add(new Skill(1, (int)(_str * 1.25), "suck", (int) (1 * _level *.5))); //at level 2, costs 1 and does 22 damage
+            _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int) (1 * _level *.5))); //at level 2, costs 1 and does 22 damage
             _skillList.Add(new Skill(2, (int)(_mag * 1.5), "Fireball", (int) (5 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str*1.25), "Bite", (int)(3 * _level * .5)));
             _skillList.Add(new Skill(1, (int)(_mag*1.75), "SUCK", (int)(2 * _level * .5)));
