@@ -27,6 +27,7 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
+        public static string _actionText;
         private bool _menu;
         private double _activePlayer;
         private int _menuPos;
@@ -114,6 +115,7 @@ namespace Team_Game_Project
             _bossEnemies = new List<Entity>();
             _menu = false;
             _menuPos = 0;
+            _actionText = "";
         }
 
         protected override void Initialize()
@@ -157,6 +159,11 @@ namespace Team_Game_Project
             _screenDifficultyValues[0, 2] = 3;
             _screenDifficultyValues[1, 2] = 2;
             _screenDifficultyValues[2, 2] = 3;
+
+
+            _currentScreenValue1 = 1;
+            _currentScreenValue2 = 1;
+
 
             //OverworldSpriteLoading
             _Grass1 = Content.Load<Texture2D>("Grass1");
@@ -257,7 +264,6 @@ namespace Team_Game_Project
             _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
             _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Slime"),50000));
-          
         }
 
         protected override void Update(GameTime gameTime)
@@ -509,7 +515,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 10)
+                        if (_rng.Next(1000) < 9)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -539,9 +545,11 @@ namespace Team_Game_Project
                             {
                                 if (_selector)
                                 {
+                                    _actionText = "";
                                     _turnTimer = 30;
-                                    dude.attack(_activeEnemy);
+                                    int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
+                                    _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
                                 {
@@ -560,10 +568,11 @@ namespace Team_Game_Project
                         }
                         else if (kb.IsKeyDown(Keys.Z))
                         {
-                            dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
+                            int dmg = dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
                             _turnTimer = 30;
                             _yourTurn = false;
                             _menu = false;
+                            _actionText = "Cast, " + Player._skillList[_menuPos].getName() + "  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
                         else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && !_oldKB.IsKeyDown(Keys.Down))
                         {
@@ -1296,6 +1305,10 @@ namespace Team_Game_Project
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
