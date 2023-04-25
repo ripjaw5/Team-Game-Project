@@ -27,6 +27,7 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
+        private string _actionText;
         private bool _menu;
         private double _activePlayer;
         private int _menuPos;
@@ -114,6 +115,7 @@ namespace Team_Game_Project
             _bossEnemies = new List<Entity>();
             _menu = false;
             _menuPos = 0;
+            _actionText = "";
         }
 
         protected override void Initialize()
@@ -507,7 +509,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 10)
+                        if (_rng.Next(1000) < 6)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -538,8 +540,9 @@ namespace Team_Game_Project
                                 if (_selector)
                                 {
                                     _turnTimer = 30;
-                                    dude.attack(_activeEnemy);
+                                    int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
+                                    _actionText = "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
                                 {
@@ -558,10 +561,11 @@ namespace Team_Game_Project
                         }
                         else if (kb.IsKeyDown(Keys.Z))
                         {
-                            dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
+                            int dmg = dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
                             _turnTimer = 30;
                             _yourTurn = false;
                             _menu = false;
+                            _actionText = "Cast, " + Player._skillList[_menuPos].getName() + "  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
                         else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && !_oldKB.IsKeyDown(Keys.Down))
                         {
@@ -1294,6 +1298,10 @@ namespace Team_Game_Project
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)

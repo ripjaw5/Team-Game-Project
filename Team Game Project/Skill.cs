@@ -48,6 +48,10 @@ namespace Team_Game_Project
             Vector2 pos2 = new Vector2(pos.X + 180, pos.Y);
             spriteBatch.DrawString(font, _cost + " " + dType, pos2, c);
         }
+        public string getName()
+        {
+            return _name;
+        }
         public string GetSkillType()
         {
             string dType;

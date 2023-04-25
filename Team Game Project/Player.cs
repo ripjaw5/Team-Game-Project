@@ -68,7 +68,7 @@ namespace Team_Game_Project
             // and the funny one
              _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 35000));
         }
-        public void useSkill(Entity e, Skill s)
+        public int useSkill(Entity e, Skill s)
         {
             _currHP -= s.GetCost();
             int dmg = e.hurt(s.GetDMG(), s.GetSkillType());
@@ -76,13 +76,15 @@ namespace Team_Game_Project
                 _currHP += dmg;
             if (e.getCurrHP() <= 0)
                 addXP(e._xp);
+            return dmg;
         }
 
-        public void attack(Entity e)
+        public int attack(Entity e)
         {
-            e.hurt(_str, "phys");
+            int dmg = e.hurt(_str, "phys");
             if (e.getCurrHP() <= 0)
                 addXP(e._xp);
+            return dmg;
         }
     }
 }

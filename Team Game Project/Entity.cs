@@ -32,12 +32,12 @@ namespace Team_Game_Project
             _xp = xp;
         }
 
-        public void attack(Entity e)
+        public int attack(Entity e)
         {
             if (_str > _mag)
-                e.hurt(_str, "phys");
+                return e.hurt(_str, "phys");
             else
-                e.hurt(_mag, "mag");
+                return e.hurt(_mag, "mag");
         }
         public int hurt(int dmg, String type)
         {
