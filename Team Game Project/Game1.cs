@@ -160,6 +160,11 @@ namespace Team_Game_Project
             _screenDifficultyValues[1, 2] = 2;
             _screenDifficultyValues[2, 2] = 3;
 
+
+            _currentScreenValue1 = 1;
+            _currentScreenValue2 = 1;
+
+
             //OverworldSpriteLoading
             _Grass1 = Content.Load<Texture2D>("Grass1");
             _Grass2 = Content.Load<Texture2D>("Grass2");
@@ -257,7 +262,7 @@ namespace Team_Game_Project
             // Vampire Knight Arvad is a late game boss
             _bossEnemies.Add(new Entity(1500,500,350,120,350, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
-            
+            dude.addXP(int.MaxValue);
         }
 
         protected override void Update(GameTime gameTime)
@@ -509,7 +514,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 6)
+                        if (_rng.Next(1000) < 9)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -1293,7 +1298,7 @@ namespace Team_Game_Project
                     else
                     {
                         _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
-                        for (int i = 0; i < dude.getLevel(); i++)
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
                         {
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
