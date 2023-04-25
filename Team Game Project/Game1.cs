@@ -27,7 +27,7 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
-        private string _actionText;
+        public static string _actionText;
         private bool _menu;
         private double _activePlayer;
         private int _menuPos;
@@ -543,10 +543,11 @@ namespace Team_Game_Project
                             {
                                 if (_selector)
                                 {
+                                    _actionText = "";
                                     _turnTimer = 30;
                                     int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
-                                    _actionText = "Attacked, dealing " + dmg + " damage";
+                                    _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
                                 {
