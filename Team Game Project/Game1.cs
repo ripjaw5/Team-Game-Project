@@ -262,7 +262,6 @@ namespace Team_Game_Project
             // Vampire Knight Arvad is a late game boss
             _bossEnemies.Add(new Entity(1500,500,350,120,350, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
-            dude.addXP(int.MaxValue);
         }
 
         protected override void Update(GameTime gameTime)
