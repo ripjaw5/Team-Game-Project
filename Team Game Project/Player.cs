@@ -81,9 +81,18 @@ namespace Team_Game_Project
 
         public int attack(Entity e)
         {
-            int dmg = e.hurt(_str, "phys");
+            Random rng = new Random();
+            int dmg;
+            if (rng.Next(1000) < 1)
+            {
+                dmg = e.hurt(_str * 3, "phys");
+                Game1._actionText = "BASED: ";
+            }
+            else
+                dmg = e.hurt(_str, "phys");
             if (e.getCurrHP() <= 0)
                 addXP(e._xp);
+
             return dmg;
         }
     }
