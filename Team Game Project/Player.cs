@@ -61,12 +61,12 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag * 2.5), "Bloodbolt", 120));   
             _skillList.Add(new Skill(0, (int)(_str * 2.75), "Nuke Punch", 130));
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
-            _skillList.Add(new Skill(2, 300, "Vampire Rage", 350)); 
-            _skillList.Add(new Skill(1, (int)(_mag * 4.5), "Draining Glare",200));
-            _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _currHP-1));
+            _skillList.Add(new Skill(2, 450, "Vampire Rage", 350)); 
+            _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare",150));
+            _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _hp-1));
 
             // and the funny one
-             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 35000));
+             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 1500));
         }
         public void useSkill(Entity e, Skill s)
         {
