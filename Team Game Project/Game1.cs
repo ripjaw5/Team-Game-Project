@@ -215,8 +215,8 @@ namespace Team_Game_Project
             dude.makeSkillList();
             _hp = dude.getCurrHP();
             _health = "HP: " + _hp.ToString();
-            
-            
+
+            _actionText = "";
             _enemies.Clear();
             _activeEnemy = new Entity(50, 8, 3, 1, 3, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100).clone(dude);
             // EASY ENEMIES
@@ -1307,6 +1307,7 @@ namespace Team_Game_Project
                 else if (!_yourTurn)
                 {
                     _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    if (_actionText.IndexOf("Attack"))
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
