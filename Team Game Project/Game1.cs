@@ -1543,6 +1543,47 @@ if (dude.getLevel() == 20 && _arvadFight == false && _arvadDead == false)
                     _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                     if (_activeEnemy.getCurrHP() > 0)
                         _bossEnemies[0].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 3, 64 * 6, 64, 64));
+                     if (_activeEnemy.getCurrHp() <= 0)
+                     {
+                     _hunterFight = false;
+                     _hunterDead = true;
+                     }
+                     if(_state== GameState.bossBattle &&_moronaFight == true)
+                {
+                    dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                    if (_yourTurn && _turnTimer <= 0)
+                    {
+                        if (!_menu)
+                        {
+                            _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                            _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                            if (_selector)
+                                _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                            else
+                                _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                        }
+                        else
+                        {
+                            _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                            for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
+                            {
+                                Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
+                            }
+                        }
+                    }
+                    else if (!_yourTurn)
+                    {
+                        _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    }
+                    _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                    if (_activeEnemy.getCurrHP() > 0)
+                        _bossEnemies[0].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 1, 64 * 1, 64, 64));
+ if (_activeEnemy.getCurrHp() <= 0)
+                     {
+                     _moronaFight = false;
+                     _moronaDead = true;
+                     }
+
                 }
             _spriteBatch.End();
             base.Draw(gameTime);
