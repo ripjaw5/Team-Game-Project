@@ -11,11 +11,10 @@ namespace Team_Game_Project
     {
         public static List<Skill> _skillList;
         public int _level;
-        private int _xp;
         private int _levelThreshold;
         public Player(string name, Texture2D t): base(50, 10, 10, 10, 10 , name, t, 0)
         {
-            _level = 5;
+            _level = 1;
             _xp = 0;
             _levelThreshold = 150 ;
             _skillList = new List<Skill>();
@@ -79,7 +78,7 @@ namespace Team_Game_Project
             return dmg;
         }
 
-        public int attack(Entity e)
+        public new int attack(Entity e)
         {
             Random rng = new Random();
             int dmg;
