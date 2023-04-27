@@ -60,8 +60,8 @@ namespace Team_Game_Project
 
         //Overworld Int 2D Array
         //Default is [1,1]
-        private int[,] _testOverworldScreens = new int[3, 3];
-        private int[,] _screenDifficultyValues = new int[3, 3];
+        private int[,] _testOverworldScreens = new int[3, 4];
+        private int[,] _screenDifficultyValues = new int[3, 4];
         private bool _leftTransition = false;
         private bool _rightTransition = false;
         private bool _upTransition = false;
@@ -117,7 +117,7 @@ namespace Team_Game_Project
             _menuPos = 0;
             _actionText = "";
         }
-
+        
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -241,27 +241,29 @@ namespace Team_Game_Project
 
             ////PAIN ENEMIES
             //// The Knight is a late game enemy
-            _enemies.Add(new Entity(300, 80, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
+            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
             //// The Hunter is an early game boss that later becomes a normal enemy
             _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(500, 80, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(450, 10, 100, 80, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
-            
-            
+            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
+           
+
+
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
             _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
             //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
             _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500)); 
-            // Captain Odric is a mid game boss
-            _bossEnemies.Add(new Entity(500,250,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
-            // Vampire Knight Arvad is a late game boss
-            _bossEnemies.Add(new Entity(1500,500,350,120,350, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
+            // Captain Odric is a mid game boss ENCOUNTER AT LEVEL 15
+            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
+            // Vampire Knight Arvad is a late game boss ENCOUNTER AT LEVEL 20
+            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
+            _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Slime"),50000));
         }
 
         protected override void Update(GameTime gameTime)
@@ -321,18 +323,21 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
-                        _pos.Y = _screen.Height - 48;
-                        _upTransition = true;
-                        if (VariableChecker == 0)
+                        if (_currentScreenValue2 != 0)
                         {
-                            _activePlayer = 5;
+                            _pos.Y = _screen.Height - 48;
+                            _upTransition = true;
+                            if (VariableChecker == 0)
+                            {
+                                _activePlayer = 5;
 
-                            VariableChecker = 1;
-                        }
-                        _activePlayer += .25;
-                        if (_activePlayer >= 9)
-                        {
-                            _activePlayer = 5;
+                                VariableChecker = 1;
+                            }
+                            _activePlayer += .25;
+                            if (_activePlayer >= 9)
+                            {
+                                _activePlayer = 5;
+                            }
                         }
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
@@ -358,19 +363,22 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
-                        _pos.Y = 0;
-                        _downTransition = true;
-                        if (VariableChecker == 0)
+                        if (_currentScreenValue2 != 2)
                         {
-                            _activePlayer = 1;
+                            _pos.Y = 0;
+                            _downTransition = true;
+                            if (VariableChecker == 0)
+                            {
+                                _activePlayer = 1;
 
-                            VariableChecker = 1;
-                        }
+                                VariableChecker = 1;
+                            }
 
-                        _activePlayer += .25;
-                        if (_activePlayer >= 5)
-                        {
-                            _activePlayer = 1;
+                            _activePlayer += .25;
+                            if (_activePlayer >= 5)
+                            {
+                                _activePlayer = 1;
+                            }
                         }
                     }
                     if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
@@ -396,19 +404,22 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Left) && _pos.X <= 0)
                     {
-                        _pos.X = _screen.Width - 48;
-                        _leftTransition = true;
-                        if (VariableChecker == 0)
+                        if (_currentScreenValue1 != 0)
                         {
-                            _activePlayer = 9;
+                            _pos.X = _screen.Width - 48;
+                            _leftTransition = true;
+                            if (VariableChecker == 0)
+                            {
+                                _activePlayer = 9;
 
-                            VariableChecker = 1;
-                        }
+                                VariableChecker = 1;
+                            }
 
-                        _activePlayer += .25;
-                        if (_activePlayer >= 13)
-                        {
-                            _activePlayer = 9;
+                            _activePlayer += .25;
+                            if (_activePlayer >= 13)
+                            {
+                                _activePlayer = 9;
+                            }
                         }
                     }
                     if (kb.IsKeyDown(Keys.Right) && _pos.X < _screen.Width - 48)
@@ -431,21 +442,24 @@ namespace Team_Game_Project
                         _pos.X += 2;
                         move = true;
                     }
-                    else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
+                    else if (kb.IsKeyDown(Keys.Right) && _pos.X >= _screen.Width - 48)
                     {
-                        if (VariableChecker == 0)
+                        if (_currentScreenValue1 != 2)
                         {
-                            _activePlayer = 9;
+                            if (VariableChecker == 0)
+                            {
+                                _activePlayer = 9;
 
-                            VariableChecker = 1;
+                                VariableChecker = 1;
+                            }
+                            _activePlayer += .25;
+                            if (_activePlayer >= 13)
+                            {
+                                _activePlayer = 9;
+                            }
+                            _pos.X = 0;
+                            _rightTransition = true;
                         }
-                        _activePlayer += .25;
-                        if (_activePlayer >= 13)
-                        {
-                            _activePlayer = 9;
-                        }
-                        _pos.X = 0;
-                        _rightTransition = true;
                     }
                     if (move)
                     {
@@ -471,8 +485,11 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Up) && _pos.Y <= 0)
                     {
-                        _pos.Y = _screen.Height - 48;
-                        _upTransition = true;
+                        if (_currentScreenValue2 != 0)
+                        {
+                            _pos.Y = _screen.Height - 48;
+                            _upTransition = true;
+                        }
                     }
                     if (kb.IsKeyDown(Keys.Down) && _pos.Y < _screen.Height - 48)
                     {
@@ -481,8 +498,11 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Down) && _pos.Y >= _screen.Height - 48)
                     {
-                        _pos.Y = 0;
-                        _downTransition = true;
+                        if (_currentScreenValue2 != 2)
+                        {
+                            _pos.Y = 0;
+                            _downTransition = true;
+                        }
                     }
                     if (kb.IsKeyDown(Keys.Left) && _pos.X > 0)
                     {
@@ -492,8 +512,11 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Left) && _pos.X <= 0)
                     {
-                        _pos.X = _screen.Width - 48;
-                        _leftTransition = true;
+                        if (_currentScreenValue1 != 0)
+                        {
+                            _pos.X = _screen.Width - 48;
+                            _leftTransition = true;
+                        }
                     }
                     if (kb.IsKeyDown(Keys.Right) && _pos.X < _screen.Width - 48)
                     {
@@ -503,8 +526,11 @@ namespace Team_Game_Project
                     }
                     else if (kb.IsKeyDown(Keys.Right) && _pos.X <= _screen.Width - 48)
                     {
-                        _pos.X = 0;
-                        _rightTransition = true;
+                        if (_currentScreenValue1 != 2)
+                        {
+                            _pos.X = 0;
+                            _rightTransition = true;
+                        }
                     }
                     _activeBat += .25;
                     if (_activeBat >= 6)
@@ -595,47 +621,62 @@ namespace Team_Game_Project
             _oldKB = kb;
 
             //Transition UPDATING
-            if (_upTransition && _currentScreenValue2 != -1)
+            if (_testOverworldScreens[0, 0] != 1 && _testOverworldScreens[1, 0] != 1 && _testOverworldScreens[2, 0] != 1)
             {
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
-                _currentScreenValue2 -= 1;
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+                if (_upTransition && _currentScreenValue2 != -1)
+                {
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                    _currentScreenValue2 -= 1;
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
 
-                _upTransition = false;
+                    _upTransition = false;
+                }
             }
-            if (_downTransition && _currentScreenValue2 != 3)
+
+            if (_testOverworldScreens[0, 2] != 1 && _testOverworldScreens[1, 2] != 1 && _testOverworldScreens[2, 2] != 1)
             {
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
-                _currentScreenValue2 += 1;
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+                if (_downTransition && _currentScreenValue2 != 3)
+                {
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                    _currentScreenValue2 += 1;
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
 
-                _downTransition = false;
+                    _downTransition = false;
+                }
             }
-            if (_leftTransition)
+
+            if (_testOverworldScreens[0, 0] != 1 && _testOverworldScreens[0, 1] != 1 && _testOverworldScreens[0, 2] != 1)
             {
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
-                _currentScreenValue1 -= 1;
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+                if (_leftTransition)
+                {
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                    _currentScreenValue1 -= 1;
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
 
-                _leftTransition = false;
+                    _leftTransition = false;
+                }
             }
-            if (_rightTransition)
+
+            if (_testOverworldScreens[2, 0] != 1 && _testOverworldScreens[2, 1] != 1 && _testOverworldScreens[2, 2] != 1)
             {
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
-                _currentScreenValue1 += 1;
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+                if (_rightTransition)
+                {
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+                    _currentScreenValue1 += 1;
+                    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
 
-                _rightTransition = false;
+                    _rightTransition = false;
+                }
             }
-            if (_leftTransition && _currentScreenValue2 == -1)
-            {
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
-                _currentScreenValue1 = _rng.Next(0, 3);
-                _currentScreenValue2 = _rng.Next(0, 3);
-                _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
+            //if (_leftTransition && _currentScreenValue2 == -1)
+            //{
+            //    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 0;
+            //    _currentScreenValue1 = _rng.Next(0, 3);
+            //    _currentScreenValue2 = _rng.Next(0, 3);
+            //    _testOverworldScreens[_currentScreenValue1, _currentScreenValue2] = 1;
 
-                _leftTransition = false;
-            }
+            //    _leftTransition = false;
+            //}
 
 
             //Screen Origin
@@ -1251,10 +1292,16 @@ namespace Team_Game_Project
                 }
                 if (!_sprint && !_isLeft)
                 {
+
+                    _pos.Width = 50;
+                    _pos.Height = 100;
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White);
                 }
                 if (!_sprint && _isLeft)
                 {
+
+                    _pos.Width = 50;
+                    _pos.Height = 100;
                     _spriteBatch.Draw(_player, _pos, _playerSrc[(int)_activePlayer], Color.White, 0, new Vector2(), SpriteEffects.FlipHorizontally, 0);
                 }
                 else if (!_sprint && _isUp)
