@@ -27,6 +27,7 @@ namespace Team_Game_Project
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
         private double _activeBat;
+        public static string _actionText;
         private bool _menu;
         private double _activePlayer;
         private int _menuPos;
@@ -114,6 +115,7 @@ namespace Team_Game_Project
             _bossEnemies = new List<Entity>();
             _menu = false;
             _menuPos = 0;
+            _actionText = "";
         }
         
         protected override void Initialize()
@@ -157,6 +159,11 @@ namespace Team_Game_Project
             _screenDifficultyValues[0, 2] = 3;
             _screenDifficultyValues[1, 2] = 2;
             _screenDifficultyValues[2, 2] = 3;
+
+
+            _currentScreenValue1 = 1;
+            _currentScreenValue2 = 1;
+
 
             //OverworldSpriteLoading
             _Grass1 = Content.Load<Texture2D>("Grass1");
@@ -234,28 +241,29 @@ namespace Team_Game_Project
 
             ////PAIN ENEMIES
             //// The Knight is a late game enemy
-            _enemies.Add(new Entity(300, 80, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
+            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
             //// The Hunter is an early game boss that later becomes a normal enemy
             _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(500, 80, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(450, 10, 100, 80, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
-            
-            
+            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
+           
+
+
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
             _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
             //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
             _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500)); 
-            // Captain Odric is a mid game boss
-            _bossEnemies.Add(new Entity(500,250,120,10,120,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
-            // Vampire Knight Arvad is a late game boss
-            _bossEnemies.Add(new Entity(1500,500,350,120,350, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
+            // Captain Odric is a mid game boss ENCOUNTER AT LEVEL 15
+            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
+            // Vampire Knight Arvad is a late game boss ENCOUNTER AT LEVEL 20
+            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
-            
+            _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Slime"),50000));
         }
 
         protected override void Update(GameTime gameTime)
@@ -531,7 +539,7 @@ namespace Team_Game_Project
                     }
                     if (move)
                     {
-                        if (_rng.Next(1000) < 10)
+                        if (_rng.Next(1000) < 9)
                         {
                             int max = 4;
                             if (_screenDifficultyValues[_currentScreenValue1, _currentScreenValue2] == 2)
@@ -561,9 +569,11 @@ namespace Team_Game_Project
                             {
                                 if (_selector)
                                 {
+                                    _actionText = "";
                                     _turnTimer = 30;
-                                    dude.attack(_activeEnemy);
+                                    int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
+                                    _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
                                 {
@@ -582,10 +592,11 @@ namespace Team_Game_Project
                         }
                         else if (kb.IsKeyDown(Keys.Z))
                         {
-                            dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
+                            int dmg = dude.useSkill(_activeEnemy, Player._skillList[_menuPos]);
                             _turnTimer = 30;
                             _yourTurn = false;
                             _menu = false;
+                            _actionText = "Cast, " + Player._skillList[_menuPos].getName() + "  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
                         else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && !_oldKB.IsKeyDown(Keys.Down))
                         {
@@ -1334,11 +1345,15 @@ namespace Team_Game_Project
                     else
                     {
                         _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
-                        for (int i = 0; i < dude.getLevel(); i++)
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
                         {
                             Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)

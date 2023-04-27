@@ -61,14 +61,14 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag * 2.5), "Bloodbolt", 120));   
             _skillList.Add(new Skill(0, (int)(_str * 2.75), "Nuke Punch", 130));
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
-            _skillList.Add(new Skill(2, 300, "Vampire Rage", 350)); 
-            _skillList.Add(new Skill(1, (int)(_mag * 4.5), "Draining Glare",200));
-            _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _currHP-1));
+            _skillList.Add(new Skill(2, 450, "Vampire Rage", 350)); 
+            _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare",150));
+            _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _hp-1));
 
             // and the funny one
-             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 35000));
+             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 1500));
         }
-        public void useSkill(Entity e, Skill s)
+        public int useSkill(Entity e, Skill s)
         {
             _currHP -= s.GetCost();
             int dmg = e.hurt(s.GetDMG(), s.GetSkillType());
@@ -76,13 +76,24 @@ namespace Team_Game_Project
                 _currHP += dmg;
             if (e.getCurrHP() <= 0)
                 addXP(e._xp);
+            return dmg;
         }
 
-        public void attack(Entity e)
+        public int attack(Entity e)
         {
-            e.hurt(_str, "phys");
+            Random rng = new Random();
+            int dmg;
+            if (rng.Next(1000) < 1)
+            {
+                dmg = e.hurt(_str * 3, "phys");
+                Game1._actionText = "BASED: ";
+            }
+            else
+                dmg = e.hurt(_str, "phys");
             if (e.getCurrHP() <= 0)
                 addXP(e._xp);
+
+            return dmg;
         }
     }
 }
