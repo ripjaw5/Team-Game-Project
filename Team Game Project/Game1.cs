@@ -88,7 +88,16 @@ namespace Team_Game_Project
 
         private bool _firstUse = false;
 
-        private int VariableChecker = 0;
+        private int VariableChecker = -1;
+
+        //TitleScreenVariables'
+        private Texture2D _titleScreenSheet;
+        private Rectangle _printTitleRect;
+        private Rectangle[] _titleFramingRects = new Rectangle[42];
+        private double _titleTracker = 0;
+        private int _titleTrackerCollumns = 0;
+        private int _titleTrackerRows = 0;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -130,6 +139,10 @@ namespace Team_Game_Project
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Titlescreen
+            _titleScreenSheet = Content.Load<Texture2D>("AnimatedBloodMageTitleSpriteSheet");
+            _printTitleRect = new Rectangle(_screen.Width / 2 - 100, _screen.Height / 2 - 100, 200, 200);
 
             //OverworldScreenLoading
             _testOverworldScreens[0, 0] = 0;
@@ -201,6 +214,15 @@ namespace Team_Game_Project
             for (int i = 0; i < 6; i++)
             {
                 _batSrc[i] = new Rectangle(i * 48, 0, 48, 48);
+            }
+
+            //TitleFraming
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    _titleFramingRects[i * 7 + j] = new Rectangle(i * 100, j * 100, 100, 100);
+                }
             }
 
             //LoadingScreenDimentionInts
@@ -275,6 +297,8 @@ namespace Team_Game_Project
             KeyboardState kb = Keyboard.GetState();
             if (_state == GameState.titleScreen)
             {
+                _titleTracker+= .2;
+                _titleTracker %= 42;
                 if (kb.IsKeyDown(Keys.Space))
                 {
                     _state = GameState.startScreen;
@@ -1256,6 +1280,9 @@ namespace Team_Game_Project
                 
             }
 
+
+            
+
             base.Update(gameTime);
         }
 
@@ -1266,6 +1293,17 @@ namespace Team_Game_Project
             {
                 GraphicsDevice.Clear(Color.Black);
                 //DRAW TITLECARD HERE
+                
+
+                
+
+
+                //_titleFramingRect.X += 100 * _titleTrackerCollumns;
+                //_titleFramingRect.Y += 100 * _titleTrackerRows;
+                _spriteBatch.Draw(_titleScreenSheet, new Rectangle(250, 75, 300, 300), _titleFramingRects[(int)_titleTracker], Color.White);
+
+
+
                 _spriteBatch.DrawString(_text, "Once upon a time, a man was minding his own business at home, when a Vampire Lord \n rudely came and attacked him. Now, he must have his vengeance, eliminating all who \n stand in his way. That man is known as the", new Vector2(10, 0), Color.White);
                 _spriteBatch.DrawString(_text, "Press space to continue", new Vector2(300, 450), Color.White);
             }
