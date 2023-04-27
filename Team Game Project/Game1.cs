@@ -26,6 +26,7 @@ namespace Team_Game_Project
         private Texture2D _player;
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
+        private Rectangle[] _moronaSrc;
         private double _activeBat;
         private bool _menu;
         private double _activePlayer;
@@ -189,6 +190,11 @@ namespace Team_Game_Project
             _playerSrc[11] = new Rectangle(160, 0, 80, 160);
             _playerSrc[12] = new Rectangle(240, 0, 80, 160);
 
+            for (int i = 0; i < 7; i++)
+            {
+                [insert spritesheet rectangle listname here][i] = new Rectangle(i * 65, 0, 65, 65);
+            }
+
             _text = Content.Load<SpriteFont>("Text");
             _white = Content.Load<Texture2D>("white");
             for (int i = 0; i < 6; i++)
@@ -248,13 +254,13 @@ namespace Team_Game_Project
 
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
-            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
+            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("hunter"), 1000));
             //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
-            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500)); 
+            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Morona"), 1500)); 
             // Captain Odric is a mid game boss ENCOUNTER AT LEVEL 15
-            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
+            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Odric"), 2000));
             // Vampire Knight Arvad is a late game boss ENCOUNTER AT LEVEL 20
-            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
+            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Arvad"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
             _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Slime"),50000));
           
