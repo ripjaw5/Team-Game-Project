@@ -14,6 +14,8 @@ namespace Team_Game_Project
             titleScreen,
             startScreen,
             overworld,
+            bossDialouge,
+            bossBattle,
             battle
         }
         private GraphicsDeviceManager _graphics;
@@ -21,11 +23,21 @@ namespace Team_Game_Project
         private SpriteFont _text;
         private Texture2D _icons;
         private Texture2D _skills;
+        private Texture2D _spell;
+        private Texture2D _phys;
+        private Rectangle[] _spellSrc;
+        private double _activeAttack;
+        private Rectangle[] _physSrc;
         private GameState _state;
         private Rectangle _screen;
         private Texture2D _player;
         private Rectangle[] _playerSrc;
         private Rectangle[] _batSrc;
+        private Rectangle[] _moronaSrc;
+        private Rectangle[] _hunterSrc;
+        private Rectangle[] _odricSrc;
+        private Rectangle[] _arvadSrc;
+        private Rectangle[] _cringefailSrc;
         private double _activeBat;
         public static string _actionText;
         private bool _menu;
@@ -88,7 +100,23 @@ namespace Team_Game_Project
 
         private bool _firstUse = false;
 
-        private int VariableChecker = -1;
+        private bool _hunterFight;
+        private bool _hunterDead;
+
+        private bool _moronaFight;
+        private bool _moronaDead;
+
+        private bool _odricFight;
+        private bool _odricDead;
+
+        private bool _arvadFight;
+        private bool _arvadDead;
+
+        private bool _cringefailFight;
+        private bool _cringefailDead;
+
+        private int _dialougetimer = 0;
+        private int VariableChecker = 0;
 
         //TitleScreenVariables'
         private Texture2D _titleScreenSheet;
@@ -97,7 +125,6 @@ namespace Team_Game_Project
         private double _titleTracker = 0;
         private int _titleTrackerCollumns = 0;
         private int _titleTrackerRows = 0;
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -125,6 +152,10 @@ namespace Team_Game_Project
             _menu = false;
             _menuPos = 0;
             _actionText = "";
+            _spellSrc = new Rectangle[4];
+            _physSrc = new Rectangle[4];
+            _moronaSrc = new Rectangle[7];
+            _hunterSrc = new Rectangle[7];
         }
         
         protected override void Initialize()
@@ -132,7 +163,16 @@ namespace Team_Game_Project
             // TODO: Add your initialization logic here
             _textPos = new Vector2(2,2);
             position = new Vector2(450, 200);
-            
+            _hunterFight = false;
+            _hunterDead = false;
+            _moronaFight = false;
+            _moronaDead = false;
+            _odricFight = false;
+            _odricDead = false;
+            _arvadFight = false;
+            _arvadDead = false;
+            _cringefailFight = false;
+            _cringefailDead = false;
             base.Initialize();
         }
 
@@ -209,6 +249,17 @@ namespace Team_Game_Project
             _playerSrc[11] = new Rectangle(160, 0, 80, 160);
             _playerSrc[12] = new Rectangle(240, 0, 80, 160);
 
+            _spell = Content.Load<Texture2D>("CriticalHit");
+            _phys = _spell;
+            for (int i = 0; i < 4; i++)
+            {
+                _spellSrc[i] = new Rectangle(i * 32, 0, 32, 32);
+                _physSrc[i] = new Rectangle(i * 32, 0, 32, 32);
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                _moronaSrc[i] = new Rectangle(i * 64, 64, 64, 64);
+            }
             _text = Content.Load<SpriteFont>("Text");
             _white = Content.Load<Texture2D>("white");
             for (int i = 0; i < 6; i++)
@@ -237,8 +288,8 @@ namespace Team_Game_Project
             dude.makeSkillList();
             _hp = dude.getCurrHP();
             _health = "HP: " + _hp.ToString();
-            
-            
+
+            _actionText = "";
             _enemies.Clear();
             _activeEnemy = new Entity(50, 8, 3, 1, 3, "amogus", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 100).clone(dude);
             // EASY ENEMIES
@@ -277,15 +328,15 @@ namespace Team_Game_Project
 
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
-            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 1000));
+            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("hunter"), 1000));
             //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
-            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Slime"), 1500)); 
+            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Morona"), 1500)); 
             // Captain Odric is a mid game boss ENCOUNTER AT LEVEL 15
-            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 2000));
+            _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Odric"), 2000));
             // Vampire Knight Arvad is a late game boss ENCOUNTER AT LEVEL 20
-            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 3000));
+            _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Arvad"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
-            _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Slime"),50000));
+            _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Cringefail"),50000));
         }
 
         protected override void Update(GameTime gameTime)
@@ -295,6 +346,7 @@ namespace Team_Game_Project
             bool move = false;
             // TODO: Add your update logic here
             KeyboardState kb = Keyboard.GetState();
+            _dialougetimer++;
             if (_state == GameState.titleScreen)
             {
                 _titleTracker+= .2;
@@ -597,6 +649,7 @@ namespace Team_Game_Project
                                     _turnTimer = 30;
                                     int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
+                                    _activeAttack = 0;
                                     _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
@@ -620,9 +673,10 @@ namespace Team_Game_Project
                             _turnTimer = 30;
                             _yourTurn = false;
                             _menu = false;
-                            _actionText = "Cast, " + Player._skillList[_menuPos].getName() + "  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
+                            _activeAttack = 0;
+                            _actionText = "Cast " + Player._skillList[_menuPos].getName() + ",  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
-                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && !_oldKB.IsKeyDown(Keys.Down))
+                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1  && _menuPos < Player._skillList.Count - 1 && !_oldKB.IsKeyDown(Keys.Down))
                         {
                             _menuPos++;
                         }
@@ -636,6 +690,8 @@ namespace Team_Game_Project
                     _yourTurn = true;
                     _turnTimer = 30;
                 }
+                else if (!_yourTurn && _turnTimer > 0)
+                    _activeAttack += .125;
                 _turnTimer--;
                 if (_activeEnemy.getCurrHP() <= 0)
                     _state = GameState.overworld;
@@ -1280,9 +1336,17 @@ namespace Team_Game_Project
                 
             }
 
-
-            
-
+            //Initiating boss fights
+            if (dude.getLevel() == 5 && _hunterFight == false && _hunterDead == false)
+            {
+                _hunterFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _hunterFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
             base.Update(gameTime);
         }
 
@@ -1306,6 +1370,8 @@ namespace Team_Game_Project
 
                 _spriteBatch.DrawString(_text, "Once upon a time, a man was minding his own business at home, when a Vampire Lord \n rudely came and attacked him. Now, he must have his vengeance, eliminating all who \n stand in his way. That man is known as the", new Vector2(10, 0), Color.White);
                 _spriteBatch.DrawString(_text, "Press space to continue", new Vector2(300, 450), Color.White);
+                for (int i = 0; i < _moronaSrc.Length; i++)
+                    _bossEnemies[1].Draw(_spriteBatch, new Vector2(64 * i, 20), _moronaSrc[i]);
             }
             else if (_state == GameState.startScreen)
             {
@@ -1369,6 +1435,10 @@ namespace Team_Game_Project
             else if (_state == GameState.battle)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
                 if (_yourTurn && _turnTimer <= 0)
                 {
                     if (!_menu)
@@ -1392,11 +1462,55 @@ namespace Team_Game_Project
                 else if (!_yourTurn)
                 {
                     _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    if (_activeAttack < 4)
+                    {
+                        if (_actionText.IndexOf("Attack") == -1)
+                            _spriteBatch.Draw(_spell, new Rectangle(518, 225, 64, 64), _spellSrc[(int)_activeAttack], Color.White);
+                        else
+                            _spriteBatch.Draw(_phys, new Rectangle(518, 225, 64, 64), _physSrc[(int)_activeAttack], Color.White);
+                    }
                 }
-                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
-                if (_activeEnemy.getCurrHP() > 0)
-                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
             }
+            if (_state == GameState.bossDialouge && _hunterFight == true)
+            {
+
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+
+                _spriteBatch.DrawString(_text, "You! Our Lord wants you dead, and I am his HUNTER!", new Vector2(200, 350), Color.ForestGreen);
+                _activeEnemy = _bossEnemies[0];
+                
+            }
+                if(_state== GameState.bossBattle &&_hunterFight == true)
+                {
+                    dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                    if (_yourTurn && _turnTimer <= 0)
+                    {
+                        if (!_menu)
+                        {
+                            _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                            _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                            if (_selector)
+                                _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                            else
+                                _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                        }
+                        else
+                        {
+                            _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                            for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
+                            {
+                                Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
+                            }
+                        }
+                    }
+                    else if (!_yourTurn)
+                    {
+                        _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    }
+                    _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                    if (_activeEnemy.getCurrHP() > 0)
+                        _bossEnemies[0].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 3, 64 * 6, 64, 64));
+                }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
