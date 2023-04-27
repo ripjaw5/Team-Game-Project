@@ -1347,6 +1347,39 @@ namespace Team_Game_Project
             {
                 _state = GameState.bossBattle;
             }
+            if (dude.getLevel() == 10 && _moronaFight == false && _moronaDead == false)
+            {
+                _moronaFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _moronaFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
+
+if (dude.getLevel() == 15 && _odricFight == false && _odricDead == false)
+            {
+                _odricFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _odricFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
+
+if (dude.getLevel() == 20 && _arvadFight == false && _arvadDead == false)
+            {
+                _arvadFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _arvadFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
+
             base.Update(gameTime);
         }
 
