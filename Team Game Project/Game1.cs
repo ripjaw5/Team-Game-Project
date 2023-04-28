@@ -18,7 +18,7 @@ namespace Team_Game_Project
             moronaDialouge,
             odricDialouge,
             arvadDialouge,
-            finalbossDialouge,
+            finalBossDialouge,
             hunterFight,
             moronaFight,
             odricFight,
@@ -1375,6 +1375,15 @@ namespace Team_Game_Project
             {
                 _state = GameState.arvadFight;
             }
+            if(_state ==  GameState.overworld && _hunterDead == true && _moronaDead == true && _odricDead == true && _arvadDead == true)
+            {
+                if (kb.IsKeyDown(Keys.H) && !_oldKB.IsKeyDown(Keys.H))
+                {
+                    _cringefailFight = true;
+                    _state = GameState.finalBoss;
+                }
+            }
+           
 
             base.Update(gameTime);
         }
@@ -1668,6 +1677,40 @@ namespace Team_Game_Project
                     _arvadFight = false;
                     _arvadDead = true;
                 }
+                if(_state ==  GameState.overworld && _hunterDead == true && _moronaDead == true && _odricDead == true && _arvadDead == true)
+                {
+                     _spriteBatch.DrawString(_text, "Press H to get revenge --- reccomended level - 30", new Vector2(50, 50),Color.Red);
+                }
+                if(_state == GameState.finalBoss && _cringefailFight == true)
+                 {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                if (_yourTurn && _turnTimer <= 0)
+                {
+                    if (!_menu)
+                    {
+                        _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                        if (_selector)
+                            _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                        else
+                            _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
+                        {
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
+                        }
+                    }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                }
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _bossEnemies[4].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 1, 160 * 4, 160, 160));
             }
             _spriteBatch.End();
             base.Draw(gameTime);
