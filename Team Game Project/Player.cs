@@ -62,7 +62,6 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, _mag * 3, "Eye Blast", 150)); 
             _skillList.Add(new Skill(2, 450, "Vampire Rage", 350)); 
             _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare",150));
-            _skillList.Add(new Skill(2, (int)(_mag * 5), "Last Resort", _hp-1));
 
             // and the funny one
              _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 1500));
