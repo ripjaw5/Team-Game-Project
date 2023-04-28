@@ -1337,16 +1337,47 @@ namespace Team_Game_Project
             }
 
             //Initiating boss fights
-            if (dude.getLevel() == 5 && _hunterFight == false && _hunterDead == false)
+            if (dude.getLevel() == 5 && !_hunterFight && !_hunterDead)
             {
                 _hunterFight = true;
                 _state = GameState.bossDialouge;
                 _dialougetimer = 1;
             }
-            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _hunterFight == true)
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _hunterFight)
             {
                 _state = GameState.bossBattle;
             }
+            if (dude.getLevel() == 10 && !_moronaFight && !_moronaDead)
+            {
+                _moronaFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _moronaFight)
+            {
+                _state = GameState.bossBattle;
+            }
+            if (dude.getLevel() == 15 && !_odricFight && !_odricDead)
+            {
+                _odricFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _odricFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
+            if (dude.getLevel() == 20 && _arvadFight == false && _arvadDead == false)
+            {
+                _arvadFight = true;
+                _state = GameState.bossDialouge;
+                _dialougetimer = 1;
+            }
+            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _arvadFight == true)
+            {
+                _state = GameState.bossBattle;
+            }
+
             base.Update(gameTime);
         }
 
