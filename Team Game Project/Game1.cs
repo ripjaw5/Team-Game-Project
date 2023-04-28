@@ -14,8 +14,16 @@ namespace Team_Game_Project
             titleScreen,
             startScreen,
             overworld,
-            bossDialouge,
-            bossBattle,
+            hunterDialouge,
+            moronaDialouge,
+            odricDialouge,
+            arvadDialouge,
+            finalbossDialouge,
+            hunterFight,
+            moronaFight,
+            odricFight,
+            arvadFight,
+            finalBoss,
             battle
         }
         private GraphicsDeviceManager _graphics;
@@ -328,9 +336,9 @@ namespace Team_Game_Project
 
             // BOSS ENCOUNTERS
             // The Hunter is an early game boss that later becomes a normal enemy ENCOUNTER AT LEVEL 5
-            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("hunter"), 1000));
+            _bossEnemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("hunter"), 500));
             //Lady Morona is an early game boss, meant to be a bottleneck for the player ENCOUNTER AT LEVEL 10!!!
-            _bossEnemies.Add(new Entity(300,30,90,120,90, "Lady Morona", Content.Load<Texture2D>("Morona"), 1500)); 
+            _bossEnemies.Add(new Entity(300,30,90,120,80, "Lady Morona", Content.Load<Texture2D>("Morona"), 1500)); 
             // Captain Odric is a mid game boss ENCOUNTER AT LEVEL 15
             _bossEnemies.Add(new Entity(500,300,180,100,180,"Captain Odric", Content.Load<Texture2D>("Odric"), 2000));
             // Vampire Knight Arvad is a late game boss ENCOUNTER AT LEVEL 20
@@ -629,7 +637,7 @@ namespace Team_Game_Project
                     }
                 }
             }
-            else if (_state == GameState.battle || _state == GameState.bossBattle)
+            else if (_state == GameState.battle || _state == GameState.hunterFight || _state == GameState.moronaFight || _state == GameState.odricFight || _state == GameState.arvadFight || _state == GameState.finalBoss)
             {
                 if (_yourTurn && _turnTimer <= 0)
                 {
@@ -1330,42 +1338,42 @@ namespace Team_Game_Project
             if (dude.getLevel() == 5 && _hunterFight == false && _hunterDead == false)
             {
                 _hunterFight = true;
-                _state = GameState.bossDialouge;
+                _state = GameState.hunterDialouge;
                 _dialougetimer = 1;
             }
-            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _hunterFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.hunterDialouge && _hunterFight == true)
             {
-                _state = GameState.bossBattle;
+                _state = GameState.hunterFight;
             }
             if (dude.getLevel() == 10 && _moronaFight == false && _moronaDead == false)
             {
                 _moronaFight = true;
-                _state = GameState.bossDialouge;
+                _state = GameState.moronaDialouge;
                 _dialougetimer = 1;
             }
-            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _moronaFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.moronaDialouge && _moronaFight == true)
             {
-                _state = GameState.bossBattle;
+                _state = GameState.moronaFight;
             }
             if (dude.getLevel() == 15 && _odricFight == false && _odricDead == false)
             {
                 _odricFight = true;
-                _state = GameState.bossDialouge;
+                _state = GameState.odricDialouge;
                 _dialougetimer = 1;
             }
-            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _odricFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.odricDialouge && _odricFight == true)
             {
-                _state = GameState.bossBattle;
+                _state = GameState.odricFight;
             }
             if (dude.getLevel() == 20 && _arvadFight == false && _arvadDead == false)
             {
                 _arvadFight = true;
-                _state = GameState.bossDialouge;
+                _state = GameState.arvadDialouge;
                 _dialougetimer = 1;
             }
-            if (_dialougetimer % 300 == 0 && _state == GameState.bossDialouge && _arvadFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.arvadDialouge && _arvadFight == true)
             {
-                _state = GameState.bossBattle;
+                _state = GameState.arvadFight;
             }
 
             base.Update(gameTime);
@@ -1490,7 +1498,7 @@ namespace Team_Game_Project
                     }
                 }
             }
-            if (_state == GameState.bossDialouge && _hunterFight == true)
+            if (_state == GameState.hunterDialouge && _hunterFight && !_hunterDead)
             {
 
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
@@ -1499,7 +1507,7 @@ namespace Team_Game_Project
                 _activeEnemy = _bossEnemies[0];
                 
             }
-            if (_state == GameState.bossBattle && _hunterFight == true)
+            if (_state == GameState.hunterFight && _hunterFight && !_hunterDead)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
@@ -1528,141 +1536,141 @@ namespace Team_Game_Project
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
-                    _bossEnemies[0].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 3, 64 * 6, 64, 64));
+                    _bossEnemies[0].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 4, 160 * 5, 160, 160));
                 if (_activeEnemy.getCurrHP() <= 0)
                 {
                     _hunterFight = false;
                     _hunterDead = true;
                 }
-                if (_state == GameState.bossDialouge && _moronaFight == true)
+            }
+            if (_state == GameState.moronaDialouge && _moronaFight == true)
                 {
                     dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                     _spriteBatch.DrawString(_text, "I will kill you in the name of our lord, or I am no noble lady", new Vector2(200, 350), Color.Orange);
                     _activeEnemy = _bossEnemies[1];
                 }
-                if (_state == GameState.bossBattle && _moronaFight == true)
+            if (_state == GameState.moronaFight && _moronaFight == true)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                if (_yourTurn && _turnTimer <= 0)
                 {
-                    dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                    if (_yourTurn && _turnTimer <= 0)
+                    if (!_menu)
                     {
-                        if (!_menu)
-                        {
-                            _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
-                            _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
-                            if (_selector)
-                                _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
-                            else
-                                _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
-                        }
+                        _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                        if (_selector)
+                            _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
                         else
+                            _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
                         {
-                            _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
-                            for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
-                            {
-                                Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
-                            }
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
-                    else if (!_yourTurn)
-                    {
-                        _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
-                    }
-                    _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
-                    if (_activeEnemy.getCurrHP() > 0)
-                        _bossEnemies[1].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 1, 64 * 1, 64, 64));
-                    if (_activeEnemy.getCurrHP() <= 0)
-                    {
-                        _moronaFight = false;
-                        _moronaDead = true;
-                    }
-                    if (_state == GameState.bossDialouge && _odricFight == true)
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                }
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _bossEnemies[1].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 1, 160 * 1, 160, 160));
+                if (_activeEnemy.getCurrHP() <= 0)
+                {
+                    _moronaFight = false;
+                    _moronaDead = true;
+                }
+            }
+            if (_state == GameState.odricDialouge && _odricFight == true)
                     {
                         dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                        _spriteBatch.DrawString(_text, "You have killed many of my soldiers, and for that you must die", new Vector2(200, 350), Color.White);
+                        _spriteBatch.DrawString(_text, "You have killed many of my soldiers, and for that you must die", new Vector2(200, 350), Color.DarkGray);
                         _activeEnemy = _bossEnemies[2];
                     }
-                    if (_state == GameState.bossBattle && _odricFight == true)
+            if (_state == GameState.odricFight && _odricFight == true)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                if (_yourTurn && _turnTimer <= 0)
+                {
+                    if (!_menu)
                     {
-                        dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                        if (_yourTurn && _turnTimer <= 0)
+                        _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                        if (_selector)
+                            _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                        else
+                            _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
                         {
-                            if (!_menu)
-                            {
-                                _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
-                                _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
-                                if (_selector)
-                                    _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
-                                else
-                                    _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
-                            }
-                            else
-                            {
-                                _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
-                                for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
-                                {
-                                    Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
-                                }
-                            }
-                        }
-                        else if (!_yourTurn)
-                        {
-                            _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
-                        }
-                        _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
-                        if (_activeEnemy.getCurrHP() > 0)
-                            _bossEnemies[2].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 1, 64 * 1, 64, 64));
-                        if (_activeEnemy.getCurrHP() <= 0)
-                        {
-                            _odricFight = false;
-                            _odricDead = true;
-                        }
-                        if (_state == GameState.bossDialouge && _arvadFight == true)
-                        {
-                            dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                            _spriteBatch.DrawString(_text, "Many soldiers, no, many men have died by your hands, this is no longer just about serving our lord, you must pay for their deaths with your BLOOD", new Vector2(200, 350), Color.Black);
-                            _activeEnemy = _bossEnemies[3];
-                        }
-                        if (_state == GameState.bossBattle && _arvadFight == true)
-                        {
-                            dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                            if (_yourTurn && _turnTimer <= 0)
-                            {
-                                if (!_menu)
-                                {
-                                    _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
-                                    _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
-                                    if (_selector)
-                                        _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
-                                    else
-                                        _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
-                                }
-                                else
-                                {
-                                    _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
-                                    for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
-                                    {
-                                        Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
-                                    }
-                                }
-                            }
-                            else if (!_yourTurn)
-                            {
-                                _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
-                            }
-                            _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
-                            if (_activeEnemy.getCurrHP() > 0)
-                                _bossEnemies[3].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(64 * 1, 64 * 9, 64, 64));
-                            if (_activeEnemy.getCurrHP() <= 0)
-                            {
-                                _arvadFight = false;
-                                _arvadDead = true;
-                            }
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
                         }
                     }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                }
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _bossEnemies[2].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 1, 160 * 1, 160, 160));
+                if (_activeEnemy.getCurrHP() <= 0)
+                {
+                    _odricFight = false;
+                    _odricDead = true;
+                }
+            }
+            if (_state == GameState.arvadDialouge && _arvadFight == true)
+                        {
+                            dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                            _spriteBatch.DrawString(_text, "Many soldiers, no, many men have died by your hands, \n this is no longer just about serving our lord, \n you must pay for their deaths with your BLOOD", new Vector2(200, 350), Color.Black);
+                            _activeEnemy = _bossEnemies[3];
+                        }
+            if (_state == GameState.arvadFight && _arvadFight == true)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                if (_yourTurn && _turnTimer <= 0)
+                {
+                    if (!_menu)
+                    {
+                        _spriteBatch.Draw(_icons, new Vector2(100, 350), Color.White);
+                        _spriteBatch.Draw(_skills, new Vector2(200, 350), Color.White);
+                        if (_selector)
+                            _spriteBatch.Draw(_blankTexture, new Vector2(100, 350), Color.White);
+                        else
+                            _spriteBatch.Draw(_blankTexture, new Vector2(200, 350), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(_white, new Vector2(195, 20 * _menuPos), Color.White);
+                        for (int i = 0; i < dude.getLevel() && i < Player._skillList.Count; i++)
+                        {
+                            Player._skillList[i].Draw(_spriteBatch, new Vector2(200, i * 20), _text, dude.getCurrHP());
+                        }
+                    }
+                }
+                else if (!_yourTurn)
+                {
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                }
+                _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
+                if (_activeEnemy.getCurrHP() > 0)
+                    _bossEnemies[3].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 1, 160 * 9, 160, 160));
+                if (_activeEnemy.getCurrHP() <= 0)
+                {
+                    _arvadFight = false;
+                    _arvadDead = true;
                 }
             }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
-    }
+    }    
 }
