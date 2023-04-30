@@ -1441,10 +1441,15 @@ namespace Team_Game_Project
                 if (kb.IsKeyDown(Keys.H) && !_oldKB.IsKeyDown(Keys.H))
                 {
                     _cringefailFight = true;
-                    MediaPlayer.Play(finalBoss);
-                    MediaPlayer.IsRepeating = true;
-                    _state = GameState.finalBoss;
+                    _state = GameState.finalBossDialouge;
                 }
+            }
+            
+            if (_dialougetimer % 180 == 0 && _state == GameState.finalBossDialouge && _ceingefailFight)
+            {
+                _state = GameState.finalBoss;
+                  MediaPlayer.Play(finalBoss);
+                  MediaPlayer.IsRepeating = true;
             }
            
 
@@ -1749,6 +1754,13 @@ namespace Team_Game_Project
             {
                 _spriteBatch.DrawString(_text, "Press H to get revenge --- recommended level - 30", new Vector2(50, 50),Color.Red);
             }
+              if (_state == GameState.finalbossDialouge && _cringefailFight)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                _spriteBatch.DrawString(_text, "You may have cut through my armies, but now you will know true fear... \n NOW DIE", new Vector2(200, 350), Color.DarkRed);
+                _activeEnemy = _bossEnemies[4];
+            }
+            
             if(_state == GameState.finalBoss && _cringefailFight)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
