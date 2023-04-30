@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace Team_Game_Project
 {
@@ -27,17 +29,20 @@ namespace Team_Game_Project
             battle,
             end
         }
-        /*MUSIC:
-         * Final Boss: Your Best Nightmare- Undertale OST
-         * Battle: Stronger Monsters - Undertale OST
-         * Morana: Spider Dance - Undertale OST
-         * Hunter: Spear of Justice - Undertale OST
-         * Captain: Plantera - Terraria, Vol. 2 (Soundtrack)
-         * Vampire Knight Arval: Universal Collapse - The Tale of a Cruel World (Calamity OST)
-         * Overworld: CORE - Undertale OST
-         * Title: Heartache - Undertale OST
-         */
+        
+        //Music
+        private Song battle;
+        private Song morona;
+        private Song odric;
+        private Song arvad;
+        private Song finalBoss;
+        private Song hunter;
+        private Song overworld;
+        private Song title;
 
+        // Sound effects
+        private SoundEffect attack;
+        private SoundEffect skill;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -201,8 +206,20 @@ namespace Team_Game_Project
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Titlescreen
-            _titleScreenSheet = Content.Load<Texture2D>("AnimatedBloodMageTitleSpriteSheet");
+            attack = Content.Load<SoundEffect>("slash");
+            skill = Content.Load<SoundEffect>("skill attack");
+
+            battle = Content.Load<Song>("Stronger Monsters");
+            morona = Content.Load<Song>("Spider Dance");
+            odric = Content.Load<Song>("Plantera");
+            arvad = Content.Load<Song>("Universal Collapse");
+            finalBoss = Content.Load<Song>("Your Best Nightmare");
+            hunter = Content.Load<Song>("Spear of Justice");
+            overworld = Content.Load<Song>("CORE");
+            title = Content.Load<Song>("Heartache");
+
+        //Titlescreen
+        _titleScreenSheet = Content.Load<Texture2D>("AnimatedBloodMageTitleSpriteSheet");
             _printTitleRect = new Rectangle(_screen.Width / 2 - 100, _screen.Height / 2 - 100, 200, 200);
 
             //OverworldScreenLoading
@@ -245,7 +262,6 @@ namespace Team_Game_Project
             _Grass3 = Content.Load<Texture2D>("Grass3");
             _Grass4 = Content.Load<Texture2D>("Grass4");
 
-            // TODO: use this.Content to load your game content here
             _icons = Content.Load<Texture2D>("AttackMenu");
             _skills = Content.Load<Texture2D>("SkillsMenu");
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -358,6 +374,8 @@ namespace Team_Game_Project
             _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Arvad"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
             _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Cringefail"),50000));
+            MediaPlayer.Play(title);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -383,6 +401,8 @@ namespace Team_Game_Project
                 {
                     _state = GameState.overworld;
                     LoadContent();
+                    MediaPlayer.Play(overworld);
+                    MediaPlayer.IsRepeating = true;
                 }
             }
             else if (_state == GameState.overworld)
@@ -569,6 +589,8 @@ namespace Team_Game_Project
                                 max = _enemies.Count;
                             _activeEnemy = _enemies[_rng.Next(max)].clone(dude);
                             _state = GameState.battle;
+                            MediaPlayer.Play(battle);
+                            MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
                         }
                     }
@@ -645,6 +667,8 @@ namespace Team_Game_Project
                                 max = _enemies.Count;
                             _activeEnemy = _enemies[_rng.Next(max)].clone(dude); ;
                             _state = GameState.battle;
+                            MediaPlayer.Play(battle);
+                            MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
                         }
                     }
@@ -671,6 +695,7 @@ namespace Team_Game_Project
                                     int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
                                     _activeAttack = 0;
+                                    attack.Play();
                                     _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
@@ -695,6 +720,7 @@ namespace Team_Game_Project
                             _yourTurn = false;
                             _menu = false;
                             _activeAttack = 0;
+                            skill.Play();
                             _actionText = "Cast " + Player._skillList[_menuPos].getName() + ",  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
                         else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && _menuPos < Player._skillList.Count - 1 && !_oldKB.IsKeyDown(Keys.Down))
@@ -717,7 +743,11 @@ namespace Team_Game_Project
                 if (_activeEnemy.getCurrHP() <= 0)
                 {
                     if (_state != GameState.finalBoss)
+                    {
                         _state = GameState.overworld;
+                        MediaPlayer.Play(overworld);
+                        MediaPlayer.IsRepeating = true;
+                    }
                     else if (_state != GameState.end)
                     {
                         _dialougetimer = 0;
@@ -725,10 +755,12 @@ namespace Team_Game_Project
                     }
                 }
                 if (dude.getCurrHP() <= 0)
+                {
                     _state = GameState.startScreen;
+                    MediaPlayer.Play(title);
+                    MediaPlayer.IsRepeating = true;
+                }
             }
-            else if (_state == GameState.end)
-                _dialougetimer++;
             _oldKB = kb;
 
             //Transition UPDATING
@@ -1359,6 +1391,8 @@ namespace Team_Game_Project
                 _hunterFight = true;
                 _state = GameState.hunterDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(hunter);
+                MediaPlayer.IsRepeating = true;
             }
             if (_dialougetimer % 180 == 0 && _state == GameState.hunterDialouge && _hunterFight)
             {
@@ -1369,6 +1403,8 @@ namespace Team_Game_Project
                 _moronaFight = true;
                 _state = GameState.moronaDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(morona);
+                MediaPlayer.IsRepeating = true;
             }
             if (_dialougetimer % 180 == 0 && _state == GameState.moronaDialouge && _moronaFight)
             {
@@ -1379,6 +1415,8 @@ namespace Team_Game_Project
                 _odricFight = true;
                 _state = GameState.odricDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(odric);
+                MediaPlayer.IsRepeating = true;
             }
             if (_dialougetimer % 180 == 0 && _state == GameState.odricDialouge && _odricFight)
             {
@@ -1389,16 +1427,22 @@ namespace Team_Game_Project
                 _arvadFight = true;
                 _state = GameState.arvadDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(arvad);
+                MediaPlayer.IsRepeating = true;
             }
             if (_dialougetimer % 180 == 0 && _state == GameState.arvadDialouge && _arvadFight)
             {
                 _state = GameState.arvadFight;
+                MediaPlayer.Play(arvad);
+                MediaPlayer.IsRepeating = true;
             }
             if(_state ==  GameState.overworld && _hunterDead && _moronaDead && _odricDead && _arvadDead)
             {
                 if (kb.IsKeyDown(Keys.H) && !_oldKB.IsKeyDown(Keys.H))
                 {
                     _cringefailFight = true;
+                    MediaPlayer.Play(finalBoss);
+                    MediaPlayer.IsRepeating = true;
                     _state = GameState.finalBoss;
                 }
             }
@@ -1490,10 +1534,14 @@ namespace Team_Game_Project
             else if (_state == GameState.battle)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
-                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
+                {
+                    if (!_activeEnemy.Equals(_enemies[0]) && !_activeEnemy.Equals(_enemies[1]))
+                        _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 5, 160 * 6, 160, 160));
+                    else
+                        _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
+                }
                 if (_yourTurn && _turnTimer <= 0)
                 {
                     if (!_menu)
