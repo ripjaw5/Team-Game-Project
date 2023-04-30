@@ -13,6 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
+
 #begin 4 Frame Attack Physical Animation.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -35,7 +36,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:AnimatedBloodMageTitleSpriteSheet.png
 
 #begin Arvad.png
 /importer:TextureImporter
