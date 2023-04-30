@@ -13,6 +13,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../Downloads/Enemy Sprites/Slime.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../../../../Downloads/Enemy Sprites/Slime.png;Slime.png
 
 #begin 4 Frame Attack Physical Animation.png
 /importer:TextureImporter
@@ -36,6 +47,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+/build:AnimatedBloodMageTitleSpriteSheet.png
 
 #begin Arvad.png
 /importer:TextureImporter
@@ -61,7 +73,7 @@
 /processorParam:TextureFormat=Color
 /build:AttackMenu.png
 
-#begin BloodKnightIcon.png
+#begin BloodKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,7 +83,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BloodKnightIcon.png
+/build:BloodKnight.png
 
 #begin BridgeUp1.png
 /importer:TextureImporter
@@ -85,7 +97,7 @@
 /processorParam:TextureFormat=Color
 /build:BridgeUp1.png
 
-#begin CaptainIcon.png
+#begin Captain.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,7 +107,13 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:CaptainIcon.png
+/build:Captain.png
+
+#begin CORE.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:CORE.mp3
 
 #begin Cringefail.png
 /importer:TextureImporter
@@ -121,7 +139,7 @@
 /processorParam:TextureFormat=Color
 /build:CriticalHit.png
 
-#begin DestructoIcon.png
+#begin Destructo.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,19 +149,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:DestructoIcon.png
-
-#begin free_icons1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:free_icons1.png
+/build:Destructo.png
 
 #begin FullTileset.png
 /importer:TextureImporter
@@ -217,6 +223,12 @@
 /processorParam:TextureFormat=Color
 /build:Grass4.png
 
+#begin Heartache.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Heartache.mp3
+
 #begin hunter.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -229,7 +241,7 @@
 /processorParam:TextureFormat=Color
 /build:hunter.png
 
-#begin HunterIcon.png
+#begin Knight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,19 +251,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HunterIcon.png
-
-#begin KnightIcon.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:KnightIcon.png
+/build:Knight.png
 
 #begin Morona.png
 /importer:TextureImporter
@@ -337,6 +337,12 @@
 /processorParam:TextureFormat=Color
 /build:Pavement4.png
 
+#begin Plantera.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Plantera.mp3
+
 #begin Sand Texture.jfif
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -348,6 +354,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sand Texture.jfif
+
+#begin skill attack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:skill attack.wav
 
 #begin SkillsMenu.png
 /importer:TextureImporter
@@ -361,6 +373,12 @@
 /processorParam:TextureFormat=Color
 /build:SkillsMenu.png
 
+#begin slash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:slash.wav
+
 #begin Slime.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -373,7 +391,7 @@
 /processorParam:TextureFormat=Color
 /build:Slime.png
 
-#begin SoldierIcon.png
+#begin Soldier.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -383,7 +401,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SoldierIcon.png
+/build:Soldier.png
+
+#begin Spear of Justice.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Spear of Justice.mp3
+
+#begin Spider Dance.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Spider Dance.mp3
 
 #begin spr_Based.png
 /importer:TextureImporter
@@ -421,7 +451,13 @@
 /processorParam:TextureFormat=Color
 /build:spr_Player.png
 
-#begin TankIcon.png
+#begin Stronger Monsters.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Stronger Monsters.mp3
+
+#begin tank.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -431,7 +467,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:TankIcon.png
+/build:tank.png
 
 #begin Text.spritefont
 /importer:FontDescriptionImporter
@@ -439,6 +475,12 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Text.spritefont
+
+#begin Universal Collapse.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Universal Collapse.mp3
 
 #begin Updated Player Spritesheet.PNG
 /importer:TextureImporter
@@ -452,7 +494,7 @@
 /processorParam:TextureFormat=Color
 /build:Updated Player Spritesheet.PNG
 
-#begin VampireKnightIcon.png
+#begin VampireKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -462,7 +504,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:VampireKnightIcon.png
+/build:VampireKnight.png
 
 #begin Water Texture.jfif
 /importer:TextureImporter
@@ -548,7 +590,7 @@
 /processorParam:TextureFormat=Color
 /build:white.png
 
-#begin WizardIcon.png
+#begin wizard.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -558,5 +600,11 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:WizardIcon.png
+/build:wizard.png
+
+#begin Your Best Nightmare.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Your Best Nightmare.mp3
 
