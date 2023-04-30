@@ -45,6 +45,7 @@ namespace Team_Game_Project
         public void makeSkillList()
         {
             _skillList.Clear();
+             _skillList.Add(new Skill(1, 10000000000), "Gun", 0)); 
             _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int)(1 * _level * .5))); 
             _skillList.Add(new Skill(2, (int)(_mag * 1.5), "Fireball", (int)(5 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str* 1.25), "Bite", (int)(3 * _level * .5)));
