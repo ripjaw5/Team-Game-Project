@@ -13,6 +13,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../Downloads/Enemy Sprites/Slime.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../../../../Downloads/Enemy Sprites/Slime.png;Slime.png
 
 #begin 4 Frame Attack Physical Animation.png
 /importer:TextureImporter
@@ -36,6 +47,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+/build:AnimatedBloodMageTitleSpriteSheet.png
 
 #begin Arvad.png
 /importer:TextureImporter
@@ -61,7 +73,7 @@
 /processorParam:TextureFormat=Color
 /build:AttackMenu.png
 
-#begin BloodKnightIcon.png
+#begin BloodKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,7 +83,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BloodKnightIcon.png
+/build:BloodKnight.png
+
+#begin BloodKnight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BloodKnight.png
 
 #begin BridgeUp1.png
 /importer:TextureImporter
@@ -85,7 +109,7 @@
 /processorParam:TextureFormat=Color
 /build:BridgeUp1.png
 
-#begin CaptainIcon.png
+#begin Captain.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,7 +119,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:CaptainIcon.png
+/build:Captain.png
+
+#begin Captain.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Captain.png
 
 #begin Cringefail.png
 /importer:TextureImporter
@@ -121,7 +157,7 @@
 /processorParam:TextureFormat=Color
 /build:CriticalHit.png
 
-#begin DestructoIcon.png
+#begin Destructo.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:DestructoIcon.png
+/build:Destructo.png
 
-#begin free_icons1.png
+#begin Destructo.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,7 +179,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:free_icons1.png
+/build:Destructo.png
 
 #begin FullTileset.png
 /importer:TextureImporter
@@ -229,7 +265,7 @@
 /processorParam:TextureFormat=Color
 /build:hunter.png
 
-#begin HunterIcon.png
+#begin Knight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,9 +275,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HunterIcon.png
+/build:Knight.png
 
-#begin KnightIcon.png
+#begin Knight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,7 +287,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:KnightIcon.png
+/build:Knight.png
 
 #begin Morona.png
 /importer:TextureImporter
@@ -373,7 +409,7 @@
 /processorParam:TextureFormat=Color
 /build:Slime.png
 
-#begin SoldierIcon.png
+#begin Slime.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -383,7 +419,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SoldierIcon.png
+/build:Slime.png
+
+#begin Soldier.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Soldier.png
+
+#begin Soldier.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Soldier.png
 
 #begin spr_Based.png
 /importer:TextureImporter
@@ -421,7 +481,7 @@
 /processorParam:TextureFormat=Color
 /build:spr_Player.png
 
-#begin TankIcon.png
+#begin tank.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -431,7 +491,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:TankIcon.png
+/build:tank.png
+
+#begin tank.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tank.png
 
 #begin Text.spritefont
 /importer:FontDescriptionImporter
@@ -452,7 +524,7 @@
 /processorParam:TextureFormat=Color
 /build:Updated Player Spritesheet.PNG
 
-#begin VampireKnightIcon.png
+#begin VampireKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -462,7 +534,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:VampireKnightIcon.png
+/build:VampireKnight.png
+
+#begin VampireKnight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VampireKnight.png
 
 #begin Water Texture.jfif
 /importer:TextureImporter
@@ -548,7 +632,7 @@
 /processorParam:TextureFormat=Color
 /build:white.png
 
-#begin WizardIcon.png
+#begin wizard.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -558,5 +642,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:WizardIcon.png
+/build:wizard.png
+
+#begin wizard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:wizard.png
 

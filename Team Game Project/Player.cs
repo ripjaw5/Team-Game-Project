@@ -45,24 +45,24 @@ namespace Team_Game_Project
         public void makeSkillList()
         {
             _skillList.Clear();
-            _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int) (1 * _level *.5))); 
-            _skillList.Add(new Skill(2, (int)(_mag * 1.5), "Fireball", (int) (5 * _level * .5)));
-            _skillList.Add(new Skill(0, (int)(_str*1.25), "Bite", (int)(3 * _level * .5)));
-            _skillList.Add(new Skill(1, (int)(_mag*1.75), "SUCK", (int)(2 * _level * .5)));
-            _skillList.Add(new Skill(2, (int)(_mag*1.75), "Blood Spear", (int)(5 * _level * .5)));
+            _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int)(1 * _level * .5))); 
+            _skillList.Add(new Skill(2, (int)(_mag * 1.5), "Fireball", (int)(5 * _level * .5)));
+            _skillList.Add(new Skill(0, (int)(_str* 1.25), "Bite", (int)(3 * _level * .5)));
+            _skillList.Add(new Skill(1, (int)(_mag* 1.75), "SUCK", (int)(2 * _level * .5)));
+            _skillList.Add(new Skill(2, (int)(_mag* 1.75), "Blood Spear", (int)(5 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str * 1.75), "Punch Of Doom", (int)(5 * _level * .5)));
             _skillList.Add(new Skill(0, _mag + _str, "Enhanced Claws", (int)(10 * _level * .5)));
             _skillList.Add(new Skill(1, (int)(_mag * 2.5), "Drain", (int)(3  * _level * .5)));
-            _skillList.Add(new Skill(2, (int)(_mag*2.25), "Blood Slash", (int)(8 * _level * .5)));
+            _skillList.Add(new Skill(2, (int)(_mag* 2.25), "Blood Slash", (int)(8 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str * 2.25), "Bloody Stab", 45));
             _skillList.Add(new Skill(2, (int)(_mag * 2), "Eye Beams", 75));
-            _skillList.Add(new Skill(2, (int) (_mag*2.75), "Blood Rain",80));
-            _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch",60));
+            _skillList.Add(new Skill(2, (int) (_mag* 2.75), "Blood Rain", 80));
+            _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch", 60));
             _skillList.Add(new Skill(2, (int)(_mag * 2.75), "Bloodbolt", 120));   
             _skillList.Add(new Skill(0, (int)(_str * 3.25), "Nuke Punch", 130));
             _skillList.Add(new Skill(2, _mag * 5, "Eye Blast", 150)); 
             _skillList.Add(new Skill(2, 450, "Vampire Rage", 350)); 
-            _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare",150));
+            _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare", 150));
 
             // and the funny one
              _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 1500));
