@@ -13,6 +13,19 @@
 
 #---------------------------------- Content ---------------------------------#
 
+
+#begin 4 Frame Attack Physical Animation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:4 Frame Attack Physical Animation.png
+
 #begin AnimatedBloodMageTitleSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -23,7 +36,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:AnimatedBloodMageTitleSpriteSheet.png
 
 #begin Arvad.png
 /importer:TextureImporter
