@@ -32,12 +32,12 @@ namespace Team_Game_Project
             _xp = xp;
         }
 
-        public void attack(Entity e)
+        public int attack(Entity e)
         {
             if (_str > _mag)
-                e.hurt(_str, "phys");
+                return e.hurt(_str, "phys");
             else
-                e.hurt(_mag, "mag");
+                return e.hurt(_mag, "mag");
         }
         public int hurt(int dmg, String type)
         {
@@ -66,6 +66,14 @@ namespace Team_Game_Project
         public Entity clone(Player p)
         {
             return new Entity(_hp, _str, _def, _mag, _res, _name, _texture, _xp);
+        }
+        public bool Equals(Entity other)
+        {
+            return other._name.Equals(_name);
+        }
+        public string getName()
+        {
+            return _name;
         }
     }
 }
