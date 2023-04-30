@@ -26,6 +26,18 @@ namespace Team_Game_Project
             finalBoss,
             battle
         }
+        /*MUSIC:
+         * Final Boss: Your Best Nightmare- Undertale OST
+         * Battle: Stronger Monsters - Undertale OST
+         * Morana: Spider Dance - Undertale OST
+         * Hunter: Spear of Justice - Undertale OST
+         * Captain: Plantera - Terraria, Vol. 2 (Soundtrack)
+         * Vampire Knight Arval: Universal Collapse - The Tale of a Cruel World (Calamity OST)
+         * Overworld: CORE - Undertale OST
+         * Title: Heartache - Undertale OST
+         */
+
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont _text;
@@ -1335,7 +1347,7 @@ namespace Team_Game_Project
             }
 
             //Initiating boss fights
-            if (dude.getLevel() == 5 && _hunterFight == false && _hunterDead == false)
+            if (dude.getLevel() == 5 && !_hunterFight && !_hunterDead)
             {
                 _hunterFight = true;
                 _state = GameState.hunterDialouge;
