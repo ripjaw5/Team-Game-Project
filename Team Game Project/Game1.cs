@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace Team_Game_Project
 {
@@ -24,19 +26,23 @@ namespace Team_Game_Project
             odricFight,
             arvadFight,
             finalBoss,
-            battle
+            battle,
+            end
         }
-        /*MUSIC:
-         * Final Boss: Your Best Nightmare- Undertale OST
-         * Battle: Stronger Monsters - Undertale OST
-         * Morana: Spider Dance - Undertale OST
-         * Hunter: Spear of Justice - Undertale OST
-         * Captain: Plantera - Terraria, Vol. 2 (Soundtrack)
-         * Vampire Knight Arval: Universal Collapse - The Tale of a Cruel World (Calamity OST)
-         * Overworld: CORE - Undertale OST
-         * Title: Heartache - Undertale OST
-         */
+        
+        //Music
+        private Song battle;
+        private Song morona;
+        private Song odric;
+        private Song arvad;
+        private Song finalBoss;
+        private Song hunter;
+        private Song overworld;
+        private Song title;
 
+        // Sound effects
+        private SoundEffect attack;
+        private SoundEffect skill;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -200,8 +206,20 @@ namespace Team_Game_Project
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Titlescreen
-            _titleScreenSheet = Content.Load<Texture2D>("AnimatedBloodMageTitleSpriteSheet");
+            attack = Content.Load<SoundEffect>("slash");
+            skill = Content.Load<SoundEffect>("skill attack");
+
+            battle = Content.Load<Song>("Stronger Monsters");
+            morona = Content.Load<Song>("Spider Dance");
+            odric = Content.Load<Song>("Plantera");
+            arvad = Content.Load<Song>("Universal Collapse");
+            finalBoss = Content.Load<Song>("Your Best Nightmare");
+            hunter = Content.Load<Song>("Spear of Justice");
+            overworld = Content.Load<Song>("CORE");
+            title = Content.Load<Song>("Heartache");
+
+        //Titlescreen
+        _titleScreenSheet = Content.Load<Texture2D>("AnimatedBloodMageTitleSpriteSheet");
             _printTitleRect = new Rectangle(_screen.Width / 2 - 100, _screen.Height / 2 - 100, 200, 200);
 
             //OverworldScreenLoading
@@ -244,7 +262,6 @@ namespace Team_Game_Project
             _Grass3 = Content.Load<Texture2D>("Grass3");
             _Grass4 = Content.Load<Texture2D>("Grass4");
 
-            // TODO: use this.Content to load your game content here
             _icons = Content.Load<Texture2D>("AttackMenu");
             _skills = Content.Load<Texture2D>("SkillsMenu");
             _screen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -318,31 +335,31 @@ namespace Team_Game_Project
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 12 , 7, 1, 15, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 75));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(30, 20 , 10, 3, 10, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 150));
+            _enemies.Add(new Entity(30, 20 , 10, 3, 10, "Soldier", Content.Load<Texture2D>("Soldier"), 150));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(30, 3, 5, 25, 35, "Wizard", Content.Load<Texture2D>("WizardIcon"), 100));
+            _enemies.Add(new Entity(30, 3, 5, 25, 35, "Wizard", Content.Load<Texture2D>("Wizard"), 100));
 
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("Tank"), 200));
             ////The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(90, 60, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
+            _enemies.Add(new Entity(90, 60, 35, 12, 70, "Captain", Content.Load<Texture2D>("Captain"), 300));
             //// Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(30, 90, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 250));
+            _enemies.Add(new Entity(30, 90, 5, 1, 5, "Destructo", Content.Load<Texture2D>("Destructo"), 250));
            
 
             ////PAIN ENEMIES
             //// The Knight is a late game enemy
-            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
+            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("Knight"), 400));
             //// The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
+            _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("Hunter"), 250));
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnight"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
+            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnight"), 400));
            
 
 
@@ -357,6 +374,8 @@ namespace Team_Game_Project
             _bossEnemies.Add(new Entity(1500,500,300,120,300, "Vampire Knight Arvad", Content.Load<Texture2D>("Arvad"), 3000));
             //Vampire Lord CringeFail is the Final Boss of the game
             _bossEnemies.Add(new Entity(2500,1200,400,500,400, "Vampire Lord Cringefail",Content.Load<Texture2D>("Cringefail"),50000));
+            MediaPlayer.Play(title);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -369,7 +388,7 @@ namespace Team_Game_Project
             _dialougetimer++;
             if (_state == GameState.titleScreen)
             {
-                _titleTracker+= .2;
+                _titleTracker += .2;
                 _titleTracker %= 42;
                 if (kb.IsKeyDown(Keys.Space))
                 {
@@ -382,6 +401,8 @@ namespace Team_Game_Project
                 {
                     _state = GameState.overworld;
                     LoadContent();
+                    MediaPlayer.Play(overworld);
+                    MediaPlayer.IsRepeating = true;
                 }
             }
             else if (_state == GameState.overworld)
@@ -413,7 +434,7 @@ namespace Team_Game_Project
                         {
                             _activePlayer = 5;
                         }
-                        
+
                         _pos.Y -= 2;
                         move = true;
                     }
@@ -430,7 +451,7 @@ namespace Team_Game_Project
                                 VariableChecker = 1;
                             }
                             _activePlayer += .25;
-                            if (_activePlayer >= 9)
+                            if (_activePlayer >= 9 || _activePlayer < 5)
                             {
                                 _activePlayer = 5;
                             }
@@ -450,7 +471,7 @@ namespace Team_Game_Project
                         }
 
                         _activePlayer += .25;
-                        if (_activePlayer >= 5)
+                        if (_activePlayer >= 5 || _activePlayer < 1)
                         {
                             _activePlayer = 1;
                         }
@@ -471,7 +492,7 @@ namespace Team_Game_Project
                             }
 
                             _activePlayer += .25;
-                            if (_activePlayer >= 5)
+                            if (_activePlayer >= 5 || _activePlayer < 1)
                             {
                                 _activePlayer = 1;
                             }
@@ -491,7 +512,7 @@ namespace Team_Game_Project
                         }
 
                         _activePlayer += .25;
-                        if (_activePlayer >= 13)
+                        if (_activePlayer >= 13 || _activePlayer < 9)
                         {
                             _activePlayer = 9;
                         }
@@ -512,7 +533,7 @@ namespace Team_Game_Project
                             }
 
                             _activePlayer += .25;
-                            if (_activePlayer >= 13)
+                            if (_activePlayer >= 13 || _activePlayer < 9)
                             {
                                 _activePlayer = 9;
                             }
@@ -531,7 +552,7 @@ namespace Team_Game_Project
                             VariableChecker = 1;
                         }
                         _activePlayer += .25;
-                        if (_activePlayer >= 13)
+                        if (_activePlayer >= 13 || _activePlayer < 9)
                         {
                             _activePlayer = 9;
                         }
@@ -549,7 +570,7 @@ namespace Team_Game_Project
                                 VariableChecker = 1;
                             }
                             _activePlayer += .25;
-                            if (_activePlayer >= 13)
+                            if (_activePlayer >= 13 || _activePlayer < 9)
                             {
                                 _activePlayer = 9;
                             }
@@ -568,6 +589,8 @@ namespace Team_Game_Project
                                 max = _enemies.Count;
                             _activeEnemy = _enemies[_rng.Next(max)].clone(dude);
                             _state = GameState.battle;
+                            MediaPlayer.Play(battle);
+                            MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
                         }
                     }
@@ -644,6 +667,8 @@ namespace Team_Game_Project
                                 max = _enemies.Count;
                             _activeEnemy = _enemies[_rng.Next(max)].clone(dude); ;
                             _state = GameState.battle;
+                            MediaPlayer.Play(battle);
+                            MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
                         }
                     }
@@ -670,6 +695,7 @@ namespace Team_Game_Project
                                     int dmg = dude.attack(_activeEnemy);
                                     _yourTurn = false;
                                     _activeAttack = 0;
+                                    attack.Play();
                                     _actionText += "Attacked, dealing " + dmg + " damage";
                                 }
                                 else
@@ -694,9 +720,10 @@ namespace Team_Game_Project
                             _yourTurn = false;
                             _menu = false;
                             _activeAttack = 0;
+                            skill.Play();
                             _actionText = "Cast " + Player._skillList[_menuPos].getName() + ",  dealing " + dmg + " " + Player._skillList[_menuPos].GetSkillType() + " damage";
                         }
-                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1  && _menuPos < Player._skillList.Count - 1 && !_oldKB.IsKeyDown(Keys.Down))
+                        else if (kb.IsKeyDown(Keys.Down) && _menuPos < dude.getLevel() - 1 && _menuPos < Player._skillList.Count - 1 && !_oldKB.IsKeyDown(Keys.Down))
                         {
                             _menuPos++;
                         }
@@ -714,9 +741,25 @@ namespace Team_Game_Project
                     _activeAttack += .125;
                 _turnTimer--;
                 if (_activeEnemy.getCurrHP() <= 0)
-                    _state = GameState.overworld;
+                {
+                    if (_state != GameState.finalBoss)
+                    {
+                        _state = GameState.overworld;
+                        MediaPlayer.Play(overworld);
+                        MediaPlayer.IsRepeating = true;
+                    }
+                    else if (_state != GameState.end)
+                    {
+                        _dialougetimer = 0;
+                        _state = GameState.end;
+                    }
+                }
                 if (dude.getCurrHP() <= 0)
+                {
                     _state = GameState.startScreen;
+                    MediaPlayer.Play(title);
+                    MediaPlayer.IsRepeating = true;
+                }
             }
             _oldKB = kb;
 
@@ -732,7 +775,6 @@ namespace Team_Game_Project
                     _upTransition = false;
                 }
             }
-
             if (_testOverworldScreens[0, 2] != 1 && _testOverworldScreens[1, 2] != 1 && _testOverworldScreens[2, 2] != 1)
             {
                 if (_downTransition && _currentScreenValue2 != 3)
@@ -744,7 +786,6 @@ namespace Team_Game_Project
                     _downTransition = false;
                 }
             }
-
             if (_testOverworldScreens[0, 0] != 1 && _testOverworldScreens[0, 1] != 1 && _testOverworldScreens[0, 2] != 1)
             {
                 if (_leftTransition)
@@ -756,7 +797,6 @@ namespace Team_Game_Project
                     _leftTransition = false;
                 }
             }
-
             if (_testOverworldScreens[2, 0] != 1 && _testOverworldScreens[2, 1] != 1 && _testOverworldScreens[2, 2] != 1)
             {
                 if (_rightTransition)
@@ -768,7 +808,6 @@ namespace Team_Game_Project
                     _rightTransition = false;
                 }
             }
-
             //Screen Origin
             if (_testOverworldScreens[1, 1] == 1)
             {
@@ -1352,46 +1391,58 @@ namespace Team_Game_Project
                 _hunterFight = true;
                 _state = GameState.hunterDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(hunter);
+                MediaPlayer.IsRepeating = true;
             }
-            if (_dialougetimer % 180 == 0 && _state == GameState.hunterDialouge && _hunterFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.hunterDialouge && _hunterFight)
             {
                 _state = GameState.hunterFight;
             }
-            if (dude.getLevel() == 10 && _moronaFight == false && _moronaDead == false)
+            if (dude.getLevel() == 10 && !_moronaFight && !_moronaDead)
             {
                 _moronaFight = true;
                 _state = GameState.moronaDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(morona);
+                MediaPlayer.IsRepeating = true;
             }
-            if (_dialougetimer % 180 == 0 && _state == GameState.moronaDialouge && _moronaFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.moronaDialouge && _moronaFight)
             {
                 _state = GameState.moronaFight;
             }
-            if (dude.getLevel() == 15 && _odricFight == false && _odricDead == false)
+            if (dude.getLevel() == 15 && !_odricFight && !_odricDead)
             {
                 _odricFight = true;
                 _state = GameState.odricDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(odric);
+                MediaPlayer.IsRepeating = true;
             }
-            if (_dialougetimer % 180 == 0 && _state == GameState.odricDialouge && _odricFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.odricDialouge && _odricFight)
             {
                 _state = GameState.odricFight;
             }
-            if (dude.getLevel() == 20 && _arvadFight == false && _arvadDead == false)
+            if (dude.getLevel() == 20 && !_arvadFight && !_arvadDead)
             {
                 _arvadFight = true;
                 _state = GameState.arvadDialouge;
                 _dialougetimer = 1;
+                MediaPlayer.Play(arvad);
+                MediaPlayer.IsRepeating = true;
             }
-            if (_dialougetimer % 180 == 0 && _state == GameState.arvadDialouge && _arvadFight == true)
+            if (_dialougetimer % 180 == 0 && _state == GameState.arvadDialouge && _arvadFight)
             {
                 _state = GameState.arvadFight;
+                MediaPlayer.Play(arvad);
+                MediaPlayer.IsRepeating = true;
             }
-            if(_state ==  GameState.overworld && _hunterDead == true && _moronaDead == true && _odricDead == true && _arvadDead == true)
+            if(_state ==  GameState.overworld && _hunterDead && _moronaDead && _odricDead && _arvadDead)
             {
                 if (kb.IsKeyDown(Keys.H) && !_oldKB.IsKeyDown(Keys.H))
                 {
                     _cringefailFight = true;
+                    MediaPlayer.Play(finalBoss);
+                    MediaPlayer.IsRepeating = true;
                     _state = GameState.finalBoss;
                 }
             }
@@ -1427,7 +1478,7 @@ namespace Team_Game_Project
                 _spriteBatch.DrawString(_text, "Controls: \n Overworld: \n Arrow Keys to move \n Shift to move faster \n \n Combat: \n Arrow keys to change selection \n Z to confirm \n X to Cancel", new Vector2(), Color.White);
                 _spriteBatch.DrawString(_text, "Press space to continue", new Vector2(300, 450), Color.White);
             }
-            else
+            else if (_state != GameState.end)
             {
                 GraphicsDevice.Clear(Color.White);
             }
@@ -1483,10 +1534,14 @@ namespace Team_Game_Project
             else if (_state == GameState.battle)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
-                    _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
+                {
+                    if (!_activeEnemy.Equals(_enemies[0]) && !_activeEnemy.Equals(_enemies[1]))
+                        _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 5, 160 * 6, 160, 160));
+                    else
+                        _activeEnemy.Draw(_spriteBatch, new Vector2(500, 200), null);
+                }
                 if (_yourTurn && _turnTimer <= 0)
                 {
                     if (!_menu)
@@ -1564,13 +1619,13 @@ namespace Team_Game_Project
                     _hunterDead = true;
                 }
             }
-            if (_state == GameState.moronaDialouge && _moronaFight == true)
+            if (_state == GameState.moronaDialouge && _moronaFight)
                 {
                     dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                     _spriteBatch.DrawString(_text, "I will kill you in the name of our lord, or I am no noble lady", new Vector2(200, 350), Color.Orange);
                     _activeEnemy = _bossEnemies[1];
                 }
-            if (_state == GameState.moronaFight && _moronaFight == true)
+            if (_state == GameState.moronaFight && _moronaFight)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
@@ -1606,13 +1661,13 @@ namespace Team_Game_Project
                     _moronaDead = true;
                 }
             }
-            if (_state == GameState.odricDialouge && _odricFight == true)
+            if (_state == GameState.odricDialouge && _odricFight)
                     {
                         dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                         _spriteBatch.DrawString(_text, "You have killed many of my soldiers, and for that you must die", new Vector2(200, 350), Color.DarkGray);
                         _activeEnemy = _bossEnemies[2];
                     }
-            if (_state == GameState.odricFight && _odricFight == true)
+            if (_state == GameState.odricFight && _odricFight)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
@@ -1648,13 +1703,13 @@ namespace Team_Game_Project
                     _odricDead = true;
                 }
             }
-            if (_state == GameState.arvadDialouge && _arvadFight == true)
-                        {
-                            dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
-                            _spriteBatch.DrawString(_text, "Many soldiers, no, many men have died by your hands, \n this is no longer just about serving our lord, \n you must pay for their deaths with your BLOOD", new Vector2(200, 350), Color.Black);
-                            _activeEnemy = _bossEnemies[3];
-                        }
-            if (_state == GameState.arvadFight && _arvadFight == true)
+            if (_state == GameState.arvadDialouge && _arvadFight)
+            {
+                dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
+                _spriteBatch.DrawString(_text, "Many soldiers, no, many men have died by your hands, \n this is no longer just about serving our lord, \n you must pay for their deaths with your BLOOD", new Vector2(200, 350), Color.Black);
+                _activeEnemy = _bossEnemies[3];
+            }
+            if (_state == GameState.arvadFight && _arvadFight)
             {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
@@ -1689,12 +1744,13 @@ namespace Team_Game_Project
                     _arvadFight = false;
                     _arvadDead = true;
                 }
-                if(_state ==  GameState.overworld && _hunterDead == true && _moronaDead == true && _odricDead == true && _arvadDead == true)
-                {
-                     _spriteBatch.DrawString(_text, "Press H to get revenge --- reccomended level - 30", new Vector2(50, 50),Color.Red);
-                }
-                if(_state == GameState.finalBoss && _cringefailFight == true)
-                 {
+            }
+            if(_state ==  GameState.overworld && _hunterDead && _moronaDead && _odricDead && _arvadDead)
+            {
+                _spriteBatch.DrawString(_text, "Press H to get revenge --- recommended level - 30", new Vector2(50, 50),Color.Red);
+            }
+            if(_state == GameState.finalBoss && _cringefailFight)
+            {
                 dude.Draw(_spriteBatch, new Vector2(100, 180), _playerSrc[9]);
                 if (_yourTurn && _turnTimer <= 0)
                 {
@@ -1723,6 +1779,11 @@ namespace Team_Game_Project
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
                     _bossEnemies[4].Draw(_spriteBatch, new Vector2(500, 200), new Rectangle(160 * 1, 160 * 4, 160, 160));
+            }
+            if (_state == GameState.end && _dialougetimer >= 60)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.DrawString(_text, "You have won, and the Vampire Lord has fallen. \n The End.", new Vector2(0, 0), Color.White);
             }
             _spriteBatch.End();
             base.Draw(gameTime);
