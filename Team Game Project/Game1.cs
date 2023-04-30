@@ -319,31 +319,31 @@ namespace Team_Game_Project
             // The Necomancer is a basic enemy, should be common at the start
             _enemies.Add(new Entity(25, 12 , 7, 1, 15, "Necromancer", Content.Load<Texture2D>("Necromancer_creativekind-Sheet"), 75));
             // The Soldier enemy should be one of the more common enemies found, not too challenging, but can take you out if you are not careful
-            _enemies.Add(new Entity(30, 20 , 10, 3, 10, "Soldier", Content.Load<Texture2D>("SoldierIcon"), 150));
+            _enemies.Add(new Entity(30, 20 , 10, 3, 10, "Soldier", Content.Load<Texture2D>("Soldier"), 150));
             //The Wizard is a magical attacking version of the soldier, with weaker physical defense
-            _enemies.Add(new Entity(30, 3, 5, 25, 35, "Wizard", Content.Load<Texture2D>("WizardIcon"), 100));
+            _enemies.Add(new Entity(30, 3, 5, 25, 35, "Wizard", Content.Load<Texture2D>("Wizard"), 100));
 
 
             //MEDIUM ENEMIES
             // The Tank enemy should not be too diffucult, it merely exists to annoy the player
-            _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("TankIcon"), 200));
+            _enemies.Add(new Entity(5, 1, 100, 1, 150, "Tank", Content.Load<Texture2D>("Tank"), 200));
             ////The captain is a stonger version of the soldier be aware when fighting them
-            _enemies.Add(new Entity(90, 60, 35, 12, 70, "Captain", Content.Load<Texture2D>("CaptainIcon"), 300));
+            _enemies.Add(new Entity(90, 60, 35, 12, 70, "Captain", Content.Load<Texture2D>("Captain"), 300));
             //// Destructo is a rare glass cannon type enemy 
-            _enemies.Add(new Entity(30, 90, 5, 1, 5, "Destructo", Content.Load<Texture2D>("DestructoIcon"), 250));
+            _enemies.Add(new Entity(30, 90, 5, 1, 5, "Destructo", Content.Load<Texture2D>("Destructo"), 250));
            
 
             ////PAIN ENEMIES
             //// The Knight is a late game enemy
-            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("KnightIcon"), 400));
+            _enemies.Add(new Entity(300, 200, 150, 10, 150, "Knight", Content.Load<Texture2D>("Knight"), 400));
             //// The Hunter is an early game boss that later becomes a normal enemy
-            _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("HunterIcon"), 250));
+            _enemies.Add(new Entity(60, 55, 40, 25, 40, "Hunter", Content.Load<Texture2D>("Hunter"), 250));
             
             ////A SPECIAL KIND OF PAIN
             //// The Vampire Knight is a tougher version of the Knight
-            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnightIcon"), 500));
+            _enemies.Add(new Entity(500, 250, 150, 30, 200, "Vampire Knight", Content.Load<Texture2D>("VampireKnight"), 500));
             //// The Blood Knight is a magical attacking version of the Knight
-            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnightIcon"), 400));
+            _enemies.Add(new Entity(450, 10, 100, 200, 175, "Blood Knight", Content.Load<Texture2D>("BloodKnight"), 400));
            
 
 
