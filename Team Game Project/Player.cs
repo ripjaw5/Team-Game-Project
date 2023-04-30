@@ -14,7 +14,7 @@ namespace Team_Game_Project
         private int _levelThreshold;
         public Player(string name, Texture2D t): base(50, 10, 10, 10, 10 , name, t, 0)
         {
-            _level = 1;
+            _level = 2;
             _xp = 0;
             _levelThreshold = 150;
             _skillList = new List<Skill>();
