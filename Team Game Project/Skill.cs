@@ -20,7 +20,6 @@ namespace Team_Game_Project
         private int _dmg;
         private string _name;
         private int _cost;
-        public static Texture2D _skillAnimations;
         public Skill(int skillType, int dmg, string name, int cost)
         {
             _skillType = (SkillType)skillType;
@@ -41,7 +40,7 @@ namespace Team_Game_Project
                 dType = "";
             Color c;
             if (hp > _cost)
-                c = Color.Black;
+                c = Color.Yellow;
             else
                 c = Color.Red;
             spriteBatch.DrawString(font, _name + ": ", pos, c);
