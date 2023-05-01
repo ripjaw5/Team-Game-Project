@@ -426,6 +426,7 @@ namespace Team_Game_Project
                 {
                     dude.powerUp(30, 50000);
                     _cringefailFight = true;
+                    _actionText = "";
                     _state = GameState.finalBossDialouge;
                     MediaPlayer.Play(finalBoss);
                     MediaPlayer.IsRepeating = true;
