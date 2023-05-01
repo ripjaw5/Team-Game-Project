@@ -27,7 +27,6 @@ namespace Team_Game_Project
         }
         public void levelUp()
         {
-           
                 _level++;
                 _xp -= _levelThreshold;
                 _levelThreshold = (int)Math.Round(_levelThreshold * 1.2);
@@ -35,7 +34,6 @@ namespace Team_Game_Project
                 _res += 5;
                 _str += 5;
                 _mag += 5;
-            
                 makeSkillList();
         }
         public int getLevel()
@@ -45,6 +43,7 @@ namespace Team_Game_Project
         public void makeSkillList()
         {
             _skillList.Clear();
+            //_skillList.Add(new Skill(1, int.MaxValue, "Gun - ONLY FOR TESTING PURPOSES", 0)); 
             _skillList.Add(new Skill(1, (int)(_str * 1.5), "suck", (int)(1 * _level * .5))); 
             _skillList.Add(new Skill(2, (int)(_mag * 1.5), "Fireball", (int)(5 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str* 1.25), "Bite", (int)(3 * _level * .5)));
@@ -77,7 +76,6 @@ namespace Team_Game_Project
                 addXP(e._xp);
             return dmg;
         }
-
         public new int attack(Entity e)
         {
             Random rng = new Random();
@@ -93,6 +91,19 @@ namespace Team_Game_Project
                 addXP(e._xp);
 
             return dmg;
+        }
+
+        //FOR TESTING ONLY
+        public void powerUp(int lv, int hp)
+        {
+            _currHP = hp;
+            _hp = hp;
+            while (_level < lv)
+            {
+                levelUp();
+                _xp = 0;
+            }
+            _level = lv;
         }
     }
 }
