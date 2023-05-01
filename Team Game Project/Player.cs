@@ -27,7 +27,6 @@ namespace Team_Game_Project
         }
         public void levelUp()
         {
-           
                 _level++;
                 _xp -= _levelThreshold;
                 _levelThreshold = (int)Math.Round(_levelThreshold * 1.2);
@@ -35,7 +34,6 @@ namespace Team_Game_Project
                 _res += 5;
                 _str += 5;
                 _mag += 5;
-            
                 makeSkillList();
         }
         public int getLevel()

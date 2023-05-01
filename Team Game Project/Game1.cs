@@ -27,7 +27,8 @@ namespace Team_Game_Project
             arvadFight,
             finalBoss,
             battle,
-            end
+            end,
+            gameOver
         }
         
         //Music
@@ -414,13 +415,13 @@ namespace Team_Game_Project
             else if (_state == GameState.overworld)
             {
                 if (kb.IsKeyDown(Keys.RightAlt))
-                    dude.powerUp(5, 500);
+                    dude.powerUp(5, 200);
                 if (kb.IsKeyDown(Keys.RightControl))
                     dude.powerUp(10, 500);
                 if (kb.IsKeyDown(Keys.RightShift))
-                    dude.powerUp(15, 1000);
+                    dude.powerUp(15, 5000);
                 if (kb.IsKeyDown(Keys.Home))
-                    dude.powerUp(20, 5000);
+                    dude.powerUp(20, 10000);
                 if (kb.IsKeyDown(Keys.End))
                 {
                     dude.powerUp(30, 50000);
@@ -614,6 +615,7 @@ namespace Team_Game_Project
                             MediaPlayer.Play(battle);
                             MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
+                            _actionText = "";
                         }
                     }
                 }
@@ -692,6 +694,7 @@ namespace Team_Game_Project
                             MediaPlayer.Play(battle);
                             MediaPlayer.IsRepeating = true;
                             _yourTurn = true;
+                            _actionText = "";
                         }
                     }
                 }
@@ -766,6 +769,14 @@ namespace Team_Game_Project
                 {
                     if (_state != GameState.finalBoss)
                     {
+                        if (_state == GameState.hunterFight)
+                            _hunterDead = true;
+                        else if (_state == GameState.moronaFight)
+                            _moronaDead = true;
+                        else if (_state == GameState.odricFight)
+                            _odricDead = true;
+                        else if (_state == GameState.arvadFight)
+                            _arvadDead = true;
                         _state = GameState.overworld;
                         MediaPlayer.Play(overworld);
                         MediaPlayer.IsRepeating = true;
@@ -778,9 +789,7 @@ namespace Team_Game_Project
                 }
                 if (dude.getCurrHP() <= 0)
                 {
-                    _state = GameState.startScreen;
-                    MediaPlayer.Play(title);
-                    MediaPlayer.IsRepeating = true;
+                    _state = GameState.gameOver;
                 }
             }
             _oldKB = kb;
@@ -1412,6 +1421,8 @@ namespace Team_Game_Project
             {
                 _hunterFight = true;
                 _state = GameState.hunterDialouge;
+                _yourTurn = true;
+                _actionText = "";
                 _dialougetimer = 1;
                 MediaPlayer.Play(hunter);
                 MediaPlayer.IsRepeating = true;
@@ -1423,6 +1434,8 @@ namespace Team_Game_Project
             if (dude.getLevel() == 10 && !_moronaFight && !_moronaDead)
             {
                 _moronaFight = true;
+                _yourTurn = true;
+                _actionText = "";
                 _state = GameState.moronaDialouge;
                 _dialougetimer = 1;
                 MediaPlayer.Play(morona);
@@ -1434,6 +1447,8 @@ namespace Team_Game_Project
             }
             if (dude.getLevel() == 15 && !_odricFight && !_odricDead)
             {
+                _yourTurn = true;
+                _actionText = "";
                 _odricFight = true;
                 _state = GameState.odricDialouge;
                 _dialougetimer = 1;
@@ -1446,6 +1461,8 @@ namespace Team_Game_Project
             }
             if (dude.getLevel() == 20 && !_arvadFight && !_arvadDead)
             {
+                _yourTurn = true;
+                _actionText = "";
                 _arvadFight = true;
                 _state = GameState.arvadDialouge;
                 _dialougetimer = 1;
@@ -1460,6 +1477,8 @@ namespace Team_Game_Project
             {
                 if (kb.IsKeyDown(Keys.H) && !_oldKB.IsKeyDown(Keys.H))
                 {
+                    _yourTurn = true;
+                    _actionText = "";
                     _cringefailFight = true;
                     _state = GameState.finalBossDialouge;
                     MediaPlayer.Play(finalBoss);
@@ -1590,7 +1609,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                     if (_activeAttack < 4)
                     {
                         if (_actionText.IndexOf("Attack") == -1)
@@ -1635,7 +1654,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
@@ -1678,7 +1697,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
@@ -1721,7 +1740,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
@@ -1764,7 +1783,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
@@ -1811,7 +1830,7 @@ namespace Team_Game_Project
                 }
                 else if (!_yourTurn)
                 {
-                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Black);
+                    _spriteBatch.DrawString(_text, _actionText, new Vector2(195, 20), Color.Yellow);
                 }
                 _spriteBatch.DrawString(_text, "HP: " + dude.getCurrHP() + "\n Lv: " + dude.getLevel(), _textPos, Color.DarkRed);
                 if (_activeEnemy.getCurrHP() > 0)
@@ -1822,6 +1841,11 @@ namespace Team_Game_Project
                 MediaPlayer.Stop();
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.DrawString(_text, "You have won, and the Vampire Lord has fallen. \n The End.", new Vector2(0, 0), Color.White);
+            }
+            if (_state == GameState.gameOver)
+            {
+                MediaPlayer.Stop();
+                _spriteBatch.DrawString(_text, "Game Over", new Vector2(300, 200), Color.Black);
             }
             _spriteBatch.End();
             base.Draw(gameTime);
