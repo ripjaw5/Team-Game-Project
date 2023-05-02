@@ -16,7 +16,7 @@ namespace Team_Game_Project
         {
             _level = 1;
             _xp = 0;
-            _levelThreshold = 150;
+            _levelThreshold = 100;
             _skillList = new List<Skill>();
         }
         public void addXP(int add)
