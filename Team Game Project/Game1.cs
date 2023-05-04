@@ -791,10 +791,14 @@ namespace Team_Game_Project
                 if (dude.getCurrHP() <= 0)
                 {
                     _state = GameState.gameOver;
+                    _dialougetimer = 0;
                 }
             }
             _oldKB = kb;
-
+            if (_state == GameState.gameOver && _dialougetimer >= 60)
+            {
+                Exit();
+            }
             //Transition UPDATING
             if (_testOverworldScreens[0, 0] != 1 && _testOverworldScreens[1, 0] != 1 && _testOverworldScreens[2, 0] != 1)
             {
