@@ -1267,11 +1267,13 @@ namespace Team_Game_Project
                     {
                         int _updateTileDimensionsWidth = j * _screenWidthPortion;
                         //Field
-                        
+
                         _testOverworldTiles[i, j] = new Rectangle(_updateTileDimensionsHeight, _updateTileDimensionsWidth, _screenWidthPortion, _screenHeightPortion);
 
                         _testOverworldTileProperties[i, j] = "Grass";
                         _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass Texture");
+
+                        //TextureOverrider
 
                         if (_TextureTracker == 1)
                         {
@@ -1290,14 +1292,14 @@ namespace Team_Game_Project
                             _testOverworldTileTextures[i, j] = Content.Load<Texture2D>("Grass4");
                         }
 
-                    }
-                    if (_TextureTracker != 5)
-                    {
-                        _TextureTracker++;
-                    }
-                    if (_TextureTracker == 5)
-                    {
-                        _TextureTracker = 1;
+                        if (_TextureTracker != 5)
+                        {
+                            _TextureTracker++;
+                        }
+                        if (_TextureTracker == 5)
+                        {
+                            _TextureTracker = 1;
+                        }
                     }
                 }
             }
