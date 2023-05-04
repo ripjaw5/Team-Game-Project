@@ -796,9 +796,7 @@ namespace Team_Game_Project
             }
             _oldKB = kb;
             if (_state == GameState.gameOver && _dialougetimer >= 60)
-            {
                 Exit();
-            }
             //Transition UPDATING
             if (_testOverworldScreens[0, 0] != 1 && _testOverworldScreens[1, 0] != 1 && _testOverworldScreens[2, 0] != 1)
             {
