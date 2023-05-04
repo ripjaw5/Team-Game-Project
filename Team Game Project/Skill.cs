@@ -44,7 +44,7 @@ namespace Team_Game_Project
             else
                 c = Color.Red;
             spriteBatch.DrawString(font, _name + ": ", pos, c);
-            Vector2 pos2 = new Vector2(pos.X + 180, pos.Y);
+            Vector2 pos2 = new Vector2(pos.X +  200, pos.Y);
             spriteBatch.DrawString(font, _cost + " " + dType, pos2, c);
         }
         public string getName()

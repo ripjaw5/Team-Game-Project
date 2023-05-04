@@ -16,7 +16,7 @@ namespace Team_Game_Project
         {
             _level = 1;
             _xp = 0;
-            _levelThreshold = 100;
+            _levelThreshold = 200;
             _skillList = new List<Skill>();
         }
         public void addXP(int add)
@@ -55,6 +55,7 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(2, (int)(_mag* 2.25), "Blood Slash", (int)(8 * _level * .5)));
             _skillList.Add(new Skill(0, (int)(_str * 2.25), "Bloody Stab", 45));
             _skillList.Add(new Skill(2, (int)(_mag * 2), "Eye Beams", 75));
+            _skillList.Add(new Skill(1, 5, "nibble", 0));
             _skillList.Add(new Skill(2, (int) (_mag* 2.75), "Blood Rain", 80));
             _skillList.Add(new Skill(1, (int)(_str * 3.25), "Drain Punch", 60));
             _skillList.Add(new Skill(2, (int)(_mag * 2.75), "Bloodbolt", 120));   
@@ -64,7 +65,8 @@ namespace Team_Game_Project
             _skillList.Add(new Skill(1, (int)(_mag * 5.5), "Draining Glare", 150));
 
             // and the funny one
-             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke", 1500));
+             _skillList.Add(new Skill(2, ((_mag * 2) * (_str*2)), "Nuke - (win button lol)", 25000));
+
         }
         public int useSkill(Entity e, Skill s)
         {
